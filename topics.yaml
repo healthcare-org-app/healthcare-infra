@@ -1,0 +1,165 @@
+# Kafka topic catalog for healthcare-org.
+# Convention: <domain>.<entity>.<event-verb-past-tense>
+# Partitions: default 6 unless entity is high-volume (device.reading = 24).
+# Retention: 7d for transactional events, 30d for audit and reading streams.
+
+topics:
+  # Identity / access
+  - name: identity.user.created
+    partitions: 6
+    retention_ms: 604800000    # 7d
+    producers: [identity-service]
+    consumers: [audit-log-service, patients-service, providers-service, notifications-service]
+
+  - name: identity.user.deactivated
+    partitions: 6
+    retention_ms: 604800000
+    producers: [identity-service]
+    consumers: [auth-service, audit-log-service]
+
+  - name: auth.session.started
+    partitions: 6
+    retention_ms: 604800000
+    producers: [auth-service]
+    consumers: [audit-log-service, analytics-events-service]
+
+  # Patients
+  - name: patient.created
+    partitions: 6
+    retention_ms: 604800000
+    producers: [patients-service]
+    consumers: [ehr-service, insurance-eligibility-service, notifications-service, patient-timeline-service, analytics-events-service, audit-log-service]
+
+  - name: patient.updated
+    partitions: 6
+    retention_ms: 604800000
+    producers: [patients-service]
+    consumers: [ehr-service, patient-timeline-service, audit-log-service]
+
+  - name: patient.merged
+    partitions: 3
+    retention_ms: 604800000
+    producers: [patient-merge-service]
+    consumers: [ehr-service, billing-service, claims-submission-service, patient-timeline-service, audit-log-service]
+
+  - name: patient.consent.updated
+    partitions: 3
+    retention_ms: 2592000000   # 30d — compliance
+    producers: [patient-consent-service]
+    consumers: [ehr-service, ai-invocations-service, audit-log-service]
+
+  # Encounters / clinical
+  - name: encounter.started
+    partitions: 6
+    retention_ms: 604800000
+    producers: [encounters-service]
+    consumers: [ehr-service, vitals-service, notifications-service, care-teams-service, analytics-events-service]
+
+  - name: encounter.ended
+    partitions: 6
+    retention_ms: 604800000
+    producers: [encounters-service]
+    consumers: [billing-service, charge-capture-service, discharge-summary-service, analytics-events-service]
+
+  - name: order.placed
+    partitions: 12
+    retention_ms: 604800000
+    producers: [cpoe-service]
+    consumers: [lab-orders-service, imaging-orders-service, pharmacy-service, notifications-service, audit-log-service]
+
+  # Diagnostics
+  - name: lab.result.available
+    partitions: 12
+    retention_ms: 2592000000   # 30d
+    producers: [lab-results-service]
+    consumers: [ehr-service, notifications-service, cpoe-service, ai-invocations-service, patient-timeline-service]
+
+  - name: imaging.result.available
+    partitions: 6
+    retention_ms: 2592000000
+    producers: [imaging-results-service]
+    consumers: [ehr-service, notifications-service, cpoe-service, ai-invocations-service, patient-timeline-service]
+
+  # Pharmacy
+  - name: prescription.issued
+    partitions: 6
+    retention_ms: 604800000
+    producers: [prescriptions-service]
+    consumers: [pharmacy-service, drug-interactions-service, refills-service, notifications-service, patient-timeline-service]
+
+  - name: prescription.refill_requested
+    partitions: 6
+    retention_ms: 604800000
+    producers: [refills-service]
+    consumers: [pharmacy-service, notifications-service]
+
+  # Appointments
+  - name: appointment.booked
+    partitions: 6
+    retention_ms: 604800000
+    producers: [appointments-service]
+    consumers: [notifications-service, reminders-service, room-booking-service, provider-schedule-service, patient-timeline-service]
+
+  - name: appointment.cancelled
+    partitions: 6
+    retention_ms: 604800000
+    producers: [appointments-service]
+    consumers: [notifications-service, waitlist-service, provider-schedule-service, patient-timeline-service]
+
+  # Billing / claims
+  - name: charge.captured
+    partitions: 6
+    retention_ms: 2592000000
+    producers: [charge-capture-service]
+    consumers: [claims-submission-service, invoicing-service, analytics-events-service]
+
+  - name: claim.submitted
+    partitions: 6
+    retention_ms: 2592000000
+    producers: [claims-submission-service]
+    consumers: [claims-adjudication-service, claims-status-service, audit-log-service]
+
+  - name: claim.adjudicated
+    partitions: 6
+    retention_ms: 2592000000
+    producers: [claims-adjudication-service]
+    consumers: [invoicing-service, denials-service, analytics-events-service, audit-log-service]
+
+  - name: invoice.issued
+    partitions: 6
+    retention_ms: 2592000000
+    producers: [invoicing-service]
+    consumers: [notifications-service, statements-service, patient-timeline-service]
+
+  - name: invoice.paid
+    partitions: 6
+    retention_ms: 2592000000
+    producers: [payments-service]
+    consumers: [invoicing-service, statements-service, collections-service, notifications-service, analytics-events-service, audit-log-service]
+
+  # Devices / IoT
+  - name: device.reading
+    partitions: 24               # high volume
+    retention_ms: 259200000      # 3d — regulatory copy lives elsewhere
+    producers: [device-telemetry-service]
+    consumers: [device-alerts-service, ehr-service, remote-monitoring-service, analytics-events-service]
+
+  - name: device.alert.triggered
+    partitions: 12
+    retention_ms: 2592000000
+    producers: [device-alerts-service]
+    consumers: [notifications-service, care-teams-service, audit-log-service]
+
+  # Notifications
+  - name: notification.requested
+    partitions: 12
+    retention_ms: 259200000
+    producers: [notifications-service]
+    consumers: [sms-gateway-service, email-gateway-service, push-gateway-service]
+
+  # Audit — every service publishes
+  - name: audit.event
+    partitions: 24
+    retention_ms: 7776000000     # 90d
+    producers: ["*"]
+    consumers: [audit-log-service, analytics-events-service]
