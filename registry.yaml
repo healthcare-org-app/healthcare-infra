@@ -30,7 +30,7 @@ services:
   - {name: patient-communications-service, port: 8109, lang: python, http_deps: [patients-service, notifications-service, audit-log-service],                        publishes: [audit.event],                                                                                subscribes: [patient.created]}
 
   # ─── Providers (9) ───────────────────────────────────────────────
-  - {name: providers-service,          port: 8200, lang: python, http_deps: [identity-service, audit-log-service],                                                    publishes: [audit.event],                                                                                subscribes: [identity.user.created]}
+  - {name: providers-service,          port: 8200, lang: python, http_deps: [identity-service, audit-log-service, erp-hr],                                            publishes: [audit.event],                                                                                subscribes: [identity.user.created]}
   - {name: credentialing-service,      port: 8201, lang: python, http_deps: [providers-service, audit-log-service],                                                   publishes: [audit.event],                                                                                subscribes: []}
   - {name: licensing-service,          port: 8202, lang: python, http_deps: [providers-service, audit-log-service],                                                   publishes: [audit.event],                                                                                subscribes: []}
   - {name: specialties-service,        port: 8203, lang: python, http_deps: [providers-service, audit-log-service],                                                   publishes: [audit.event],                                                                                subscribes: []}
@@ -127,6 +127,23 @@ services:
   # ─── Facility / Operations (5) ───────────────────────────────────
   - {name: facilities-service,         port: 9200, lang: python, http_deps: [audit-log-service],                                                                          publishes: [audit.event],                                                                                subscribes: []}
   - {name: wards-beds-service,         port: 9201, lang: python, http_deps: [facilities-service, audit-log-service],                                                      publishes: [audit.event],                                                                                subscribes: [encounter.started, encounter.ended]}
-  - {name: equipment-service,          port: 9202, lang: python, http_deps: [facilities-service, audit-log-service],                                                      publishes: [audit.event],                                                                                subscribes: []}
-  - {name: sterile-supply-service,     port: 9203, lang: python, http_deps: [equipment-service, audit-log-service],                                                       publishes: [audit.event],                                                                                subscribes: []}
+  - {name: equipment-service,          port: 9202, lang: python, http_deps: [facilities-service, audit-log-service, erp-inventory],                                       publishes: [audit.event],                                                                                subscribes: []}
+  - {name: sterile-supply-service,     port: 9203, lang: python, http_deps: [equipment-service, audit-log-service, erp-procurement],                                      publishes: [audit.event],                                                                                subscribes: []}
   - {name: maintenance-service,        port: 9204, lang: python, http_deps: [equipment-service, facilities-service, audit-log-service],                                   publishes: [audit.event],                                                                                subscribes: []}
+
+# ─────────────────────────────────────────────────────────────
+# External peers — code lives outside healthcare-org.
+# Listed here so ServiceClient can resolve their base URL via
+# PORT_<UPPER_UNDERSCORED_NAME> env vars auto-emitted by the scaffold.
+# ─────────────────────────────────────────────────────────────
+external_services:
+  # ERP microservices from buildwithtalia/erp-*
+  - {name: erp-hr,           port: 3011, lang: python, ref: buildwithtalia/erp-hr,           http_deps: [], publishes: [], subscribes: []}
+  - {name: erp-payroll,      port: 3012, lang: python, ref: buildwithtalia/erp-payroll,      http_deps: [], publishes: [], subscribes: []}
+  - {name: erp-accounting,   port: 3013, lang: python, ref: buildwithtalia/erp-accounting,   http_deps: [], publishes: [], subscribes: []}
+  - {name: erp-inventory,    port: 3014, lang: python, ref: buildwithtalia/erp-inventory,    http_deps: [], publishes: [], subscribes: []}
+  - {name: erp-supply-chain, port: 3015, lang: python, ref: buildwithtalia/erp-supply-chain, http_deps: [], publishes: [], subscribes: []}
+  - {name: erp-procurement,  port: 3016, lang: python, ref: buildwithtalia/erp-procurement,  http_deps: [], publishes: [], subscribes: []}
+  - {name: erp-finance,      port: 3017, lang: python, ref: buildwithtalia/erp-finance,      http_deps: [], publishes: [], subscribes: []}
+  - {name: erp-billing,      port: 3018, lang: python, ref: buildwithtalia/erp-billing,      http_deps: [], publishes: [], subscribes: []}
+  - {name: erp-gateway,      port: 3010, lang: python, ref: buildwithtalia/erp-gateway,      http_deps: [], publishes: [], subscribes: []}
