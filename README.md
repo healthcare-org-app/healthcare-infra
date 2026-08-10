@@ -337,21 +337,47 @@ The scaffold produces the full service (Flask app, Docker, docker-compose overri
 
 ## Local development
 
-Bring up the shared infra once:
+### Option 1 — Named stacks via `run.sh` (recommended)
+
+`infra/run.sh` orchestrates any subset of the fleet on top of the shared infra. Stacks are additive (they union) and `core` is included implicitly by any non-`infra` stack.
 
 ```bash
-git clone https://github.com/healthcare-org-app/healthcare-infra ~/healthcare-org/infra
-cd ~/healthcare-org/infra
-docker compose up -d postgres kafka zookeeper redis service-registry kafka-init
+cd ~/Postman/healthcare-org/infra
+
+./run.sh --list                   # see available stacks
+./run.sh core                     # infra + 7 baseline services (identity, auth, patients, ...)
+./run.sh clinical                 # core + EHR/labs/pharmacy/appointments/imaging
+./run.sh billing insurance        # core + billing + insurance (unioned)
+./run.sh all                      # attempts every service — heavy, may OOM
+
+./run.sh core down                # stop
+./run.sh clinical logs            # tail logs
+./run.sh --help                   # more
 ```
 
-Then, for any service:
+Available stacks:
+
+| Stack | What comes up |
+|---|---|
+| `infra` | postgres, kafka, zookeeper, redis, consul, kafka-init (5 shared containers) |
+| `core` | infra + identity, auth, authorization, audit-log, patients, providers, notifications |
+| `clinical` | core + ehr, encounters, cpoe, appointments, lab-orders/results, imaging-orders/results, prescriptions, pharmacy |
+| `billing` | core + billing, charge-capture, claims-submission, claims-adjudication, denials, invoicing, payments, statements, collections |
+| `insurance` | core + eligibility, prior-auth, coverage-verification, payer-directory, payer-edi-connect, claims-status |
+| `devices` | core + device-registry, device-telemetry, device-alerts, device-fleet, remote-monitoring, vitals |
+| `comms` | core + sms/email/push gateways, patient-communications, secure-messaging |
+| `erp-bridge` | core + erp-bridge-service (ERP itself must run separately at ports 3010–3018) |
+| `all` | all 94 Python + Go + Node services (needs a lot of RAM — for demo only) |
+
+### Option 2 — One service, host-local
+
+For iterating on a single service without Docker:
 
 ```bash
-git clone https://github.com/healthcare-org-app/healthcare-common ~/healthcare-org/libs/py-healthcare-common
-git clone https://github.com/healthcare-org-app/healthcare-patients ~/healthcare-org/services/patients-service
+git clone https://github.com/healthcare-org-app/healthcare-common ~/Postman/healthcare-org/libs/py-healthcare-common
+git clone https://github.com/healthcare-org-app/healthcare-patients ~/Postman/healthcare-org/services/patients-service
 
-cd ~/healthcare-org/services/patients-service
+cd ~/Postman/healthcare-org/services/patients-service
 python -m venv .venv && source .venv/bin/activate
 pip install -e ../../libs/py-healthcare-common
 pip install -r requirements.txt
@@ -359,7 +385,7 @@ cp .env.example .env
 python -m app.main
 ```
 
-Running 100+ services on one laptop is not the intended workflow; bring up only the ones you're touching plus their direct peers. The circuit breaker in `ServiceClient` degrades gracefully when a peer is absent.
+Running 100+ services on one laptop is not the intended workflow — bring up only the stacks you need. The circuit breaker in `ServiceClient` degrades gracefully when a peer is absent, so partial stacks stay stable.
 
 ## Testing
 
