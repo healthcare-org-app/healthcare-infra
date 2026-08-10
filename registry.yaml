@@ -124,6 +124,9 @@ services:
   - {name: reporting-service,          port: 9103, lang: python, http_deps: [analytics-events-service, audit-log-service],                                                publishes: [audit.event],                                                                                subscribes: []}
   - {name: ml-models-service,          port: 9104, lang: python, http_deps: [secrets-vault, audit-log-service],                                                           publishes: [audit.event],                                                                                subscribes: []}
 
+  # ─── Integration (1) ─────────────────────────────────────────────
+  - {name: erp-bridge-service,         port: 9300, lang: python, http_deps: [erp-hr, erp-payroll, erp-accounting, erp-inventory, erp-supply-chain, erp-procurement, erp-finance, providers-service, patients-service, audit-log-service], publishes: [erp.posting.completed, erp.posting.failed, audit.event], subscribes: [patient.merged, encounter.ended, invoice.paid, claim.adjudicated, prescription.issued, device.reading, identity.user.created]}
+
   # ─── Facility / Operations (5) ───────────────────────────────────
   - {name: facilities-service,         port: 9200, lang: python, http_deps: [audit-log-service],                                                                          publishes: [audit.event],                                                                                subscribes: []}
   - {name: wards-beds-service,         port: 9201, lang: python, http_deps: [facilities-service, audit-log-service],                                                      publishes: [audit.event],                                                                                subscribes: [encounter.started, encounter.ended]}
