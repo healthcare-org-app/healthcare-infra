@@ -126,24 +126,139 @@ docker compose up kafka-init          # one-shot: creates topics from topics.yam
 
 ## Service catalog
 
-All 101 services are declared in `registry.yaml`. Port ranges group services by domain:
+All 101 services are declared in `registry.yaml`. One row per service:
 
-| Range | Domain | Count | Examples |
-|-------|--------|-------|----------|
-| 8000–8009 | **Platform** | 10 | `identity-service`, `auth-service`, `authorization-service`, `api-gateway` (Go), `audit-log-service`, `service-registry` (Go), `config-service`, `secrets-vault`, `feature-flags-service`, `tenancy-service` |
-| 8100–8109 | **Patients** | 10 | `patients-service`, `demographics-service`, `patient-consent-service`, `patient-preferences-service`, `patient-portal-api` (Node), `patient-relationships-service`, `patient-timeline-service`, `patient-search-service`, `patient-merge-service`, `patient-communications-service` |
-| 8200–8208 | **Providers** | 9 | `providers-service`, `credentialing-service`, `licensing-service`, `specialties-service`, `provider-schedule-service`, `on-call-service`, `provider-directory`, `provider-portal-api` (Node), `provider-performance-service` |
-| 8300–8314 | **Clinical / EHR** | 15 | `ehr-service`, `encounters-service`, `clinical-notes-service`, `problem-list-service`, `med-reconciliation-service`, `allergies-service`, `immunizations-service`, `vitals-service`, `cpoe-service`, `care-plan-service`, `referrals-service`, `discharge-summary-service`, `clinical-decision-support`, `diagnosis-codes-service`, `care-teams-service` |
-| 8400–8407 | **Diagnostics** | 8 | `lab-orders-service`, `lab-results-service`, `imaging-orders-service`, `imaging-results-service`, `pathology-service`, `radiology-worklist`, `specimen-tracking-service`, `reference-ranges-service` |
-| 8500–8506 | **Pharmacy** | 7 | `pharmacy-service`, `prescriptions-service`, `refills-service`, `drug-interactions-service`, `formulary-service`, `pharmacy-inventory-service`, `dispensing-service` |
-| 8600–8604 | **Scheduling** | 5 | `appointments-service`, `appointment-slots-service`, `reminders-service`, `waitlist-service`, `room-booking-service` |
-| 8700–8709 | **Billing / RCM** | 10 | `billing-service`, `charge-capture-service`, `coding-service`, `claims-submission-service`, `claims-adjudication-service`, `denials-service`, `invoicing-service`, `payments-service`, `statements-service`, `collections-service` |
-| 8800–8805 | **Insurance** | 6 | `eligibility-service`, `prior-auth-service`, `coverage-verification-service`, `payer-directory`, `payer-edi-connect`, `claims-status-service` |
-| 8900–8904 | **Devices / IoT** | 5 | `device-registry-service`, `device-telemetry-service` (Go), `device-alerts-service`, `device-fleet-service`, `remote-monitoring-service` |
-| 9000–9004 | **Communications** | 5 | `notifications-service`, `sms-gateway-service` (Go), `email-gateway-service`, `push-gateway-service`, `secure-messaging-service` (Node) |
-| 9100–9104 | **AI / Analytics** | 5 | `ai-agents-service`, `ai-invocations-service`, `analytics-events-service`, `reporting-service`, `ml-models-service` |
-| 9200–9204 | **Facility / Ops** | 5 | `facilities-service`, `wards-beds-service`, `equipment-service`, `sterile-supply-service`, `maintenance-service` |
-| 9300 | **Integration** | 1 | `erp-bridge-service` |
+| Port | Service | Language |
+|------|---------|----------|
+| **PLATFORM** | | |
+| 8000 | `api-gateway` | Go |
+| 8001 | `identity-service` | Python |
+| 8002 | `auth-service` | Python |
+| 8003 | `authorization-service` | Python |
+| 8004 | `service-registry` | Go |
+| 8005 | `config-service` | Python |
+| 8006 | `secrets-vault` | Python |
+| 8007 | `audit-log-service` | Python |
+| 8008 | `feature-flags-service` | Python |
+| 8009 | `tenancy-service` | Python |
+| **PATIENTS** | | |
+| 8100 | `patients-service` | Python |
+| 8101 | `demographics-service` | Python |
+| 8102 | `patient-consent-service` | Python |
+| 8103 | `patient-preferences-service` | Python |
+| 8104 | `patient-portal-api` | Node |
+| 8105 | `patient-relationships-service` | Python |
+| 8106 | `patient-timeline-service` | Python |
+| 8107 | `patient-search-service` | Python |
+| 8108 | `patient-merge-service` | Python |
+| 8109 | `patient-communications-service` | Python |
+| **PROVIDERS** | | |
+| 8200 | `providers-service` | Python |
+| 8201 | `credentialing-service` | Python |
+| 8202 | `licensing-service` | Python |
+| 8203 | `specialties-service` | Python |
+| 8204 | `provider-schedule-service` | Python |
+| 8205 | `on-call-service` | Python |
+| 8206 | `provider-directory` | Python |
+| 8207 | `provider-portal-api` | Node |
+| 8208 | `provider-performance-service` | Python |
+| **CLINICAL / EHR** | | |
+| 8300 | `ehr-service` | Python |
+| 8301 | `encounters-service` | Python |
+| 8302 | `clinical-notes-service` | Python |
+| 8303 | `problem-list-service` | Python |
+| 8304 | `med-reconciliation-service` | Python |
+| 8305 | `allergies-service` | Python |
+| 8306 | `immunizations-service` | Python |
+| 8307 | `vitals-service` | Python |
+| 8308 | `cpoe-service` | Python |
+| 8309 | `care-plan-service` | Python |
+| 8310 | `referrals-service` | Python |
+| 8311 | `discharge-summary-service` | Python |
+| 8312 | `clinical-decision-support` | Python |
+| 8313 | `diagnosis-codes-service` | Python |
+| 8314 | `care-teams-service` | Python |
+| **DIAGNOSTICS** | | |
+| 8400 | `lab-orders-service` | Python |
+| 8401 | `lab-results-service` | Python |
+| 8402 | `imaging-orders-service` | Python |
+| 8403 | `imaging-results-service` | Python |
+| 8404 | `pathology-service` | Python |
+| 8405 | `radiology-worklist` | Python |
+| 8406 | `specimen-tracking-service` | Python |
+| 8407 | `reference-ranges-service` | Python |
+| **PHARMACY** | | |
+| 8500 | `pharmacy-service` | Python |
+| 8501 | `prescriptions-service` | Python |
+| 8502 | `refills-service` | Python |
+| 8503 | `drug-interactions-service` | Python |
+| 8504 | `formulary-service` | Python |
+| 8505 | `pharmacy-inventory-service` | Python |
+| 8506 | `dispensing-service` | Python |
+| **SCHEDULING** | | |
+| 8600 | `appointments-service` | Python |
+| 8601 | `appointment-slots-service` | Python |
+| 8602 | `reminders-service` | Python |
+| 8603 | `waitlist-service` | Python |
+| 8604 | `room-booking-service` | Python |
+| **BILLING / RCM** | | |
+| 8700 | `billing-service` | Python |
+| 8701 | `charge-capture-service` | Python |
+| 8702 | `coding-service` | Python |
+| 8703 | `claims-submission-service` | Python |
+| 8704 | `claims-adjudication-service` | Python |
+| 8705 | `denials-service` | Python |
+| 8706 | `invoicing-service` | Python |
+| 8707 | `payments-service` | Python |
+| 8708 | `statements-service` | Python |
+| 8709 | `collections-service` | Python |
+| **INSURANCE** | | |
+| 8800 | `eligibility-service` | Python |
+| 8801 | `prior-auth-service` | Python |
+| 8802 | `coverage-verification-service` | Python |
+| 8803 | `payer-directory` | Python |
+| 8804 | `payer-edi-connect` | Python |
+| 8805 | `claims-status-service` | Python |
+| **DEVICES / IOT** | | |
+| 8900 | `device-registry-service` | Python |
+| 8901 | `device-telemetry-service` | Go |
+| 8902 | `device-alerts-service` | Python |
+| 8903 | `device-fleet-service` | Python |
+| 8904 | `remote-monitoring-service` | Python |
+| **COMMUNICATIONS** | | |
+| 9000 | `notifications-service` | Python |
+| 9001 | `sms-gateway-service` | Go |
+| 9002 | `email-gateway-service` | Python |
+| 9003 | `push-gateway-service` | Python |
+| 9004 | `secure-messaging-service` | Node |
+| **AI / ANALYTICS** | | |
+| 9100 | `ai-agents-service` | Python |
+| 9101 | `ai-invocations-service` | Python |
+| 9102 | `analytics-events-service` | Python |
+| 9103 | `reporting-service` | Python |
+| 9104 | `ml-models-service` | Python |
+| **FACILITY / OPS** | | |
+| 9200 | `facilities-service` | Python |
+| 9201 | `wards-beds-service` | Python |
+| 9202 | `equipment-service` | Python |
+| 9203 | `sterile-supply-service` | Python |
+| 9204 | `maintenance-service` | Python |
+| **INTEGRATION** | | |
+| 9300 | `erp-bridge-service` | Python |
+
+**External peers** (not part of the healthcare-org fleet — code lives in `buildwithtalia/erp-*`):
+
+| Port | Service |
+|------|---------|
+| 3010 | `erp-gateway` |
+| 3011 | `erp-hr` |
+| 3012 | `erp-payroll` |
+| 3013 | `erp-accounting` |
+| 3014 | `erp-inventory` |
+| 3015 | `erp-supply-chain` |
+| 3016 | `erp-procurement` |
+| 3017 | `erp-finance` |
+| 3018 | `erp-billing` |
 
 Full details (per-service HTTP deps, publishes, subscribes) are in [`registry.yaml`](registry.yaml).
 
