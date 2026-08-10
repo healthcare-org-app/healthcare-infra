@@ -335,11 +335,17 @@ if __name__ == "__main__":
 
 The scaffold produces the full service (Flask app, Docker, docker-compose override, service.yaml, tests, CI workflow, README, .env.example) matching every other service's shape.
 
-## Local development
+## Running the platform with Docker
 
-### Option 1 — Named stacks via `run.sh` (recommended)
+### Prerequisites
 
-`infra/run.sh` orchestrates any subset of the fleet on top of the shared infra. Stacks are additive (they union) and `core` is included implicitly by any non-`infra` stack.
+- **Docker Desktop** running (verify: `docker info` returns without error).
+- Bandwidth for the first build (base image `python:3.11-slim` + `pip install` per service). Plan on 5–15 min for the `core` stack; 45+ min for `all`.
+- ≥8 GB free RAM for `core`; ~20 GB+ for `clinical`+`billing`+`insurance`. `all` (94 Python + 4 Go + 3 Node services simultaneously) needs 40 GB+ and isn't the intended dev flow.
+
+### Bring up a stack
+
+`infra/run.sh` orchestrates any subset of the fleet on top of the shared containers. Stacks are additive (they union) and `core` is included implicitly by any non-`infra` stack.
 
 ```bash
 cd ~/Postman/healthcare-org/infra
@@ -352,31 +358,94 @@ cd ~/Postman/healthcare-org/infra
 
 ./run.sh core down                # stop
 ./run.sh clinical logs            # tail logs
+./run.sh core ps                  # status
 ./run.sh --help                   # more
 ```
 
-Available stacks:
+Under the hood, `run.sh` generates a temporary orchestrator compose file at the workspace root (`.run-orchestrator.compose.yml`, gitignored) that uses Docker Compose's `include:` directive so each service's `build: .` resolves against **that service's directory** — not the base compose file's — regardless of how many stacks are unioned.
 
-| Stack | What comes up |
-|---|---|
-| `infra` | postgres, kafka, zookeeper, redis, consul, kafka-init (5 shared containers) |
-| `core` | infra + identity, auth, authorization, audit-log, patients, providers, notifications |
-| `clinical` | core + ehr, encounters, cpoe, appointments, lab-orders/results, imaging-orders/results, prescriptions, pharmacy |
-| `billing` | core + billing, charge-capture, claims-submission, claims-adjudication, denials, invoicing, payments, statements, collections |
-| `insurance` | core + eligibility, prior-auth, coverage-verification, payer-directory, payer-edi-connect, claims-status |
-| `devices` | core + device-registry, device-telemetry, device-alerts, device-fleet, remote-monitoring, vitals |
-| `comms` | core + sms/email/push gateways, patient-communications, secure-messaging |
-| `erp-bridge` | core + erp-bridge-service (ERP itself must run separately at ports 3010–3018) |
-| `all` | all 94 Python + Go + Node services (needs a lot of RAM — for demo only) |
+### Available stacks
 
-### Option 2 — One service, host-local
+| Stack | Contains | Services |
+|---|---|---|
+| `infra` | Shared containers only | postgres, kafka, zookeeper, redis, consul, kafka-init |
+| `core` | infra + platform baseline | identity-service (8001), auth-service (8002), authorization-service (8003), audit-log-service (8007), patients-service (8100), providers-service (8200), notifications-service (9000) |
+| `clinical` | core + clinical workflows | ehr, encounters, cpoe, appointments, lab-orders/results, imaging-orders/results, prescriptions, pharmacy (10 services) |
+| `billing` | core + revenue cycle | billing, charge-capture, claims-submission, claims-adjudication, denials, invoicing, payments, statements, collections (9 services) |
+| `insurance` | core + payer flows | eligibility, prior-auth, coverage-verification, payer-directory, payer-edi-connect, claims-status (6 services) |
+| `devices` | core + IoT | device-registry, device-telemetry, device-alerts, device-fleet, remote-monitoring, vitals (6 services) |
+| `comms` | core + communication | sms-gateway, email-gateway, push-gateway, patient-communications, secure-messaging (5 services) |
+| `erp-bridge` | core + integration | erp-bridge-service (9300). ERP itself must run separately at ports 3010–3018. |
+| `all` | Every service | all 94 Python + Go + Node services |
 
-For iterating on a single service without Docker:
+### Verify a stack is up
+
+Every service exposes `GET /health` on its own port. Quick check for the `core` stack:
+
+```bash
+for port in 8001 8002 8003 8007 8100 8200 9000; do
+  echo -n "$port: "; curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:$port/health
+done
+# → all 200 when healthy
+```
+
+Try a real request (auth is disabled in dev via `AUTH_DISABLED=1`):
+
+```bash
+# create a patient
+curl -X POST http://127.0.0.1:8100/api/patients/ \
+  -H 'Content-Type: application/json' \
+  -d '{"first_name":"Ada","last_name":"Lovelace","dob":"1815-12-10"}'
+
+# read it back
+curl http://127.0.0.1:8100/api/patients/
+```
+
+Every mutation emits an event. Inspect topics:
+
+```bash
+docker exec -it healthcare_kafka \
+  kafka-console-consumer --bootstrap-server kafka:9092 \
+    --topic patient.created --from-beginning --max-messages 5
+```
+
+### Data persistence
+
+The shared containers keep data in named Docker volumes: `healthcare-org_postgres_data`, `healthcare-org_kafka_data`, `healthcare-org_redis_data`. Ordinary `./run.sh <stack> down` keeps volumes. **Warning:** if you change Kafka/ZK versions or wipe ZK without wiping Kafka, brokers refuse to start with `InconsistentClusterIdException`. In that case:
+
+```bash
+./run.sh <stack> down                   # stop containers
+docker compose -p healthcare-org down --volumes   # nuke data
+./run.sh <stack>                        # fresh start
+```
+
+### Iterating on service code
+
+The shared library is bind-mounted into each container at `/opt/py-healthcare-common` (read-only). Changes to `libs/py-healthcare-common/` take effect on the next container start — no image rebuild needed.
+
+Service code (`app/`) is baked into the image at build time. After editing a service's code, rebuild just that service:
+
+```bash
+cd ~/Postman/healthcare-org
+docker compose -p healthcare-org --project-directory . \
+  -f .run-orchestrator.compose.yml build <service-name>
+docker compose -p healthcare-org --project-directory . \
+  -f .run-orchestrator.compose.yml up -d <service-name>
+```
+
+## Local development without Docker
+
+For fast iteration on a single service:
 
 ```bash
 git clone https://github.com/healthcare-org-app/healthcare-common ~/Postman/healthcare-org/libs/py-healthcare-common
 git clone https://github.com/healthcare-org-app/healthcare-patients ~/Postman/healthcare-org/services/patients-service
 
+# Bring up JUST the infra
+cd ~/Postman/healthcare-org/infra
+./run.sh infra
+
+# Run the service on the host
 cd ~/Postman/healthcare-org/services/patients-service
 python -m venv .venv && source .venv/bin/activate
 pip install -e ../../libs/py-healthcare-common
@@ -385,7 +454,7 @@ cp .env.example .env
 python -m app.main
 ```
 
-Running 100+ services on one laptop is not the intended workflow — bring up only the stacks you need. The circuit breaker in `ServiceClient` degrades gracefully when a peer is absent, so partial stacks stay stable.
+The circuit breaker in `ServiceClient` degrades gracefully when a peer is absent, so partial stacks stay stable.
 
 ## Testing
 
