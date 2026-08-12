@@ -114,6 +114,25 @@ Everything the services need to run is in this repo's `docker-compose.yml`:
 | `redis` | Cache + rate-limit backend for the gateway and auth | 6379 |
 | `service-registry` (Consul) | Service discovery | 8500 |
 
+### Infra tooling
+
+`tooling/docker-compose.yml` holds everything used to **observe** the platform rather than run it. These containers are read-only observers — no service depends on them, and the platform runs identically without them. Bring them up with `./run.sh tooling`, which unions the tooling file with the shared infra.
+
+| Tool | Purpose | Port |
+|---|---|---|
+| `akhq` | Kafka UI — browse topics, read messages, inspect consumer groups and lag | 8080 |
+
+Logging, metrics, and tracing tools belong here as they're added.
+
+**AKHQ** ([tchiotludo/akhq](https://github.com/tchiotludo/akhq)) is configured in `tooling/akhq/application.yml`, mounted read-only at `/app/application.yml`. It connects to the broker as the `healthcare` cluster and hides internal topics (`__consumer_offsets` and friends) by default — toggleable in the UI. No Schema Registry is configured, since the platform publishes plain JSON.
+
+```bash
+./run.sh tooling          # infra + akhq
+open http://localhost:8080
+```
+
+> **Dev only.** AKHQ runs with no authentication and no TLS. It exposes full topic contents, which on this platform means patient data — don't expose it beyond localhost as configured.
+
 The Postgres init script (`seed/init-databases.sh`) creates one database per healthcare domain: `identity`, `auth`, `patients`, `providers`, `ehr`, `lab`, `imaging`, `pharmacy`, `insurance`, `claims`, `billing`, `notifications`, `devices`, `ai_agents`, `audit`.
 
 **Bring up:**
@@ -483,6 +502,7 @@ Under the hood, `run.sh` generates a temporary orchestrator compose file at the 
 | Stack | Contains | Services |
 |---|---|---|
 | `infra` | Shared containers only | postgres, kafka, redis, consul, kafka-init |
+| `tooling` | infra + observability tools | akhq (8080). Does **not** pull in `core`. |
 | `core` | infra + platform baseline | identity-service (8001), auth-service (8002), authorization-service (8003), audit-log-service (8007), patients-service (8100), providers-service (8200), notifications-service (9000) |
 | `clinical` | core + clinical workflows | ehr, encounters, cpoe, appointments, lab-orders/results, imaging-orders/results, prescriptions, pharmacy (10 services) |
 | `billing` | core + revenue cycle | billing, charge-capture, claims-submission, claims-adjudication, denials, invoicing, payments, statements, collections (9 services) |
