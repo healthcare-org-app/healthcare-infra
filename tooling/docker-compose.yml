@@ -1,0 +1,36 @@
+# Infra tooling for the healthcare-org platform.
+#
+# Everything used to observe the platform rather than run it: Kafka
+# browsing today, with logging/metrics/tracing to follow. Brought up via
+# `./run.sh tooling`, which unions this file with the shared infra.
+#
+# These containers are read-only observers. Nothing here is a dependency of
+# any service, and the platform runs identically without them.
+
+services:
+  akhq:
+    image: tchiotludo/akhq:0.28.0
+    container_name: healthcare_akhq
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./akhq/application.yml:/app/application.yml:ro
+    networks:
+      - healthcare_net
+    healthcheck:
+      # AKHQ serves its management endpoints on 28081, not the UI port.
+      test: ["CMD", "curl", "--fail", "http://localhost:28081/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+# Must match the definition in ../docker-compose.yml — compose `include:`
+# merges both files into one project, and conflicting definitions of the
+# same network are an error.
+networks:
+  healthcare_net:
+    driver: bridge

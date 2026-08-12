@@ -1,0 +1,28 @@
+# AKHQ configuration. Mounted read-only at /app/application.yml, which is
+# AKHQ's WORKDIR, so Micronaut picks it up automatically.
+#
+# Dev defaults: no authentication, no TLS. Do not reuse as-is anywhere the
+# UI is reachable outside a developer's machine — AKHQ exposes full topic
+# contents, which for this platform means patient data.
+
+akhq:
+  connections:
+    healthcare:
+      properties:
+        bootstrap.servers: "kafka:9092"
+
+  # The platform publishes plain JSON, so no Schema Registry is configured.
+  # Adding one means a `schema-registry.url` key here plus the container.
+
+  topic:
+    internal-regexps:
+      - "^_.*$"
+
+  topic-data:
+    size: 50
+    poll-timeout: 1000
+
+  # Hide __consumer_offsets and the KRaft internals; still toggleable in the UI.
+  ui-options:
+    topic:
+      default-view: HIDE_INTERNAL
