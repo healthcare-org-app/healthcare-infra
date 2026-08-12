@@ -1,5 +1,3 @@
-version: "3.9"
-
 # Shared infrastructure for the healthcare-org platform.
 # All 100 services connect to these containers. Individual services declare
 # themselves via `docker-compose.override.yml` files in their own repos.
