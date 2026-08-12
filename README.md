@@ -109,8 +109,7 @@ Everything the services need to run is in this repo's `docker-compose.yml`:
 | Container | Purpose | Port |
 |---|---|---|
 | `postgres` | Per-domain databases (15 of them, listed in `POSTGRES_MULTIPLE_DATABASES`) | 5432 |
-| `zookeeper` | Kafka coordination | — |
-| `kafka` | Event bus. Topics auto-created from `topics.yaml` at bring-up. | 9092 / 29092 |
+| `kafka` | Event bus, single-node KRaft (broker + controller, no ZooKeeper). Topics auto-created from `topics.yaml` at bring-up. | 9092 / 29092 |
 | `kafka-init` | One-shot topic creator | — |
 | `redis` | Cache + rate-limit backend for the gateway and auth | 6379 |
 | `service-registry` (Consul) | Service discovery | 8500 |
@@ -120,7 +119,7 @@ The Postgres init script (`seed/init-databases.sh`) creates one database per hea
 **Bring up:**
 
 ```bash
-docker compose up -d postgres kafka zookeeper redis service-registry
+docker compose up -d postgres kafka redis service-registry
 docker compose up kafka-init          # one-shot: creates topics from topics.yaml
 ```
 
@@ -483,7 +482,7 @@ Under the hood, `run.sh` generates a temporary orchestrator compose file at the 
 
 | Stack | Contains | Services |
 |---|---|---|
-| `infra` | Shared containers only | postgres, kafka, zookeeper, redis, consul, kafka-init |
+| `infra` | Shared containers only | postgres, kafka, redis, consul, kafka-init |
 | `core` | infra + platform baseline | identity-service (8001), auth-service (8002), authorization-service (8003), audit-log-service (8007), patients-service (8100), providers-service (8200), notifications-service (9000) |
 | `clinical` | core + clinical workflows | ehr, encounters, cpoe, appointments, lab-orders/results, imaging-orders/results, prescriptions, pharmacy (10 services) |
 | `billing` | core + revenue cycle | billing, charge-capture, claims-submission, claims-adjudication, denials, invoicing, payments, statements, collections (9 services) |
@@ -526,7 +525,7 @@ docker exec -it healthcare_kafka \
 
 ### Data persistence
 
-The shared containers keep data in named Docker volumes: `healthcare-org_postgres_data`, `healthcare-org_kafka_data`, `healthcare-org_redis_data`. Ordinary `./run.sh <stack> down` keeps volumes. **Warning:** if you change Kafka/ZK versions or wipe ZK without wiping Kafka, brokers refuse to start with `InconsistentClusterIdException`. In that case:
+The shared containers keep data in named Docker volumes: `healthcare-org_postgres_data`, `healthcare-org_kafka_data`, `healthcare-org_redis_data`. Ordinary `./run.sh <stack> down` keeps volumes. **Warning:** the broker stores its formatted cluster id in `kafka_data`. If that id stops matching `CLUSTER_ID` in `docker-compose.yml` — you changed the value, or the volume was formatted by an older ZooKeeper-mode broker — Kafka refuses to start with `InconsistentClusterIdException`. In that case:
 
 ```bash
 ./run.sh <stack> down                   # stop containers
