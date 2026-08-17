@@ -1,0 +1,52 @@
+import {
+  Shield,
+  Users,
+  Stethoscope,
+  ClipboardList,
+  FlaskConical,
+  Pill,
+  CalendarDays,
+  Receipt,
+  ShieldCheck,
+  Activity,
+  MessageSquare,
+  Sparkles,
+  Building2,
+  Cable,
+  type LucideIcon,
+} from "lucide-react";
+import type { Domain } from "@/services";
+
+export const DOMAIN_ICON: Record<Domain, LucideIcon> = {
+  PLATFORM: Shield,
+  PATIENTS: Users,
+  PROVIDERS: Stethoscope,
+  "CLINICAL/EHR": ClipboardList,
+  DIAGNOSTICS: FlaskConical,
+  PHARMACY: Pill,
+  SCHEDULING: CalendarDays,
+  "BILLING/RCM": Receipt,
+  INSURANCE: ShieldCheck,
+  "DEVICES/IOT": Activity,
+  COMMUNICATIONS: MessageSquare,
+  "AI/ANALYTICS": Sparkles,
+  "FACILITY/OPS": Building2,
+  INTEGRATION: Cable,
+};
+
+export const DOMAIN_TINT: Record<Domain, { bg: string; text: string; ring: string }> = {
+  PLATFORM: { bg: "bg-ink-100", text: "text-ink-700", ring: "ring-ink-200" },
+  PATIENTS: { bg: "bg-brand-100", text: "text-brand-700", ring: "ring-brand-200" },
+  PROVIDERS: { bg: "bg-sea-100", text: "text-sea-700", ring: "ring-sea-200" },
+  "CLINICAL/EHR": { bg: "bg-brand-100", text: "text-brand-700", ring: "ring-brand-200" },
+  DIAGNOSTICS: { bg: "bg-purple-100", text: "text-purple-700", ring: "ring-purple-200" },
+  PHARMACY: { bg: "bg-emerald-100", text: "text-emerald-700", ring: "ring-emerald-200" },
+  SCHEDULING: { bg: "bg-sea-100", text: "text-sea-700", ring: "ring-sea-200" },
+  "BILLING/RCM": { bg: "bg-warn-100", text: "text-warn-700", ring: "ring-warn-200" },
+  INSURANCE: { bg: "bg-indigo-100", text: "text-indigo-700", ring: "ring-indigo-200" },
+  "DEVICES/IOT": { bg: "bg-rose-100", text: "text-rose-700", ring: "ring-rose-200" },
+  COMMUNICATIONS: { bg: "bg-sea-100", text: "text-sea-700", ring: "ring-sea-200" },
+  "AI/ANALYTICS": { bg: "bg-violet-100", text: "text-violet-700", ring: "ring-violet-200" },
+  "FACILITY/OPS": { bg: "bg-amber-100", text: "text-amber-700", ring: "ring-amber-200" },
+  INTEGRATION: { bg: "bg-slate-100", text: "text-slate-700", ring: "ring-slate-200" },
+};

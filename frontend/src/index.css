@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+body { @apply bg-ink-50 text-ink-900 antialiased; font-family: theme('fontFamily.sans'); font-feature-settings: 'cv02','cv03','cv04','cv11'; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { @apply bg-ink-200 rounded; }
+::-webkit-scrollbar-thumb:hover { @apply bg-ink-300; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* Cards */
+.card { @apply rounded-lg border border-ink-200 bg-white shadow-card; }
+.card-hover { @apply hover:shadow-pop hover:border-brand-300 transition; }
+
+/* Tables */
+.hc-table { @apply w-full text-sm; }
+.hc-table th { @apply text-left font-medium text-ink-500 uppercase tracking-wide text-[11px] pb-3 pt-3 px-3 border-b border-ink-200 bg-ink-50/60; }
+.hc-table td { @apply py-3 px-3 border-b border-ink-100 align-middle; }
+.hc-table tr:hover td { @apply bg-brand-50/40; }
+.hc-table tr:last-child td { @apply border-b-0; }
+
+/* Buttons */
+.btn { @apply inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition disabled:opacity-50 disabled:cursor-not-allowed; }
+.btn-primary { @apply bg-brand-600 text-white hover:bg-brand-700 shadow-sm; }
+.btn-secondary { @apply bg-white text-ink-800 border border-ink-200 hover:border-brand-300 hover:text-brand-700; }
+.btn-ghost { @apply text-ink-700 hover:bg-ink-100; }
+.btn-danger-outline { @apply text-danger-700 border border-danger-100 hover:bg-danger-50; }
+.btn-danger { @apply bg-danger-600 text-white hover:bg-danger-700; }
+
+/* Inputs */
+.input { @apply w-full rounded-md border border-ink-300 bg-white px-3 py-1.5 text-sm outline-none placeholder:text-ink-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20; }
+textarea.input { @apply py-2; }
+
+/* Chips */
+.chip { @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium; }
+.chip-ok { @apply bg-ok-50 text-ok-700; }
+.chip-warn { @apply bg-warn-50 text-warn-700; }
+.chip-err { @apply bg-danger-50 text-danger-700; }
+.chip-info { @apply bg-sea-50 text-sea-700; }
+.chip-neutral { @apply bg-ink-100 text-ink-700; }
+.chip-brand { @apply bg-brand-50 text-brand-700; }
+
+/* Skeleton shimmer */
+.skeleton { @apply rounded bg-ink-100 relative overflow-hidden; }
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+  background-size: 400px 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* Kbd */
+.kbd { @apply inline-flex items-center rounded border border-ink-200 bg-ink-50 px-1.5 py-0.5 text-[10px] font-mono text-ink-500 shadow-sm; }

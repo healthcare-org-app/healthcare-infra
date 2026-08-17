@@ -163,7 +163,7 @@ No Kafka, no per-service containers, no Consul — the original 101-service flee
   - `?data->>patient_id=eq.5` — JSONB field match
   - `?limit=50&offset=0` — pagination
   - `Prefer: return=representation` header — returns the inserted/updated row
-- **Seed data** (see `infra/supabase-fix.sql`): 6 patients, 4 providers, 6 encounters, 5 appointments, 4 prescriptions, 4 lab orders, 3 lab results, 4 invoices — so the frontend has something to render on first load.
+- **Seed data** (see `supabase-fix.sql`): 6 patients, 4 providers, 6 encounters, 5 appointments, 4 prescriptions, 4 lab orders, 3 lab results, 4 invoices — so the frontend has something to render on first load.
 
 ## How the frontend talks to the backend
 
@@ -275,7 +275,7 @@ Whether you run `vite dev` or `vercel dev`, you're hitting the same Supabase pro
 
 **Add a new service.**
 1. Add an entry to `SERVICES` in `frontend/src/services.ts` with a `createFields` array.
-2. Add its table to `infra/supabase-schema.sql` (or run one-off DDL in the Supabase SQL Editor):
+2. Add its table to `supabase-schema.sql` (or run one-off DDL in the Supabase SQL Editor):
    ```sql
    create table if not exists public.<resource> (
      id           bigserial primary key,
@@ -292,7 +292,7 @@ Whether you run `vite dev` or `vercel dev`, you're hitting the same Supabase pro
 
 **Regenerate the schema from `registry.yaml`.** If you edit the service catalog:
 ```bash
-python3 tools/generate_supabase_schema.py    # writes infra/supabase-schema.sql
+python3 tools/generate_supabase_schema.py    # writes supabase-schema.sql
 ```
 
 Then paste the new tables' DDL into the Supabase SQL Editor.
@@ -317,14 +317,15 @@ The 101-service microservices design still exists as scaffolding under `services
 - **~$700/mo** for a demo when Supabase runs the same shape for **$0**.
 - **PostgREST + Postgres** delivers exactly what the frontend needs (typed CRUD, JSONB filters, pagination, count headers, upsert semantics) with none of the operational overhead.
 
-The scaffolding is left intact because the code is still useful reading — the `libs/py-healthcare-common` shared runtime (Flask + LISTEN/NOTIFY event bus + connection pool + audit publisher + JWT middleware + CORS), the per-service scaffold generator (`tools/scaffold.py`), and the docker-compose bring-up (`infra/run.sh`) all still work locally. If you ever want to run the fleet again:
+The scaffolding is left intact because the code is still useful reading — the `libs/py-healthcare-common` shared runtime (Flask + LISTEN/NOTIFY event bus + connection pool + audit publisher + JWT middleware + CORS), the per-service scaffold generator (`tools/scaffold.py`), and the docker-compose bring-up (`run.sh`) all still work locally. If you ever want to run the fleet again:
 
 ```bash
-cd infra
 ./run.sh core             # 7 baseline services
 ./run.sh clinical billing # add more stacks
 ```
 
+`services/`, `libs/`, and `tools/` live in separate GitHub repos under `healthcare-org-app` and are gitignored here — clone them alongside this repo to run the historical fleet locally.
+
 See the earlier revision of this README in git history for the full microservices detail — service catalog, event topology, cross-service call graph, ERP integration.
 
-The Render Blueprint (`infra/render.yaml`, 94 services + Postgres + env group) was **removed** from the tree. To rebuild it, regenerate from `infra/registry.yaml` and `tools/generate_render_yaml.py`, or recover an older revision from git history. Render would still require a workspace-tier plan to clear the 25-resource cap, at ~$700/mo.
+The Render Blueprint (`render.yaml`, 94 services + Postgres + env group) was **removed** from the tree. To rebuild it, regenerate from `registry.yaml` and `tools/generate_render_yaml.py`, or recover an older revision from git history. Render would still require a workspace-tier plan to clear the 25-resource cap, at ~$700/mo.
