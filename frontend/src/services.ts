@@ -709,11 +709,11 @@ export const SERVICES: ServiceDef[] = [
   }),
   svc("prescriptions-service", 8501, "python", "PHARMACY", {
     createFields: [
-      { key: "patient_id", required: true },
-      { key: "provider_id", required: true },
-      { key: "drug", required: true },
+      { key: "patient_id", label: "Patient", required: true },
+      { key: "provider_id", label: "Prescribing doctor", required: true },
+      { key: "drug", label: "Drug name", required: true },
       { key: "dose", placeholder: "10mg" },
-      { key: "sig", label: "Sig (directions)", placeholder: "1 tab daily" },
+      { key: "sig", label: "Instructions for use", placeholder: "1 tab daily", required: true },
     ],
     actions: [{ label: "Refill", method: "POST", path: "/refill" }],
   }),
