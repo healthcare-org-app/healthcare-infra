@@ -56,6 +56,7 @@ export const FK_TARGETS: Record<string, string> = {
   provider_id: "providers-service",
   ordered_by: "providers-service",
   author_id: "providers-service",
+  dispensed_by: "providers-service",
   referring_provider_id: "providers-service",
   referred_to_provider_id: "providers-service",
   encounter_id: "encounters-service",
@@ -69,6 +70,8 @@ export const FK_TARGETS: Record<string, string> = {
   facility_id: "facilities-service",
   device_id: "device-registry-service",
   equipment_id: "equipment-service",
+  agent_id: "ai-agents-service",
+  specimen_id: "specimen-tracking-service",
   source_patient_id: "patients-service",
   target_patient_id: "patients-service",
   related_to: "patients-service",
@@ -115,16 +118,73 @@ export function formatRefLabel(
   if (serviceName === "lab-orders-service") {
     return [idFallback, s("test_code")].filter(Boolean).join(" · ");
   }
+  if (serviceName === "imaging-orders-service") {
+    return [idFallback, s("modality"), s("body_part")].filter(Boolean).join(" · ");
+  }
   if (serviceName === "invoicing-service") {
     const amount = row.amount != null ? `$${row.amount}` : "";
     return [idFallback, s("description"), amount].filter(Boolean).join(" · ");
   }
+  if (serviceName === "claims-submission-service") {
+    const amount = row.amount != null ? `$${row.amount}` : "";
+    return [idFallback, amount].filter(Boolean).join(" · ");
+  }
+  if (serviceName === "charge-capture-service") {
+    const amount = row.amount != null ? `$${row.amount}` : "";
+    return [idFallback, s("cpt_code"), amount].filter(Boolean).join(" · ");
+  }
   if (serviceName === "facilities-service" || serviceName === "payer-directory") {
     return s("name") || idFallback;
   }
+  if (serviceName === "device-registry-service") {
+    return [idFallback, s("device_type"), s("serial_number")].filter(Boolean).join(" · ");
+  }
+  if (serviceName === "device-alerts-service") {
+    return [idFallback, s("alert_type"), s("severity")].filter(Boolean).join(" · ");
+  }
+  if (serviceName === "specimen-tracking-service") {
+    return [idFallback, s("specimen_type")].filter(Boolean).join(" · ");
+  }
+  if (serviceName === "problem-list-service") {
+    const dx = s("icd10");
+    const cond = s("condition");
+    if (cond && dx) return `${cond} (${dx})`;
+    return [idFallback, cond || dx].filter(Boolean).join(" · ");
+  }
+  if (serviceName === "allergies-service") {
+    return [idFallback, s("allergen"), s("reaction")].filter(Boolean).join(" · ");
+  }
+  if (serviceName === "immunizations-service") {
+    return [idFallback, s("vaccine")].filter(Boolean).join(" · ");
+  }
+  if (serviceName === "refills-service" || serviceName === "pharmacy-service") {
+    return [idFallback, row.prescription_id ? `Rx #${row.prescription_id}` : ""]
+      .filter(Boolean)
+      .join(" · ");
+  }
+  if (serviceName === "dispensing-service") {
+    return [idFallback, row.prescription_id ? `Rx #${row.prescription_id}` : "", s("dispensed_at")]
+      .filter(Boolean)
+      .join(" · ");
+  }
+  if (serviceName === "room-booking-service") {
+    return [idFallback, s("room_name")].filter(Boolean).join(" · ");
+  }
+  if (serviceName === "wards-beds-service") {
+    const beds = row.bed_count != null ? `${row.bed_count} beds` : "";
+    return [idFallback, s("ward_name"), beds].filter(Boolean).join(" · ");
+  }
   // Generic fallback — grab a short label from typical name-ish fields.
   const guess =
-    s("name") || s("title") || s("code") || s("test_code") || s("drug") || s("description");
+    s("name") ||
+    s("title") ||
+    s("code") ||
+    s("test_code") ||
+    s("drug") ||
+    s("description") ||
+    s("serial_number") ||
+    s("ward_name") ||
+    s("room_name");
   return guess ? `${idFallback} — ${guess.slice(0, 40)}` : idFallback;
 }
 
