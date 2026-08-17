@@ -1,0 +1,3 @@
+$kind: collection
+description: Providers — CRUD at `/api/providers`.
+order: 1000

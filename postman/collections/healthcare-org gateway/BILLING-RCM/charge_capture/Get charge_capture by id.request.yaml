@@ -1,0 +1,8 @@
+$kind: http-request
+description: Get a single Charge Capture by numeric id.
+url: "{{baseUrl}}/api/charge_capture/1"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+order: 3000

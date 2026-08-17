@@ -1,0 +1,23 @@
+$kind: http-request
+description: |-
+  Create a Vitals. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`
+url: "{{baseUrl}}/api/vitals"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "encounter_id": "{{encounter_id}}",
+      "heart_rate": 0,
+      "bp": "120/80",
+      "temperature": 0,
+      "spo2": 0
+    }
+order: 2000

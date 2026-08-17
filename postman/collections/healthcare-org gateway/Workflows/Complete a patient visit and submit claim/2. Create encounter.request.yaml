@@ -1,0 +1,19 @@
+$kind: http-request
+description: Represents the actual patient-provider interaction. Save id → {{encounter_id}}.
+url: "{{baseUrl}}/api/encounters"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "provider_id": "{{provider_id}}",
+      "encounter_type": "visit",
+      "reason": "Annual physical",
+      "location": "Clinic A"
+    }
+order: 2000

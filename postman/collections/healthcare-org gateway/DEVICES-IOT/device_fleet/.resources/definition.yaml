@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Device Fleet — CRUD at `/api/device_fleet`.
+
+  **FK references (fetch these first):** `device_id` → `GET /api/device_registry`
+order: 3000

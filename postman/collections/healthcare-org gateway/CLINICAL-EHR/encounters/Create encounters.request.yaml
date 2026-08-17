@@ -1,0 +1,22 @@
+$kind: http-request
+description: |-
+  Create a Encounters. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`
+url: "{{baseUrl}}/api/encounters"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "provider_id": "{{provider_id}}",
+      "encounter_type": "visit",
+      "reason": "sample reason",
+      "location": "sample location"
+    }
+order: 2000

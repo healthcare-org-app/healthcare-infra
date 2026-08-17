@@ -1,0 +1,16 @@
+$kind: http-request
+description: Create a Push Gateway. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/push_gateway"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "to": "sample to",
+      "body": "Sample body"
+    }
+order: 2000

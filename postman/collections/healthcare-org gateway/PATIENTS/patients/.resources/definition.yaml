@@ -1,0 +1,3 @@
+$kind: collection
+description: Patients — CRUD at `/api/patients`.
+order: 1000

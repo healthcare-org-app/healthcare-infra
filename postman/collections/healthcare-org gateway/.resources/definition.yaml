@@ -1,0 +1,38 @@
+$kind: collection
+description: |-
+  Public API gateway for myhealthcare.dev. 94 CRUD resources + 6 custom actions + a Workflows folder.
+
+  **Setup:** import this collection and `gateway-prod.postman_environment.json`, select the env, set `apiKey` to your GATEWAY_API_KEY.
+
+  **FK fields** on Create requests use `{{<key>}}` variables so you can set a single valid id once (e.g. `{{patient_id}}=5`) and reuse it across every request. Defaults are all `1`.
+
+  **Discovery:** run **Meta → List services** to see every resource. Each folder groups resources by clinical/technical domain matching `frontend/src/services.ts`.
+
+  **Cross-service flows:** the **Workflows** folder demonstrates full clinical scenarios (visit → notes → orders → prescription → charge → claim), showing how one encounter ties every downstream service together.
+variables:
+  baseUrl: https://myhealthcare.dev
+  apiKey: REPLACE_ME
+  patient_id: "1"
+  provider_id: "1"
+  ordered_by: "1"
+  author_id: "1"
+  administered_by: "1"
+  dispensed_by: "1"
+  referring_provider_id: "1"
+  referred_to_provider_id: "1"
+  encounter_id: "1"
+  appointment_id: "1"
+  prescription_id: "1"
+  lab_order_id: "1"
+  imaging_order_id: "1"
+  invoice_id: "1"
+  claim_id: "1"
+  payer_id: "1"
+  facility_id: "1"
+  device_id: "1"
+  equipment_id: "1"
+  agent_id: "1"
+  specimen_id: "1"
+  source_patient_id: "1"
+  target_patient_id: "1"
+  related_to: "1"

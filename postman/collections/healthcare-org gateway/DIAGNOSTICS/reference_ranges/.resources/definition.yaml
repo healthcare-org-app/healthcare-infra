@@ -1,0 +1,3 @@
+$kind: collection
+description: Reference Ranges — CRUD at `/api/reference_ranges`.
+order: 8000

@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Med Reconciliation. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`
+url: "{{baseUrl}}/api/med_reconciliation"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "encounter_id": "{{encounter_id}}",
+      "notes": "Sample notes"
+    }
+order: 2000

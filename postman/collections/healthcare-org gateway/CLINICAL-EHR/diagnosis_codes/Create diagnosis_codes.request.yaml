@@ -1,0 +1,16 @@
+$kind: http-request
+description: Create a Diagnosis Codes. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/diagnosis_codes"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "code": "sample code",
+      "description": "sample description"
+    }
+order: 2000

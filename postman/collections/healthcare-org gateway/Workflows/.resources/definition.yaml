@@ -1,0 +1,3 @@
+$kind: collection
+description: End-to-end scenarios chaining requests across services. Run in order after setting `patient_id`, `provider_id`, `facility_id`, and `payer_id` collection variables.
+order: 17000

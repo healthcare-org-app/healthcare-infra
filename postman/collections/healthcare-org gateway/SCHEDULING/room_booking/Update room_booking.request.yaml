@@ -1,0 +1,16 @@
+$kind: http-request
+description: Partial update. JSONB deep-merged; typed columns overwritten.
+url: "{{baseUrl}}/api/room_booking/1"
+method: PATCH
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "data": {
+        "note": "patched"
+      }
+    }
+order: 4000

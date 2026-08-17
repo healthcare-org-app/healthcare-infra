@@ -1,0 +1,21 @@
+$kind: http-request
+description: |-
+  Create a Allergies. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`
+url: "{{baseUrl}}/api/allergies"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "allergen": "sample allergen",
+      "reaction": "sample reaction",
+      "severity": "low"
+    }
+order: 2000

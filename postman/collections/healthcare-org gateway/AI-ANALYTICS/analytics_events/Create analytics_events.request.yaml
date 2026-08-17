@@ -1,0 +1,17 @@
+$kind: http-request
+description: Create a Analytics Events. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/analytics_events"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "event_type": "sample event_type",
+      "entity_id": "sample entity_id",
+      "properties": "{\"key\":\"value\"}"
+    }
+order: 2000

@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Imaging Results — CRUD at `/api/imaging_results`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `imaging_order_id` → `GET /api/imaging_orders`, `author_id` → `GET /api/providers`
+order: 4000

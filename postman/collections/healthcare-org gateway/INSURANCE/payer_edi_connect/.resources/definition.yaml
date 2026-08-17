@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Payer Edi Connect — CRUD at `/api/payer_edi_connect`.
+
+  **FK references (fetch these first):** `payer_id` → `GET /api/payer_directory`
+order: 5000

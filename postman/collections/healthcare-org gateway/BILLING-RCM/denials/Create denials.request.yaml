@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Denials. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `claim_id` → `GET /api/claims_submission`
+url: "{{baseUrl}}/api/denials"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "claim_id": "{{claim_id}}",
+      "reason": "sample reason",
+      "reason_code": "sample reason_code"
+    }
+order: 2000

@@ -1,0 +1,3 @@
+$kind: collection
+description: Diagnosis Codes — CRUD at `/api/diagnosis_codes`.
+order: 14000

@@ -1,0 +1,21 @@
+$kind: http-request
+description: |-
+  Create a Device Alerts. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `device_id` → `GET /api/device_registry`, `patient_id` → `GET /api/patients`
+url: "{{baseUrl}}/api/device_alerts"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "device_id": "{{device_id}}",
+      "patient_id": "{{patient_id}}",
+      "alert_type": "sample alert_type",
+      "severity": "low"
+    }
+order: 2000

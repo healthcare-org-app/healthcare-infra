@@ -1,0 +1,8 @@
+$kind: http-request
+description: status='checked-in'.
+url: "{{baseUrl}}/api/appointments/{{appointment_id}}/check-in"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+order: 3000

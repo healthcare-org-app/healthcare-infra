@@ -1,0 +1,16 @@
+$kind: http-request
+description: Create a Reporting. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/reporting"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "report_type": "sample report_type",
+      "parameters": "Sample parameters"
+    }
+order: 2000

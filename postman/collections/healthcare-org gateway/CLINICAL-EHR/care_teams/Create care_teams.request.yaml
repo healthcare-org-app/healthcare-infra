@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Care Teams. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`
+url: "{{baseUrl}}/api/care_teams"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "provider_id": "{{provider_id}}",
+      "role": "sample role"
+    }
+order: 2000

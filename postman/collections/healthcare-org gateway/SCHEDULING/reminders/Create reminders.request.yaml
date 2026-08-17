@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Reminders. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `appointment_id` → `GET /api/appointments`
+url: "{{baseUrl}}/api/reminders"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "appointment_id": "{{appointment_id}}",
+      "channel": "email"
+    }
+order: 2000

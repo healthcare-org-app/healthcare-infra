@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Equipment — CRUD at `/api/equipment`.
+
+  **FK references (fetch these first):** `facility_id` → `GET /api/facilities`
+order: 3000

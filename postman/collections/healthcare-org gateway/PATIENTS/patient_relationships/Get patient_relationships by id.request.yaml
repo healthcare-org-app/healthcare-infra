@@ -1,0 +1,8 @@
+$kind: http-request
+description: Get a single Patient Relationships by numeric id.
+url: "{{baseUrl}}/api/patient_relationships/1"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+order: 3000

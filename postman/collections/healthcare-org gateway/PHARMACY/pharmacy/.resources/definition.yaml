@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Pharmacy — CRUD at `/api/pharmacy`.
+
+  **FK references (fetch these first):** `prescription_id` → `GET /api/prescriptions`
+order: 1000

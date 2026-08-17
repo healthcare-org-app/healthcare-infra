@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Device Registry — CRUD at `/api/device_registry`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`
+order: 1000

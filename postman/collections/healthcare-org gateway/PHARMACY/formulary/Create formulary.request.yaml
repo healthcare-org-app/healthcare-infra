@@ -1,0 +1,16 @@
+$kind: http-request
+description: Create a Formulary. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/formulary"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "drug": "sample drug",
+      "tier": "1"
+    }
+order: 2000

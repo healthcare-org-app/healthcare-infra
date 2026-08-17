@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Eligibility — CRUD at `/api/eligibility`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `payer_id` → `GET /api/payer_directory`
+order: 1000

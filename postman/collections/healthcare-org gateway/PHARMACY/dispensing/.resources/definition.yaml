@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Dispensing — CRUD at `/api/dispensing`.
+
+  **FK references (fetch these first):** `prescription_id` → `GET /api/prescriptions`, `dispensed_by` → `GET /api/providers`
+order: 7000

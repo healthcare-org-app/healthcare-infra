@@ -1,0 +1,10 @@
+$kind: http-request
+description: List first 10 Room Booking rows.
+url: "{{baseUrl}}/api/room_booking?limit=10"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+queryParams:
+  limit: "10"
+order: 1000

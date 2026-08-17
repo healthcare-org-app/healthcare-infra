@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Cpoe — CRUD at `/api/cpoe`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`
+order: 9000

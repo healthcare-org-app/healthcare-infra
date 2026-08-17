@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Device Alerts — CRUD at `/api/device_alerts`.
+
+  **FK references (fetch these first):** `device_id` → `GET /api/device_registry`, `patient_id` → `GET /api/patients`
+order: 2000

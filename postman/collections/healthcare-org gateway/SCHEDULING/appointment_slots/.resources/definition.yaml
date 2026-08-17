@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Appointment Slots — CRUD at `/api/appointment_slots`.
+
+  **FK references (fetch these first):** `provider_id` → `GET /api/providers`, `facility_id` → `GET /api/facilities`
+order: 2000

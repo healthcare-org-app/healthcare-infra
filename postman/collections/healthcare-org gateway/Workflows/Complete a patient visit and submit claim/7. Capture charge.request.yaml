@@ -1,0 +1,19 @@
+$kind: http-request
+description: Records the billable work done at the encounter.
+url: "{{baseUrl}}/api/charge_capture"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "encounter_id": "{{encounter_id}}",
+      "provider_id": "{{provider_id}}",
+      "cpt_code": "99213",
+      "amount": 200
+    }
+order: 7000

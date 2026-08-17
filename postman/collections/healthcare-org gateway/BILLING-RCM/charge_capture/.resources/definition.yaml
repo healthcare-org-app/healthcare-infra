@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Charge Capture — CRUD at `/api/charge_capture`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`, `provider_id` → `GET /api/providers`
+order: 2000

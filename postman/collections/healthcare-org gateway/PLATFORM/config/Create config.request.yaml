@@ -1,0 +1,17 @@
+$kind: http-request
+description: Create a Config. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/config"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "key": "sample key",
+      "value": "sample value",
+      "description": "sample description"
+    }
+order: 2000

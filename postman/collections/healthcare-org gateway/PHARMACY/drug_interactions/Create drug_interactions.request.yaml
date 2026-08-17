@@ -1,0 +1,17 @@
+$kind: http-request
+description: Create a Drug Interactions. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/drug_interactions"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "drug_a": "sample drug_a",
+      "drug_b": "sample drug_b",
+      "severity": "low"
+    }
+order: 2000

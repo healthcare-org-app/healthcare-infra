@@ -1,0 +1,18 @@
+$kind: http-request
+description: Create a Audit Log. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/audit_log"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "actor": "sample actor",
+      "action": "sample action",
+      "target": "sample target",
+      "notes": "Sample notes"
+    }
+order: 2000

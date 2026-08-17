@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Wards Beds — CRUD at `/api/wards_beds`.
+
+  **FK references (fetch these first):** `facility_id` → `GET /api/facilities`
+order: 2000

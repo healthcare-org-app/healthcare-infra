@@ -1,0 +1,17 @@
+$kind: http-request
+description: Create a Sterile Supply. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/sterile_supply"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "item": "sample item",
+      "vendor_id": "sample vendor_id",
+      "quantity": 0
+    }
+order: 2000

@@ -1,0 +1,8 @@
+$kind: http-request
+description: Get a single Med Reconciliation by numeric id.
+url: "{{baseUrl}}/api/med_reconciliation/1"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+order: 3000

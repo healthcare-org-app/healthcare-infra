@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Maintenance. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `equipment_id` → `GET /api/equipment`
+url: "{{baseUrl}}/api/maintenance"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "equipment_id": "{{equipment_id}}",
+      "scheduled_at": "2026-01-15",
+      "description": "sample description"
+    }
+order: 2000

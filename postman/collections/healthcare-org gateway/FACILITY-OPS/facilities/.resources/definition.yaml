@@ -1,0 +1,3 @@
+$kind: collection
+description: Facilities — CRUD at `/api/facilities`.
+order: 1000

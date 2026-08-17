@@ -1,0 +1,3 @@
+$kind: collection
+description: Ml Models — CRUD at `/api/ml_models`.
+order: 5000

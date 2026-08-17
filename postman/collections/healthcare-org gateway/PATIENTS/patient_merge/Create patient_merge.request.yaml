@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Patient Merge. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `source_patient_id` → `GET /api/patients`, `target_patient_id` → `GET /api/patients`
+url: "{{baseUrl}}/api/patient_merge"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "source_patient_id": "{{source_patient_id}}",
+      "target_patient_id": "{{target_patient_id}}",
+      "reason": "Sample reason"
+    }
+order: 2000

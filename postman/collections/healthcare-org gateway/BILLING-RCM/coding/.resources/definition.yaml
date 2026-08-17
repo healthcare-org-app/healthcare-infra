@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Coding — CRUD at `/api/coding`.
+
+  **FK references (fetch these first):** `encounter_id` → `GET /api/encounters`
+order: 3000

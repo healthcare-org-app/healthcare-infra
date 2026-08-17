@@ -1,0 +1,17 @@
+$kind: http-request
+description: Create a Authorization. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/authorization_records"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "principal": "sample principal",
+      "scope": "sample scope",
+      "grant_type": "read"
+    }
+order: 2000

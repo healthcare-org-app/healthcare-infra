@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Pathology — CRUD at `/api/pathology`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `specimen_id` → `GET /api/specimen_tracking`, `author_id` → `GET /api/providers`
+order: 5000

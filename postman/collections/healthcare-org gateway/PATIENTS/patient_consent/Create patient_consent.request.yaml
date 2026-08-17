@@ -1,0 +1,21 @@
+$kind: http-request
+description: |-
+  Create a Patient Consent. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`
+url: "{{baseUrl}}/api/patient_consent"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "consent_type": "hipaa",
+      "granted": "true",
+      "notes": "Sample notes"
+    }
+order: 2000

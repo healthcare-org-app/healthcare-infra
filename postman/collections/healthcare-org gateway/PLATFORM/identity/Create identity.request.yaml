@@ -1,0 +1,17 @@
+$kind: http-request
+description: Create a Identity. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/identity"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "email": "sample email",
+      "name": "sample name",
+      "role": "patient"
+    }
+order: 2000

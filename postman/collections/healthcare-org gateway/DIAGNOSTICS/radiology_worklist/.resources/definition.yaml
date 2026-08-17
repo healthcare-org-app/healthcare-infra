@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Radiology Worklist — CRUD at `/api/radiology_worklist`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `imaging_order_id` → `GET /api/imaging_orders`, `provider_id` → `GET /api/providers`
+order: 6000

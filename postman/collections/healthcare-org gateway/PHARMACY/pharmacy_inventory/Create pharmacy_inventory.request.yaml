@@ -1,0 +1,17 @@
+$kind: http-request
+description: Create a Pharmacy Inventory. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/pharmacy_inventory"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "drug": "sample drug",
+      "quantity": 0,
+      "lot_number": "sample lot_number"
+    }
+order: 2000

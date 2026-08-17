@@ -1,0 +1,3 @@
+$kind: collection
+description: Feature Flags — CRUD at `/api/feature_flags`.
+order: 7000

@@ -1,0 +1,3 @@
+$kind: collection
+description: Drug Interactions — CRUD at `/api/drug_interactions`.
+order: 4000

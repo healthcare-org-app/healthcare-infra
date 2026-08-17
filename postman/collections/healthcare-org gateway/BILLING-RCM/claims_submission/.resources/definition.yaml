@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Claims Submission — CRUD at `/api/claims_submission`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`, `payer_id` → `GET /api/payer_directory`, `prescription_id` → `GET /api/prescriptions`, `lab_order_id` → `GET /api/lab_orders`, `imaging_order_id` → `GET /api/imaging_orders`
+order: 4000

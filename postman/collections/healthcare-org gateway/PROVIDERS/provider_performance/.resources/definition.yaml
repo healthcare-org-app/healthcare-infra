@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Provider Performance — CRUD at `/api/provider_performance`.
+
+  **FK references (fetch these first):** `provider_id` → `GET /api/providers`
+order: 8000

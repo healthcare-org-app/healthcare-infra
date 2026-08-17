@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Discharge Summary — CRUD at `/api/discharge_summary`.
+
+  **FK references (fetch these first):** `encounter_id` → `GET /api/encounters`, `patient_id` → `GET /api/patients`, `author_id` → `GET /api/providers`
+order: 12000

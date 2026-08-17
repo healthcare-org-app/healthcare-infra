@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Med Reconciliation — CRUD at `/api/med_reconciliation`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`
+order: 5000

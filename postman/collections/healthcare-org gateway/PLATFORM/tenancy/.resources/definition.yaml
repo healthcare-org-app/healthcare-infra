@@ -1,0 +1,3 @@
+$kind: collection
+description: Tenancy — CRUD at `/api/tenancy`.
+order: 8000

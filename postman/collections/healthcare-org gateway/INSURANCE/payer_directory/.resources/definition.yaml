@@ -1,0 +1,3 @@
+$kind: collection
+description: Payer Directory — CRUD at `/api/payer_directory`.
+order: 4000

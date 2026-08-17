@@ -1,0 +1,20 @@
+$kind: http-request
+description: Save the imaging_order id → {{imaging_order_id}}.
+url: "{{baseUrl}}/api/imaging_orders"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "ordered_by": "{{provider_id}}",
+      "encounter_id": "{{encounter_id}}",
+      "modality": "xray",
+      "body_part": "Chest",
+      "priority": "routine"
+    }
+order: 6000

@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Patient Merge — CRUD at `/api/patient_merge`.
+
+  **FK references (fetch these first):** `source_patient_id` → `GET /api/patients`, `target_patient_id` → `GET /api/patients`
+order: 8000

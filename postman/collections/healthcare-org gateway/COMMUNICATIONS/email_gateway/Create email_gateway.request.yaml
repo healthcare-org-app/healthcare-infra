@@ -1,0 +1,17 @@
+$kind: http-request
+description: Create a Email Gateway. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/email_gateway"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "to": "sample to",
+      "subject": "sample subject",
+      "body": "Sample body"
+    }
+order: 2000

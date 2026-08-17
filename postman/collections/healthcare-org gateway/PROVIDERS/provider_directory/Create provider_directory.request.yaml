@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Provider Directory. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `provider_id` → `GET /api/providers`
+url: "{{baseUrl}}/api/provider_directory"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "provider_id": "{{provider_id}}",
+      "location": "sample location",
+      "phone": "sample phone"
+    }
+order: 2000

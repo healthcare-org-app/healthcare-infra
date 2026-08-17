@@ -1,0 +1,3 @@
+$kind: collection
+description: Formulary — CRUD at `/api/formulary`.
+order: 5000

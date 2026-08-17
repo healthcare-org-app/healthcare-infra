@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Provider Schedule — CRUD at `/api/provider_schedule`.
+
+  **FK references (fetch these first):** `provider_id` → `GET /api/providers`
+order: 5000

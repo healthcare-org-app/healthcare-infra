@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Coding. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `encounter_id` → `GET /api/encounters`
+url: "{{baseUrl}}/api/coding"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "encounter_id": "{{encounter_id}}",
+      "icd10": "sample icd10",
+      "cpt": "sample cpt"
+    }
+order: 2000

@@ -1,0 +1,3 @@
+$kind: collection
+description: Analytics Events — CRUD at `/api/analytics_events`.
+order: 3000

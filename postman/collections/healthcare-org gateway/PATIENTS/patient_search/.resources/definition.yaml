@@ -1,0 +1,3 @@
+$kind: collection
+description: Patient Search — CRUD at `/api/patient_search`.
+order: 7000

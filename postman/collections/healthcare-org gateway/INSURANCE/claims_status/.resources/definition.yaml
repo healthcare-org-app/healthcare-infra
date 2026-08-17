@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Claims Status — CRUD at `/api/claims_status`.
+
+  **FK references (fetch these first):** `claim_id` → `GET /api/claims_submission`
+order: 6000

@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Ehr — CRUD at `/api/ehr`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`
+order: 1000

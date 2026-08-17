@@ -1,0 +1,3 @@
+$kind: collection
+description: Secrets Vault — CRUD at `/api/secrets_vault`.
+order: 5000

@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Care Teams — CRUD at `/api/care_teams`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`
+order: 15000

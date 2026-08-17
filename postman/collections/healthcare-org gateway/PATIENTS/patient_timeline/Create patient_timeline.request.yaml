@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Patient Timeline. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`
+url: "{{baseUrl}}/api/patient_timeline"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "event_type": "sample event_type",
+      "description": "Sample description"
+    }
+order: 2000

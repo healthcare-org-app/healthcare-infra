@@ -1,0 +1,23 @@
+$kind: http-request
+description: |-
+  Create a Imaging Orders. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `ordered_by` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`
+url: "{{baseUrl}}/api/imaging_orders"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "ordered_by": "{{ordered_by}}",
+      "encounter_id": "{{encounter_id}}",
+      "modality": "xray",
+      "body_part": "sample body_part",
+      "priority": "routine"
+    }
+order: 2000

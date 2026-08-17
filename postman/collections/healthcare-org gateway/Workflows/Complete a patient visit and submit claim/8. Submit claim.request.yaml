@@ -1,0 +1,23 @@
+$kind: http-request
+description: "Claim references the full encounter graph: patient, rendering provider, visit, payer, and every clinical activity attached to it."
+url: "{{baseUrl}}/api/claims_submission"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "submitted",
+      "patient_id": "{{patient_id}}",
+      "provider_id": "{{provider_id}}",
+      "encounter_id": "{{encounter_id}}",
+      "payer_id": "{{payer_id}}",
+      "prescription_id": "{{prescription_id}}",
+      "lab_order_id": "{{lab_order_id}}",
+      "imaging_order_id": "{{imaging_order_id}}",
+      "diagnosis_codes": "Z00.00",
+      "amount": 500
+    }
+order: 8000

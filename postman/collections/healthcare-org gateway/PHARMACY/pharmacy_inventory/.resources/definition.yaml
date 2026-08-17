@@ -1,0 +1,3 @@
+$kind: collection
+description: Pharmacy Inventory — CRUD at `/api/pharmacy_inventory`.
+order: 6000

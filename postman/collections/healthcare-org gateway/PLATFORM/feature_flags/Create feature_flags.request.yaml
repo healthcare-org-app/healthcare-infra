@@ -1,0 +1,17 @@
+$kind: http-request
+description: Create a Feature Flags. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/feature_flags"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "name": "sample name",
+      "enabled": "true",
+      "description": "sample description"
+    }
+order: 2000

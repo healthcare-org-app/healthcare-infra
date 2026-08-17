@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Remote Monitoring — CRUD at `/api/remote_monitoring`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `device_id` → `GET /api/device_registry`
+order: 4000

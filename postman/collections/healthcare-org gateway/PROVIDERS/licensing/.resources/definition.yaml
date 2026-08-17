@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Licensing — CRUD at `/api/licensing`.
+
+  **FK references (fetch these first):** `provider_id` → `GET /api/providers`
+order: 3000

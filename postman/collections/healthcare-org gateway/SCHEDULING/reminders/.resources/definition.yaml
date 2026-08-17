@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Reminders — CRUD at `/api/reminders`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `appointment_id` → `GET /api/appointments`
+order: 3000

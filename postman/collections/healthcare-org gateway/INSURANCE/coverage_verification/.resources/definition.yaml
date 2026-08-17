@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Coverage Verification — CRUD at `/api/coverage_verification`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `payer_id` → `GET /api/payer_directory`
+order: 3000

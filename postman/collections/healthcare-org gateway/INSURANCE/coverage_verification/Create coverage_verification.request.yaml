@@ -1,0 +1,19 @@
+$kind: http-request
+description: |-
+  Create a Coverage Verification. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `payer_id` → `GET /api/payer_directory`
+url: "{{baseUrl}}/api/coverage_verification"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "payer_id": "{{payer_id}}"
+    }
+order: 2000

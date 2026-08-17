@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Prior Auth — CRUD at `/api/prior_auth`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`, `payer_id` → `GET /api/payer_directory`
+order: 2000

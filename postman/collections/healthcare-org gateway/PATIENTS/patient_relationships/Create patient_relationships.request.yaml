@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Patient Relationships. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `related_to` → `GET /api/patients`
+url: "{{baseUrl}}/api/patient_relationships"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "related_to": "{{related_to}}",
+      "relationship": "spouse"
+    }
+order: 2000

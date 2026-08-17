@@ -1,0 +1,20 @@
+$kind: http-request
+description: Create a Patients. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/patients"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "first_name": "sample first_name",
+      "last_name": "sample last_name",
+      "dob": "2026-01-15",
+      "mrn": "sample mrn",
+      "email": "sample email",
+      "phone": "sample phone"
+    }
+order: 2000

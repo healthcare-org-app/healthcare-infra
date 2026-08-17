@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Patient Preferences. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`
+url: "{{baseUrl}}/api/patient_preferences"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "key": "sample key",
+      "value": "sample value"
+    }
+order: 2000

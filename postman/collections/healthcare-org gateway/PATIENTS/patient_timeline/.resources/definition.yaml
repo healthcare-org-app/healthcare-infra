@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Patient Timeline — CRUD at `/api/patient_timeline`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`
+order: 6000

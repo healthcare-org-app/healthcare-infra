@@ -1,0 +1,8 @@
+$kind: http-request
+description: Get a single Reference Ranges by numeric id.
+url: "{{baseUrl}}/api/reference_ranges/1"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+order: 3000

@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Collections. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `invoice_id` → `GET /api/invoicing`
+url: "{{baseUrl}}/api/collections"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "invoice_id": "{{invoice_id}}",
+      "amount": 0
+    }
+order: 2000

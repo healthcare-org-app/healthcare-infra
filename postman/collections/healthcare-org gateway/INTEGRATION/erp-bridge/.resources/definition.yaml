@@ -1,0 +1,3 @@
+$kind: collection
+description: Erp Bridge — CRUD at `/api/erp-bridge`.
+order: 1000

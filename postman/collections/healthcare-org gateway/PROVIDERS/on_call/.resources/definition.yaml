@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  On Call — CRUD at `/api/on_call`.
+
+  **FK references (fetch these first):** `provider_id` → `GET /api/providers`
+order: 6000

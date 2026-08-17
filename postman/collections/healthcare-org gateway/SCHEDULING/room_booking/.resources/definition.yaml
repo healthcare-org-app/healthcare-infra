@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Room Booking — CRUD at `/api/room_booking`.
+
+  **FK references (fetch these first):** `facility_id` → `GET /api/facilities`, `appointment_id` → `GET /api/appointments`, `provider_id` → `GET /api/providers`
+order: 5000

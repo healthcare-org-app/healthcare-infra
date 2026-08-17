@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Referrals — CRUD at `/api/referrals`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `referring_provider_id` → `GET /api/providers`, `referred_to_provider_id` → `GET /api/providers`
+order: 11000

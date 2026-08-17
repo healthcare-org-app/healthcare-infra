@@ -1,0 +1,8 @@
+$kind: http-request
+description: Inserts refills row.
+url: "{{baseUrl}}/api/prescriptions/{{prescription_id}}/refill"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+order: 4000

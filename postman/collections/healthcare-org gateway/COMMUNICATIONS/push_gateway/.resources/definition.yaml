@@ -1,0 +1,3 @@
+$kind: collection
+description: Push Gateway — CRUD at `/api/push_gateway`.
+order: 3000

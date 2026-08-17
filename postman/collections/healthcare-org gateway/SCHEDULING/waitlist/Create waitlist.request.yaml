@@ -1,0 +1,19 @@
+$kind: http-request
+description: |-
+  Create a Waitlist. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `appointment_id` → `GET /api/appointments`
+url: "{{baseUrl}}/api/waitlist"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "appointment_id": "{{appointment_id}}"
+    }
+order: 2000

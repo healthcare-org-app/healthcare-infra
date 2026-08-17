@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Patient Communications. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`
+url: "{{baseUrl}}/api/patient_communications"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "channel": "email",
+      "message": "Sample message"
+    }
+order: 2000

@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Immunizations — CRUD at `/api/immunizations`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `administered_by` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`
+order: 7000

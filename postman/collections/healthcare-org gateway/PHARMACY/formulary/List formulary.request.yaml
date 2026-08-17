@@ -1,0 +1,10 @@
+$kind: http-request
+description: List first 10 Formulary rows.
+url: "{{baseUrl}}/api/formulary?limit=10"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+queryParams:
+  limit: "10"
+order: 1000

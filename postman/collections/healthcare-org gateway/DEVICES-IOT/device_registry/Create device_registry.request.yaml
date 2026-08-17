@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Device Registry. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`
+url: "{{baseUrl}}/api/device_registry"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "device_type": "sample device_type",
+      "serial_number": "sample serial_number"
+    }
+order: 2000

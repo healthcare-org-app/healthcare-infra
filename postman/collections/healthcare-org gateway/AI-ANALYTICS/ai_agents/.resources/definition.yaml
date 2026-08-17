@@ -1,0 +1,3 @@
+$kind: collection
+description: Ai Agents — CRUD at `/api/ai_agents`.
+order: 1000

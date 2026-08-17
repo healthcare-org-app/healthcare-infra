@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Clinical Notes — CRUD at `/api/clinical_notes`.
+
+  **FK references (fetch these first):** `encounter_id` → `GET /api/encounters`, `author_id` → `GET /api/providers`
+order: 3000

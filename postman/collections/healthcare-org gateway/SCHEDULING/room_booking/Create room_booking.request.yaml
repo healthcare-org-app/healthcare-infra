@@ -1,0 +1,23 @@
+$kind: http-request
+description: |-
+  Create a Room Booking. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `facility_id` → `GET /api/facilities`, `appointment_id` → `GET /api/appointments`, `provider_id` → `GET /api/providers`
+url: "{{baseUrl}}/api/room_booking"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "facility_id": "{{facility_id}}",
+      "appointment_id": "{{appointment_id}}",
+      "provider_id": "{{provider_id}}",
+      "room_name": "sample room_name",
+      "starts_at": "2026-01-15T09:00:00Z",
+      "ends_at": "2026-01-15T09:00:00Z"
+    }
+order: 2000

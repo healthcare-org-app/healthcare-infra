@@ -1,0 +1,18 @@
+$kind: http-request
+description: Create a Reference Ranges. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/reference_ranges"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "test_code": "sample test_code",
+      "low": 0,
+      "high": 0,
+      "unit": "sample unit"
+    }
+order: 2000

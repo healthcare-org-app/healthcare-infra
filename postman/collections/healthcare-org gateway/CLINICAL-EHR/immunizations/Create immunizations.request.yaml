@@ -1,0 +1,23 @@
+$kind: http-request
+description: |-
+  Create a Immunizations. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `administered_by` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`
+url: "{{baseUrl}}/api/immunizations"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "administered_by": "{{administered_by}}",
+      "encounter_id": "{{encounter_id}}",
+      "vaccine": "sample vaccine",
+      "administered_at": "2026-01-15",
+      "lot_number": "sample lot_number"
+    }
+order: 2000

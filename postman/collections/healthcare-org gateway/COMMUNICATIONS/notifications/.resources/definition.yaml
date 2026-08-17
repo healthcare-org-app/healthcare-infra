@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Notifications — CRUD at `/api/notifications`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`
+order: 1000

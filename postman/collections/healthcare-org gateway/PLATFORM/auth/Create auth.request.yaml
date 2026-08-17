@@ -1,0 +1,16 @@
+$kind: http-request
+description: Create a Auth. Body fields mirror `services.ts` createFields.
+url: "{{baseUrl}}/api/auth"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "email": "sample email",
+      "session_type": "web"
+    }
+order: 2000

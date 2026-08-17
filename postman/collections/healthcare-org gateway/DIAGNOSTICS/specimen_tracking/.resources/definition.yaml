@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Specimen Tracking — CRUD at `/api/specimen_tracking`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `lab_order_id` → `GET /api/lab_orders`
+order: 7000

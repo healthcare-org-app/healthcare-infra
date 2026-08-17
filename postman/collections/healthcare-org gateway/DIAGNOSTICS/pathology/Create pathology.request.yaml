@@ -1,0 +1,21 @@
+$kind: http-request
+description: |-
+  Create a Pathology. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `specimen_id` → `GET /api/specimen_tracking`, `author_id` → `GET /api/providers`
+url: "{{baseUrl}}/api/pathology"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "specimen_id": "{{specimen_id}}",
+      "author_id": "{{author_id}}",
+      "findings": "Sample findings"
+    }
+order: 2000

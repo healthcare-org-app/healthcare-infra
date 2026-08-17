@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Lab Orders — CRUD at `/api/lab_orders`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `ordered_by` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`
+order: 1000

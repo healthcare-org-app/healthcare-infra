@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Patient Consent — CRUD at `/api/patient_consent`.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`
+order: 3000

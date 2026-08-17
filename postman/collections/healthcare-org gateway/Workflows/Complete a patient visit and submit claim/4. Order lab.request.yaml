@@ -1,0 +1,19 @@
+$kind: http-request
+description: Lab order references the encounter so billing can roll it up.
+url: "{{baseUrl}}/api/lab_orders"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "ordered_by": "{{provider_id}}",
+      "encounter_id": "{{encounter_id}}",
+      "test_code": "CBC",
+      "priority": "routine"
+    }
+order: 4000

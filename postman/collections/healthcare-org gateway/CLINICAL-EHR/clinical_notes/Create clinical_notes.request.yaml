@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Clinical Notes. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `encounter_id` → `GET /api/encounters`, `author_id` → `GET /api/providers`
+url: "{{baseUrl}}/api/clinical_notes"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "encounter_id": "{{encounter_id}}",
+      "author_id": "{{author_id}}",
+      "body": "Sample body"
+    }
+order: 2000

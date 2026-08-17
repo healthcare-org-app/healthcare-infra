@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a Ai Invocations. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `agent_id` → `GET /api/ai_agents`, `patient_id` → `GET /api/patients`
+url: "{{baseUrl}}/api/ai_invocations"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "agent_id": "{{agent_id}}",
+      "patient_id": "{{patient_id}}",
+      "input": "Sample input"
+    }
+order: 2000

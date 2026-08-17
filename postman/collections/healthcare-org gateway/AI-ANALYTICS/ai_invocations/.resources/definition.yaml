@@ -1,0 +1,6 @@
+$kind: collection
+description: |-
+  Ai Invocations — CRUD at `/api/ai_invocations`.
+
+  **FK references (fetch these first):** `agent_id` → `GET /api/ai_agents`, `patient_id` → `GET /api/patients`
+order: 2000

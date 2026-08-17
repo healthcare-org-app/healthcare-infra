@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Create a On Call. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `provider_id` → `GET /api/providers`
+url: "{{baseUrl}}/api/on_call"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "provider_id": "{{provider_id}}",
+      "starts_at": "2026-01-15T09:00:00Z",
+      "ends_at": "2026-01-15T09:00:00Z"
+    }
+order: 2000
