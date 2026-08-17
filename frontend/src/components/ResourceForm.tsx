@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { Plus } from "lucide-react";
 import {
   FK_TARGETS,
   serviceByName,
@@ -178,22 +180,49 @@ function RefSelect({
     );
   }
 
+  const items = q.data?.items ?? [];
+  const isEmpty = !q.isPending && items.length === 0;
+
   return (
-    <select
-      className="input"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      required={hint.required}
-      disabled={q.isPending}
-    >
-      <option value="">
-        {q.isPending ? "Loading…" : `Select a ${singular}…`}
-      </option>
-      {(q.data?.items ?? []).map((row) => (
-        <option key={row.id} value={String(row.id)}>
-          {formatRefLabel(targetName!, row)}
-        </option>
-      ))}
-    </select>
+    <div className="space-y-1">
+      <div className="flex items-center gap-2">
+        <select
+          className="input flex-1"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          required={hint.required}
+          disabled={q.isPending || isEmpty}
+        >
+          <option value="">
+            {q.isPending
+              ? "Loading…"
+              : isEmpty
+                ? `No ${target.displayName.toLowerCase()} yet`
+                : `Select a ${singular}…`}
+          </option>
+          {items.map((row) => (
+            <option key={row.id} value={String(row.id)}>
+              {formatRefLabel(targetName!, row)}
+            </option>
+          ))}
+        </select>
+        <Link
+          to={`/service/${target.name}`}
+          className="btn btn-secondary shrink-0"
+          title={`Create a new ${singular} in ${target.displayName}`}
+        >
+          <Plus className="w-4 h-4" />
+          New {singular}
+        </Link>
+      </div>
+      {isEmpty && (
+        <div className="text-xs text-ink-500">
+          No {target.displayName.toLowerCase()} exist yet.{" "}
+          <Link to={`/service/${target.name}`} className="text-brand-700 hover:underline">
+            Create one first →
+          </Link>
+        </div>
+      )}
+    </div>
   );
 }
