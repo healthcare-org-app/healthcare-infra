@@ -109,7 +109,7 @@ No Kafka, no per-service containers, no Consul — the original 101-service flee
   └── .env.example             # VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY
   ```
 
-- **Vercel project**: `taliakohan-3558s-projects/myhealthcare`. Deploys from the linked GitHub repo (`healthcare-org-app/healthcare-infra`) or via `vercel --prod` from `frontend/`.
+- **Vercel project**: `taliakohan-3558s-projects/myhealthcare`, linked to `healthcare-org-app/healthcare-infra` with **Root Directory = `frontend`**. Every push to `main` auto-deploys to production and aliases `myhealthcare.dev`. Every push to a feature branch produces a preview at `myhealthcare-git-<branch>-taliakohan-3558s-projects.vercel.app` (behind Vercel Deployment Protection); Vercel's GitHub app posts that URL on PRs. `npx vercel deploy [--prod]` from `frontend/` still works as a fallback for out-of-band deploys. Rollback via `npx vercel rollback <dpl-url>` or **Deployments → Promote to Production** in the dashboard.
 
 - **Env vars set on Vercel** (Project Settings → Environment Variables — apply to Preview + Production):
   | Key | Used by | Purpose |
@@ -267,11 +267,11 @@ Whether you run `vite dev` or `vercel dev`, you're hitting the same Supabase pro
 - Deleting a row in dev deletes it for the live site.
 - If that's a problem, create a second Supabase project for a "dev" env and put its URL/keys in `.env.local`.
 
-`npm run build` compiles the SPA into `frontend/dist/`; `tsc -b` runs first and type-checks both `src/` and `api/`. Vercel does the full build on every push to the linked repo, or on `vercel deploy --prod`.
+`npm run build` compiles the SPA into `frontend/dist/`; `tsc -b` runs first and type-checks both `src/` and `api/`. In prod Vercel runs the same build on every push to the linked repo — preview deploys for feature branches, production deploys for `main`. `npx vercel deploy [--prod]` from `frontend/` is available as a fallback if you need an out-of-band deploy without a git push.
 
 ## Making changes
 
-**Change a form field on an existing service.** Edit `frontend/src/services.ts` — find the service's `createFields` array and add/reorder. Refresh; Vite HMR picks it up. Deploy with `vercel --prod`.
+**Change a form field on an existing service.** Edit `frontend/src/services.ts` — find the service's `createFields` array and add/reorder. Refresh; Vite HMR picks it up. Push to `main` — Vercel auto-deploys.
 
 **Add a new service.**
 1. Add an entry to `SERVICES` in `frontend/src/services.ts` with a `createFields` array.
@@ -297,13 +297,13 @@ python3 tools/generate_supabase_schema.py    # writes supabase-schema.sql
 
 Then paste the new tables' DDL into the Supabase SQL Editor.
 
-**Expose a new resource through the gateway.** Add a `{ url, table, domain }` entry to `RESOURCES` in `frontend/api/_lib/registry.ts`. That's it — the dynamic `[resource]/index.ts` and `[resource]/[id].ts` handlers pick it up automatically. Redeploy with `vercel deploy --prod`.
+**Expose a new resource through the gateway.** Add a `{ url, table, domain }` entry to `RESOURCES` in `frontend/api/_lib/registry.ts`. That's it — the dynamic `[resource]/index.ts` and `[resource]/[id].ts` handlers pick it up automatically. Push to `main` and Vercel auto-deploys.
 
 **Add a new gateway custom action.**
 1. Create a handler at `frontend/api/<resource>/[id]/<action>.ts` (or `frontend/api/<resource>/<action>.ts` for a bulk action).
 2. Copy the shape from an existing action (e.g. `appointments/[id]/cancel.ts`): `withCors(handler)`, `requireApiKey(req)`, resolve id, run the Supabase mutation, `mergeRow` the response.
 3. Add a request to `postman/collections/gateway.postman_collection.json` under the **Custom Actions** folder so external callers can discover it.
-4. Redeploy. Vercel's file router prefers your static path over the dynamic `[id].ts` catch-all, so no route conflict.
+4. Push to `main` — Vercel auto-deploys. Vercel's file router prefers your static path over the dynamic `[id].ts` catch-all, so no route conflict.
 
 **Rotate the gateway API key.** Regenerate with `openssl rand -hex 32`, update `GATEWAY_API_KEY` in Vercel (Preview + Production), redeploy, then update every caller (Postman env, external integrations). Because it's a single shared secret, rotation is a coordinated cutover.
 
