@@ -2,9 +2,12 @@
 
 A production-shaped healthcare admin platform. **Live at https://myhealthcare.dev.**
 
-The frontend is a React SPA on **Vercel**. The backend is a **Supabase** project — Postgres + PostgREST + row-level-security policies. There is no server-side code to deploy: PostgREST auto-generates a REST API from the Postgres schema, and the SPA talks to it directly.
+Three moving pieces:
+- **React SPA on Vercel** — the UI. Talks to Supabase directly via supabase-js.
+- **Supabase project** — managed Postgres 16 + PostgREST + RLS. 94 tables.
+- **Public API gateway** — 10 Vercel Functions in the same Vercel project. Serves `/api/*` for external callers (agents, Postman, integrations). Backed by the same Supabase DB via the service-role key.
 
-This repo (`healthcare-infra`) is the meta repo: it holds the SQL migrations, the deployment blueprint archive, and this documentation. The service catalog, event topology, and the 101 microservice scaffolds still exist as **historical artifacts** — see [Original microservices architecture](#original-microservices-architecture) at the bottom.
+This repo (`healthcare-infra`) is the meta repo: it holds the SQL migrations, the gateway source, the Postman collection, and this documentation. The 101 microservice scaffolds under `services/` still exist as **historical artifacts** — see [Original microservices architecture](#original-microservices-architecture) at the bottom.
 
 ---
 
@@ -15,6 +18,7 @@ This repo (`healthcare-infra`) is the meta repo: it holds the SQL migrations, th
 - [Frontend (Vercel)](#frontend-vercel)
 - [Backend (Supabase)](#backend-supabase)
 - [How the frontend talks to the backend](#how-the-frontend-talks-to-the-backend)
+- [Public API gateway](#public-api-gateway)
 - [Domain + DNS](#domain--dns)
 - [Local development](#local-development)
 - [Making changes](#making-changes)
@@ -27,67 +31,96 @@ This repo (`healthcare-infra`) is the meta repo: it holds the SQL migrations, th
 | Piece | Where | What |
 |---|---|---|
 | **Frontend** | Vercel | React 18 + Vite + TS + Tailwind SPA at [myhealthcare.dev](https://myhealthcare.dev) |
+| **Public API** | Vercel Functions | 10 handlers under `frontend/api/`. Serves `/api/*` for external callers |
 | **Database** | Supabase | Managed Postgres 16, 94 tables auto-exposed as REST |
-| **API** | Supabase (PostgREST) | Auto-generated REST from the schema — no hand-written endpoints |
-| **Auth** | none (demo) | Permissive RLS policies let the anon key CRUD everything |
-| **Events** | Postgres LISTEN/NOTIFY (unused in the SPA) | Wired into the runtime library but not exercised by the current SPA |
+| **SPA → DB** | Supabase PostgREST | SPA hits Supabase directly with anon key + user JWT (RLS enforced) |
+| **External → DB** | Gateway → Supabase | External callers hit gateway with bearer key; gateway uses service-role key (RLS bypassed) |
+| **Auth (SPA)** | Supabase Auth magic-link | Permissive RLS lets logged-in users CRUD everything |
+| **Auth (gateway)** | Bearer API key | Single shared `GATEWAY_API_KEY` env var; rotate to invalidate |
+| **Events** | Postgres LISTEN/NOTIFY (unused) | Wired into the historical scaffolds; not exercised today |
 | **Domain** | Vercel Domains | `myhealthcare.dev` — registered through Vercel, Vercel DNS |
-| **Cost** | ~$0/mo | Vercel Hobby free, Supabase Free tier |
+| **Cost** | ~$0/mo | Vercel Hobby free (10/12 functions used), Supabase Free tier |
 
 ## Architecture
 
 ```
-                            ┌──────────────────────┐
-     browsers ──────────▶   │  Vercel (SPA)        │  myhealthcare.dev
-                            │  React + Vite + TS   │
-                            └──────────┬───────────┘
-                                       │  HTTPS /rest/v1/<table>
-                                       │  headers: apikey + Authorization
-                                       ▼
-                            ┌──────────────────────┐
-                            │  Supabase project    │  rrfwfccgeifixabadfem.supabase.co
-                            │  ┌────────────────┐  │
-                            │  │  PostgREST     │  │   auto-generated REST API
-                            │  └────────┬───────┘  │
-                            │           │          │
-                            │  ┌────────▼───────┐  │
-                            │  │  Postgres 16   │  │   94 tables, RLS enabled
-                            │  └────────────────┘  │
-                            └──────────────────────┘
+                                     myhealthcare.dev
+                        ┌──────────────────────────────────────────┐
+                        │            Vercel project                │
+                        │                                          │
+                        │   ┌──────────────┐   ┌───────────────┐   │
+        browsers  ─────▶│   │  SPA (Vite)  │   │   /api/*      │◀──┼─── external callers
+                        │   │  React + TS  │   │  functions    │   │    (agents, Postman,
+                        │   │              │   │  frontend/api/│   │     integrations)
+                        │   └──────┬───────┘   └───────┬───────┘   │
+                        │          │                   │           │
+                        └──────────┼───────────────────┼───────────┘
+                                   │                   │
+                            /rest/v1/<table>    service-role key
+                            anon key + user JWT        │
+                                   │                   │
+                                   ▼                   ▼
+                        ┌──────────────────────────────────────────┐
+                        │        Supabase project                  │
+                        │        rrfwfccgeifixabadfem              │
+                        │  ┌────────────┐  ┌─────────────────────┐ │
+                        │  │ PostgREST  │  │  Postgres 16        │ │
+                        │  │ /rest/v1/* │──│  94 tables, RLS on  │ │
+                        │  └────────────┘  └─────────────────────┘ │
+                        └──────────────────────────────────────────┘
 ```
 
-There is no application server, no Kafka, no per-service Docker containers, no Consul. Every "service" from the original design is now a Postgres table.
+Two paths into the same tables:
+- **SPA path** (`browsers → SPA → Supabase`): anon key + user JWT; RLS enforced.
+- **Gateway path** (`external caller → /api/* → Supabase`): bearer key at the edge; service-role key at the DB; RLS bypassed.
+
+No Kafka, no per-service containers, no Consul — the original 101-service fleet was never deployed.
 
 ## Frontend (Vercel)
 
 - **Repo layout** (this monorepo, `frontend/`):
   ```
   frontend/
-  ├── src/
-  │   ├── App.tsx              # router shell
-  │   ├── main.tsx             # entrypoint
-  │   ├── api.ts               # thin supabase-js wrapper preserving the old CRUD interface
-  │   ├── supabase.ts          # createClient using env vars
-  │   ├── services.ts          # registry of all 101 services + FK map + label formatters
-  │   ├── domain-icons.ts      # lucide icons per domain
-  │   ├── components/          # Sidebar, TopBar, ResourceTable, ResourceForm, KpiTile, Logo, ResourceDetail
-  │   └── pages/               # Dashboard, DomainLanding, ServicePage, RecordDetail, PatientDetail
+  ├── src/                     # the SPA
+  │   ├── App.tsx              #   router shell
+  │   ├── main.tsx             #   entrypoint
+  │   ├── api.ts               #   thin supabase-js wrapper preserving the CRUD interface
+  │   ├── supabase.ts          #   createClient using VITE_* env vars
+  │   ├── services.ts          #   registry of all 101 services + FK map + label formatters
+  │   ├── domain-icons.ts      #   lucide icons per domain
+  │   ├── components/          #   Sidebar, TopBar, ResourceTable, ResourceForm, KpiTile, ...
+  │   └── pages/               #   Dashboard, DomainLanding, ServicePage, RecordDetail, ...
+  ├── api/                     # the gateway (Vercel Functions — see Public API gateway below)
+  │   ├── _lib/                #   private helpers (underscore hides from Vercel routing)
+  │   ├── health.ts            #   GET /api/health
+  │   ├── services.ts          #   GET /api/services  (registry discovery)
+  │   ├── [resource]/          #   dynamic CRUD for all 94 exposed resources
+  │   │   ├── index.ts         #     list + create
+  │   │   └── [id].ts          #     get + patch + delete
+  │   ├── patients/search.ts   #   custom action
+  │   ├── appointments/[id]/{cancel,check-in}.ts
+  │   ├── prescriptions/[id]/refill.ts
+  │   ├── eligibility/[id]/check.ts
+  │   └── notifications/send.ts
   ├── index.html
   ├── vite.config.ts
   ├── tailwind.config.js
-  ├── vercel.json              # SPA rewrites + asset caching
+  ├── vercel.json              # SPA rewrites + asset caching; /api/* excluded from SPA rewrite
   └── .env.example             # VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY
   ```
 
 - **Vercel project**: `taliakohan-3558s-projects/myhealthcare`. Deploys from the linked GitHub repo (`healthcare-org-app/healthcare-infra`) or via `vercel --prod` from `frontend/`.
 
-- **Env vars set on Vercel** (Project Settings → Environment Variables):
-  | Key | Purpose |
-  |---|---|
-  | `VITE_SUPABASE_URL` | `https://rrfwfccgeifixabadfem.supabase.co` |
-  | `VITE_SUPABASE_ANON_KEY` | Public anon JWT (safe to embed in the client) |
+- **Env vars set on Vercel** (Project Settings → Environment Variables — apply to Preview + Production):
+  | Key | Used by | Purpose |
+  |---|---|---|
+  | `VITE_SUPABASE_URL` | SPA build | `https://rrfwfccgeifixabadfem.supabase.co` — embedded in the client bundle |
+  | `VITE_SUPABASE_ANON_KEY` | SPA build | Public anon JWT — safe to embed |
+  | `SUPABASE_URL` | Gateway runtime | Same URL, no `VITE_` prefix so it stays server-side |
+  | `SUPABASE_SERVICE_ROLE_KEY` | Gateway runtime | Service-role secret; bypasses RLS. **Never expose client-side.** |
+  | `GATEWAY_API_KEY` | Gateway runtime | Bearer token external callers present. Generate with `openssl rand -hex 32` |
 
-- **Routing**: React Router with client-side routes. `vercel.json` rewrites all non-`/api/` paths to `/index.html` so deep links work.
+- **Routing**: React Router with client-side routes. `vercel.json` rewrites all non-`/api/` paths to `/index.html` so deep links work; `/api/*` bypasses the rewrite and hits the Vercel Functions in `api/`.
 
 - **Service registry** (`frontend/src/services.ts`) is the source of truth for what the UI shows:
   - 101 service definitions, each with `name`, `port` (historical), `domain`, `stack`, `resource` (table name), `prefix` (`/api/<resource>`), `displayName`, `hasCrud`, plus **`createFields`** — a healthcare-shaped form schema per service (patient/provider dropdowns, date pickers, priority selects, ICD-10 fields, etc.).
@@ -159,6 +192,36 @@ Two important shims live here:
 
 Auth headers (`apikey: <anon>` and `Authorization: Bearer <anon>`) are added automatically by the supabase-js client using `VITE_SUPABASE_ANON_KEY`.
 
+## Public API gateway
+
+External callers (agents, Postman collections, third-party integrations) hit the app through a thin **Vercel Functions gateway** deployed alongside the SPA in the same Vercel project. Base URL: `https://myhealthcare.dev/api/...`.
+
+```
+    external clients ──▶  myhealthcare.dev/api/*  ──▶  Vercel Functions  ──▶  Supabase PostgREST
+                          (bearer API key)              (frontend/api/)         (service role key)
+```
+
+- **Auth**: `Authorization: Bearer $GATEWAY_API_KEY` on every request. The gateway holds the Supabase **service-role** key server-side and bypasses RLS — the gateway is the trust boundary, not RLS. Missing or invalid key → 401.
+- **URL shape**: matches the `prefix` declared for each service in `frontend/src/services.ts`.
+  - `GET /api/<resource>` — list (filters as query params, `?limit=`, `?offset=`).
+  - `POST /api/<resource>` — create.
+  - `GET|PATCH|DELETE /api/<resource>/<id>` — record CRUD.
+- **Custom actions** (the six declared in `services.ts`):
+  - `GET  /api/patients/search?q=<term>` — ilike over `first_name`, `last_name`, `mrn`.
+  - `POST /api/appointments/<id>/cancel` — sets `status='cancelled'`.
+  - `POST /api/appointments/<id>/check-in` — sets `status='checked-in'`.
+  - `POST /api/prescriptions/<id>/refill` — inserts a `refills` row.
+  - `GET  /api/eligibility/<id>/check` — re-reads row + returns `checked_at`.
+  - `POST /api/notifications/send` — inserts a queued notification row.
+- **Discovery**: `GET /api/health` and `GET /api/services` (returns the 94-resource registry so callers can enumerate what's exposed).
+- **Which resources are exposed**: the 94 services in `services.ts` with `hasCrud:true`. The 7 with `hasCrud:false` (api-gateway, service-registry, patient-portal-api, provider-portal-api, device-telemetry-service, sms-gateway-service, secure-messaging-service) return 404.
+- **Field storage**: same convention as the SPA — base typed columns are `id, status, created_at, updated_at`; `patients` also has `first_name, last_name, dob, mrn, identity_sub`; everything else is merged into a `data` JSONB column on write and flattened on read.
+- **Postman collection**: `postman/collections/gateway.postman_collection.json` (478 requests, one folder per domain) with a matching environment at `postman/environments/gateway-prod.postman_environment.json`.
+- **Note on the SPA**: the SPA still talks to Supabase directly via supabase-js; it does **not** route through the gateway. The gateway is for external callers only.
+- **Note on Vercel function count**: this gateway uses 10 serverless functions, which fits within the Vercel Hobby limit of 12.
+
+Source lives under `frontend/api/`. See `DEPLOY.md` for env vars and deploy steps.
+
 ## Domain + DNS
 
 `myhealthcare.dev` is registered **through Vercel Domains**, with Vercel's nameservers (`ns1.vercel-dns.com`, `ns2.vercel-dns.com`). No external DNS provider. The domain is attached to the `myhealthcare` Vercel project, which serves it directly.
@@ -166,6 +229,8 @@ Auth headers (`apikey: <anon>` and `Authorization: Bearer <anon>`) are added aut
 Renewal: **$13/yr** (Vercel pass-through).
 
 ## Local development
+
+### SPA only (fast, no gateway)
 
 ```bash
 cd frontend
@@ -175,12 +240,34 @@ npm install
 npm run dev            # http://127.0.0.1:5173
 ```
 
-The dev server hits the same Supabase project the deployed app uses. That means:
+`vite dev` doesn't run the gateway functions — the SPA hits Supabase directly, exactly like in prod.
+
+### SPA + gateway together
+
+```bash
+cd frontend
+# .env.local (not checked in) needs all five vars:
+#   VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY,
+#   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, GATEWAY_API_KEY
+npx vercel dev         # http://localhost:3000 — serves both SPA and /api/*
+```
+
+`vercel dev` compiles the `api/` handlers as local functions. Smoke-test the gateway:
+
+```bash
+export API=$(grep GATEWAY_API_KEY .env.local | cut -d= -f2)
+curl -s -H "Authorization: Bearer $API" http://localhost:3000/api/health
+curl -s -H "Authorization: Bearer $API" "http://localhost:3000/api/patients?limit=3"
+```
+
+### Shared-database caveat
+
+Whether you run `vite dev` or `vercel dev`, you're hitting the same Supabase project the deployed app uses:
 - Reads and writes in dev show up in prod.
 - Deleting a row in dev deletes it for the live site.
-- If that's a problem, create a second Supabase project for a "dev" env and put its URL/key in `.env`.
+- If that's a problem, create a second Supabase project for a "dev" env and put its URL/keys in `.env.local`.
 
-`npm run build` compiles the SPA into `frontend/dist/`; Vercel does this on every push to the linked repo, or on `vercel --prod`.
+`npm run build` compiles the SPA into `frontend/dist/`; `tsc -b` runs first and type-checks both `src/` and `api/`. Vercel does the full build on every push to the linked repo, or on `vercel deploy --prod`.
 
 ## Making changes
 
@@ -210,6 +297,16 @@ python3 tools/generate_supabase_schema.py    # writes infra/supabase-schema.sql
 
 Then paste the new tables' DDL into the Supabase SQL Editor.
 
+**Expose a new resource through the gateway.** Add a `{ url, table, domain }` entry to `RESOURCES` in `frontend/api/_lib/registry.ts`. That's it — the dynamic `[resource]/index.ts` and `[resource]/[id].ts` handlers pick it up automatically. Redeploy with `vercel deploy --prod`.
+
+**Add a new gateway custom action.**
+1. Create a handler at `frontend/api/<resource>/[id]/<action>.ts` (or `frontend/api/<resource>/<action>.ts` for a bulk action).
+2. Copy the shape from an existing action (e.g. `appointments/[id]/cancel.ts`): `withCors(handler)`, `requireApiKey(req)`, resolve id, run the Supabase mutation, `mergeRow` the response.
+3. Add a request to `postman/collections/gateway.postman_collection.json` under the **Custom Actions** folder so external callers can discover it.
+4. Redeploy. Vercel's file router prefers your static path over the dynamic `[id].ts` catch-all, so no route conflict.
+
+**Rotate the gateway API key.** Regenerate with `openssl rand -hex 32`, update `GATEWAY_API_KEY` in Vercel (Preview + Production), redeploy, then update every caller (Postman env, external integrations). Because it's a single shared secret, rotation is a coordinated cutover.
+
 ---
 
 ## Original microservices architecture
@@ -230,4 +327,4 @@ cd infra
 
 See the earlier revision of this README in git history for the full microservices detail — service catalog, event topology, cross-service call graph, ERP integration.
 
-The Render Blueprint at `infra/render.yaml` (94 services + Postgres + env group) is also still there. It'd deploy the fleet to Render if launched, at the ~$700/mo cost noted above.
+The Render Blueprint (`infra/render.yaml`, 94 services + Postgres + env group) was **removed** from the tree. To rebuild it, regenerate from `infra/registry.yaml` and `tools/generate_render_yaml.py`, or recover an older revision from git history. Render would still require a workspace-tier plan to clear the 25-resource cap, at ~$700/mo.
