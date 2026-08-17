@@ -44,37 +44,60 @@ This repo (`healthcare-infra`) is the meta repo: it holds the SQL migrations, th
 ## Architecture
 
 ```
-                                     myhealthcare.dev
-                        ┌──────────────────────────────────────────┐
-                        │            Vercel project                │
-                        │                                          │
-                        │   ┌──────────────┐   ┌───────────────┐   │
-        browsers  ─────▶│   │  SPA (Vite)  │   │   /api/*      │◀──┼─── external callers
-                        │   │  React + TS  │   │  functions    │   │    (agents, Postman,
-                        │   │              │   │  frontend/api/│   │     integrations)
-                        │   └──────┬───────┘   └───────┬───────┘   │
-                        │          │                   │           │
-                        └──────────┼───────────────────┼───────────┘
-                                   │                   │
-                            /rest/v1/<table>    service-role key
-                            anon key + user JWT        │
-                                   │                   │
-                                   ▼                   ▼
-                        ┌──────────────────────────────────────────┐
-                        │        Supabase project                  │
-                        │        rrfwfccgeifixabadfem              │
-                        │  ┌────────────┐  ┌─────────────────────┐ │
-                        │  │ PostgREST  │  │  Postgres 16        │ │
-                        │  │ /rest/v1/* │──│  94 tables, RLS on  │ │
-                        │  └────────────┘  └─────────────────────┘ │
-                        └──────────────────────────────────────────┘
+              ┌───────────────────────────────────────────────────────────────────┐
+              │  GitHub — healthcare-org-app/healthcare-infra                     │
+              │  SPA source · gateway source · seed SQL · Postman collection      │
+              └────────────────────────────────┬──────────────────────────────────┘
+                                               │ git push main
+                                               │ (webhook to Vercel)
+                                               ▼
+   ┌───────────┐              ┌───────────────────────────────────────────────────┐
+   │  browsers │──────────────▶                myhealthcare.dev                   │
+   │  (users)  │  HTTPS       │            Vercel project: myhealthcare           │
+   └───────────┘              │                                                   │
+        │                     │   ┌──────────────────┐   ┌──────────────────┐    │
+        │ magic-link          │   │  React 18 SPA    │   │  /api/* gateway  │    │
+        │ session JWT         │   │  Vite + Tailwind │   │  10 serverless   │    │
+        │                     │   │  frontend/src/   │   │  functions       │    │
+        │                     │   │                  │   │  frontend/api/   │    │
+        │                     │   └────────┬─────────┘   └────────┬─────────┘    │
+        │                     │            │                       │              │
+        │                     └────────────┼───────────────────────┼──────────────┘
+        │                                  │                       ▲
+        │                                  │                       │  HTTPS /api/<resource>
+        │                                  │                       │  Authorization: Bearer $KEY
+        │                                  │                       │
+        │                                  │              ┌────────┴────────────────────┐
+        │                                  │              │  External callers            │
+        │                                  │              │  ┌──────┐  ┌──────┐  ┌────┐   │
+        │                                  │              │  │Postman│ │agents│ │ …  │   │
+        │                                  │              │  │486 req│ │      │ │    │   │
+        │                                  │              │  └───────┘ └──────┘ └────┘   │
+        │                                  │              └──────────────────────────────┘
+        │                                  │
+        │  /rest/v1/<table>                │  /rest/v1/<table>
+        │  anon key + user JWT             │  service-role key
+        │  → RLS ENFORCED                  │  → RLS BYPASSED (gateway is the trust boundary)
+        │                                  │
+        ▼                                  ▼
+   ┌───────────────────────────────────────────────────────────────────────────────┐
+   │                Supabase project — rrfwfccgeifixabadfem.supabase.co             │
+   │                                                                                │
+   │    ┌────────────────────────┐          ┌────────────────────────────────────┐  │
+   │    │  PostgREST             │  ◀────▶  │  Postgres 16                       │  │
+   │    │  auto REST from schema │          │  94 tables, RLS: authenticated_all  │  │
+   │    │  /rest/v1/<table>      │          │  data JSONB + id / status / *_at   │  │
+   │    └────────────────────────┘          └────────────────────────────────────┘  │
+   │                                                                                │
+   │    Schema: supabase-schema.sql         Seed:  supabase-fix.sql                 │
+   └───────────────────────────────────────────────────────────────────────────────┘
 ```
 
 Two paths into the same tables:
-- **SPA path** (`browsers → SPA → Supabase`): anon key + user JWT; RLS enforced.
-- **Gateway path** (`external caller → /api/* → Supabase`): bearer key at the edge; service-role key at the DB; RLS bypassed.
+- **SPA path** (`browsers → SPA → Supabase`): the anon key + Supabase-Auth user JWT; RLS enforced per row.
+- **Gateway path** (`external caller → /api/* → Supabase`): shared bearer key at the edge, service-role key at the DB; RLS bypassed (the gateway itself is the trust boundary).
 
-No Kafka, no per-service containers, no Consul — the original 101-service fleet was never deployed.
+The **Postman collection** in this repo (`postman/collections/healthcare-org gateway/`) is the exhaustive client for the gateway path — one folder per service, 486 requests total, all pointed at `{{baseUrl}}/api/<resource>` with `{{apiKey}}` bearer. Auto-deploy: any push to `main` on this repo rebuilds the SPA + gateway together and swaps the alias on `myhealthcare.dev`. No Kafka, no per-service containers, no Consul — the original 101-service fleet under `services/*` was never deployed; those repos are historical scaffolds.
 
 ## Frontend (Vercel)
 
