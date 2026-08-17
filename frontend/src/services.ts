@@ -56,6 +56,7 @@ export const FK_TARGETS: Record<string, string> = {
   provider_id: "providers-service",
   ordered_by: "providers-service",
   author_id: "providers-service",
+  administered_by: "providers-service",
   dispensed_by: "providers-service",
   referring_provider_id: "providers-service",
   referred_to_provider_id: "providers-service",
@@ -600,6 +601,7 @@ export const SERVICES: ServiceDef[] = [
   svc("problem-list-service", 8303, "python", "CLINICAL/EHR", {
     createFields: [
       { key: "patient_id", required: true },
+      { key: "encounter_id", label: "Encounter (visit this was documented at)" },
       { key: "condition", required: true },
       { key: "icd10", label: "ICD-10 code" },
       { key: "onset_at", kind: "date" },
@@ -623,6 +625,8 @@ export const SERVICES: ServiceDef[] = [
   svc("immunizations-service", 8306, "python", "CLINICAL/EHR", {
     createFields: [
       { key: "patient_id", required: true },
+      { key: "administered_by", label: "Administered by (provider)" },
+      { key: "encounter_id", label: "Encounter" },
       { key: "vaccine", required: true },
       { key: "administered_at", kind: "date" },
       { key: "lot_number" },
@@ -642,6 +646,7 @@ export const SERVICES: ServiceDef[] = [
     createFields: [
       { key: "patient_id", required: true },
       { key: "provider_id", required: true },
+      { key: "encounter_id", label: "Encounter" },
       { key: "order_type", kind: "select", options: [
         { value: "med", label: "Medication" }, { value: "lab", label: "Lab" },
         { value: "imaging", label: "Imaging" }, { value: "procedure", label: "Procedure" },
@@ -652,7 +657,8 @@ export const SERVICES: ServiceDef[] = [
   svc("care-plan-service", 8309, "python", "CLINICAL/EHR", {
     createFields: [
       { key: "patient_id", required: true },
-      { key: "provider_id" },
+      { key: "provider_id", label: "Responsible provider" },
+      { key: "encounter_id", label: "Encounter (visit this plan was set at)" },
       { key: "goals", kind: "textarea" },
     ],
   }),
@@ -668,13 +674,17 @@ export const SERVICES: ServiceDef[] = [
     createFields: [
       { key: "encounter_id", required: true },
       { key: "patient_id", required: true },
+      { key: "author_id", label: "Authoring provider", required: true },
       { key: "summary", kind: "textarea", required: true },
     ],
   }),
   svc("clinical-decision-support", 8312, "python", "CLINICAL/EHR", {
     createFields: [
       { key: "patient_id", required: true },
-      { key: "alert_type" }, { key: "recommendation", kind: "textarea" },
+      { key: "encounter_id", label: "Encounter (visit that triggered this)" },
+      { key: "provider_id", label: "Notified provider" },
+      { key: "alert_type" },
+      { key: "recommendation", kind: "textarea" },
     ],
   }),
   svc("diagnosis-codes-service", 8313, "python", "CLINICAL/EHR", {
@@ -712,6 +722,7 @@ export const SERVICES: ServiceDef[] = [
     createFields: [
       { key: "patient_id", required: true },
       { key: "lab_order_id", required: true },
+      { key: "author_id", label: "Reviewing provider" },
       { key: "test_code" },
       { key: "result" },
     ],
@@ -730,6 +741,7 @@ export const SERVICES: ServiceDef[] = [
     createFields: [
       { key: "patient_id", required: true },
       { key: "imaging_order_id", required: true },
+      { key: "author_id", label: "Radiologist" },
       { key: "findings", kind: "textarea" },
     ],
   }),
@@ -737,12 +749,15 @@ export const SERVICES: ServiceDef[] = [
     createFields: [
       { key: "patient_id", required: true },
       { key: "specimen_id" },
+      { key: "author_id", label: "Pathologist" },
       { key: "findings", kind: "textarea" },
     ],
   }),
   svc("radiology-worklist", 8405, "python", "DIAGNOSTICS", {
     createFields: [
       { key: "patient_id", required: true },
+      { key: "imaging_order_id", label: "Imaging order" },
+      { key: "provider_id", label: "Assigned radiologist" },
       { key: "modality", kind: "select", options: IMAGING_MODALITY },
       { key: "priority", kind: "select", options: PRIORITY },
     ],
@@ -750,6 +765,7 @@ export const SERVICES: ServiceDef[] = [
   svc("specimen-tracking-service", 8406, "python", "DIAGNOSTICS", {
     createFields: [
       { key: "patient_id", required: true },
+      { key: "lab_order_id", label: "Lab order this specimen is for" },
       { key: "specimen_type" },
       { key: "collected_at", kind: "datetime" },
     ],
@@ -822,6 +838,7 @@ export const SERVICES: ServiceDef[] = [
     createFields: [
       { key: "patient_id", required: true },
       { key: "provider_id", required: true },
+      { key: "facility_id", label: "Facility" },
       { key: "starts_at", kind: "datetime", required: true },
       { key: "duration_min", label: "Duration (min)", kind: "number", placeholder: "30" },
       { key: "reason" },
@@ -834,6 +851,7 @@ export const SERVICES: ServiceDef[] = [
   svc("appointment-slots-service", 8601, "python", "SCHEDULING", {
     createFields: [
       { key: "provider_id", required: true },
+      { key: "facility_id", label: "Facility" },
       { key: "starts_at", kind: "datetime", required: true },
       { key: "ends_at", kind: "datetime", required: true },
     ],
@@ -854,6 +872,8 @@ export const SERVICES: ServiceDef[] = [
   svc("room-booking-service", 8604, "python", "SCHEDULING", {
     createFields: [
       { key: "facility_id" },
+      { key: "appointment_id", label: "Appointment being booked" },
+      { key: "provider_id", label: "Provider" },
       { key: "room_name", required: true },
       { key: "starts_at", kind: "datetime", required: true },
       { key: "ends_at", kind: "datetime", required: true },
@@ -864,6 +884,8 @@ export const SERVICES: ServiceDef[] = [
   svc("billing-service", 8700, "python", "BILLING/RCM", {
     createFields: [
       { key: "patient_id", required: true },
+      { key: "encounter_id", label: "Encounter" },
+      { key: "provider_id", label: "Rendering provider" },
       { key: "amount", kind: "number", required: true },
       { key: "description" },
     ],
@@ -872,6 +894,7 @@ export const SERVICES: ServiceDef[] = [
     createFields: [
       { key: "patient_id", required: true },
       { key: "encounter_id" },
+      { key: "provider_id", label: "Rendering provider" },
       { key: "cpt_code", label: "CPT code" },
       { key: "amount", kind: "number" },
     ],
@@ -918,6 +941,8 @@ export const SERVICES: ServiceDef[] = [
   svc("invoicing-service", 8706, "python", "BILLING/RCM", {
     createFields: [
       { key: "patient_id", required: true },
+      { key: "encounter_id", label: "Encounter" },
+      { key: "claim_id", label: "Claim (if this invoice covers patient responsibility from a claim)" },
       { key: "amount", kind: "number", required: true },
       { key: "description" },
       { key: "status", kind: "select", options: INVOICE_STATUS },
@@ -925,6 +950,7 @@ export const SERVICES: ServiceDef[] = [
   }),
   svc("payments-service", 8707, "python", "BILLING/RCM", {
     createFields: [
+      { key: "patient_id", label: "Patient" },
       { key: "invoice_id", required: true },
       { key: "amount", kind: "number", required: true },
       { key: "method", kind: "select", options: PAYMENT_METHOD },
@@ -939,6 +965,7 @@ export const SERVICES: ServiceDef[] = [
   svc("collections-service", 8709, "python", "BILLING/RCM", {
     createFields: [
       { key: "patient_id", required: true },
+      { key: "invoice_id", label: "Unpaid invoice being collected" },
       { key: "amount", kind: "number", required: true },
     ],
   }),
@@ -954,7 +981,8 @@ export const SERVICES: ServiceDef[] = [
   svc("prior-auth-service", 8801, "python", "INSURANCE", {
     createFields: [
       { key: "patient_id", required: true },
-      { key: "provider_id" },
+      { key: "provider_id", label: "Requesting provider" },
+      { key: "payer_id", label: "Payer" },
       { key: "service_code" },
     ],
   }),
@@ -992,6 +1020,7 @@ export const SERVICES: ServiceDef[] = [
   svc("device-alerts-service", 8902, "python", "DEVICES/IOT", {
     createFields: [
       { key: "device_id", required: true },
+      { key: "patient_id", label: "Patient this device is monitoring" },
       { key: "alert_type" },
       { key: "severity", kind: "select", options: SEVERITY },
     ],

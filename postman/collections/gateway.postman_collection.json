@@ -5215,7 +5215,7 @@
         },
         {
           "name": "problem_list",
-          "description": "Problem List — CRUD at `/api/problem_list`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+          "description": "Problem List — CRUD at `/api/problem_list`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`",
           "item": [
             {
               "name": "List problem_list",
@@ -5279,10 +5279,10 @@
                     "problem_list"
                   ]
                 },
-                "description": "Create a Problem List. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+                "description": "Create a Problem List. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"condition\": \"sample condition\",\n  \"icd10\": \"sample icd10\",\n  \"onset_at\": \"2026-01-15\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"condition\": \"sample condition\",\n  \"icd10\": \"sample icd10\",\n  \"onset_at\": \"2026-01-15\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -5764,7 +5764,7 @@
         },
         {
           "name": "immunizations",
-          "description": "Immunizations — CRUD at `/api/immunizations`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+          "description": "Immunizations — CRUD at `/api/immunizations`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `administered_by` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`",
           "item": [
             {
               "name": "List immunizations",
@@ -5828,10 +5828,10 @@
                     "immunizations"
                   ]
                 },
-                "description": "Create a Immunizations. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+                "description": "Create a Immunizations. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `administered_by` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"vaccine\": \"sample vaccine\",\n  \"administered_at\": \"2026-01-15\",\n  \"lot_number\": \"sample lot_number\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"administered_by\": \"{{administered_by}}\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"vaccine\": \"sample vaccine\",\n  \"administered_at\": \"2026-01-15\",\n  \"lot_number\": \"sample lot_number\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -6130,7 +6130,7 @@
         },
         {
           "name": "cpoe",
-          "description": "Cpoe — CRUD at `/api/cpoe`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`",
+          "description": "Cpoe — CRUD at `/api/cpoe`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`",
           "item": [
             {
               "name": "List cpoe",
@@ -6194,10 +6194,10 @@
                     "cpoe"
                   ]
                 },
-                "description": "Create a Cpoe. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`",
+                "description": "Create a Cpoe. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"order_type\": \"med\",\n  \"details\": \"Sample details\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"order_type\": \"med\",\n  \"details\": \"Sample details\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -6313,7 +6313,7 @@
         },
         {
           "name": "care_plan",
-          "description": "Care Plan — CRUD at `/api/care_plan`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`",
+          "description": "Care Plan — CRUD at `/api/care_plan`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`",
           "item": [
             {
               "name": "List care_plan",
@@ -6377,10 +6377,10 @@
                     "care_plan"
                   ]
                 },
-                "description": "Create a Care Plan. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`",
+                "description": "Create a Care Plan. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"goals\": \"Sample goals\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"goals\": \"Sample goals\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -6679,7 +6679,7 @@
         },
         {
           "name": "discharge_summary",
-          "description": "Discharge Summary — CRUD at `/api/discharge_summary`.\n\n**FK references (fetch these first):** `encounter_id` → `GET /api/encounters`, `patient_id` → `GET /api/patients`",
+          "description": "Discharge Summary — CRUD at `/api/discharge_summary`.\n\n**FK references (fetch these first):** `encounter_id` → `GET /api/encounters`, `patient_id` → `GET /api/patients`, `author_id` → `GET /api/providers`",
           "item": [
             {
               "name": "List discharge_summary",
@@ -6743,10 +6743,10 @@
                     "discharge_summary"
                   ]
                 },
-                "description": "Create a Discharge Summary. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `encounter_id` → `GET /api/encounters`, `patient_id` → `GET /api/patients`",
+                "description": "Create a Discharge Summary. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `encounter_id` → `GET /api/encounters`, `patient_id` → `GET /api/patients`, `author_id` → `GET /api/providers`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"summary\": \"Sample summary\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"author_id\": \"{{author_id}}\",\n  \"summary\": \"Sample summary\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -6862,7 +6862,7 @@
         },
         {
           "name": "clinical_decision_support",
-          "description": "Clinical Decision Support — CRUD at `/api/clinical_decision_support`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+          "description": "Clinical Decision Support — CRUD at `/api/clinical_decision_support`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`, `provider_id` → `GET /api/providers`",
           "item": [
             {
               "name": "List clinical_decision_support",
@@ -6926,10 +6926,10 @@
                     "clinical_decision_support"
                   ]
                 },
-                "description": "Create a Clinical Decision Support. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+                "description": "Create a Clinical Decision Support. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`, `provider_id` → `GET /api/providers`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"alert_type\": \"sample alert_type\",\n  \"recommendation\": \"Sample recommendation\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"alert_type\": \"sample alert_type\",\n  \"recommendation\": \"Sample recommendation\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -7599,7 +7599,7 @@
         },
         {
           "name": "lab_results",
-          "description": "Lab Results — CRUD at `/api/lab_results`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `lab_order_id` → `GET /api/lab_orders`",
+          "description": "Lab Results — CRUD at `/api/lab_results`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `lab_order_id` → `GET /api/lab_orders`, `author_id` → `GET /api/providers`",
           "item": [
             {
               "name": "List lab_results",
@@ -7663,10 +7663,10 @@
                     "lab_results"
                   ]
                 },
-                "description": "Create a Lab Results. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `lab_order_id` → `GET /api/lab_orders`",
+                "description": "Create a Lab Results. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `lab_order_id` → `GET /api/lab_orders`, `author_id` → `GET /api/providers`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"lab_order_id\": \"{{lab_order_id}}\",\n  \"test_code\": \"sample test_code\",\n  \"result\": \"sample result\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"lab_order_id\": \"{{lab_order_id}}\",\n  \"author_id\": \"{{author_id}}\",\n  \"test_code\": \"sample test_code\",\n  \"result\": \"sample result\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -7965,7 +7965,7 @@
         },
         {
           "name": "imaging_results",
-          "description": "Imaging Results — CRUD at `/api/imaging_results`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `imaging_order_id` → `GET /api/imaging_orders`",
+          "description": "Imaging Results — CRUD at `/api/imaging_results`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `imaging_order_id` → `GET /api/imaging_orders`, `author_id` → `GET /api/providers`",
           "item": [
             {
               "name": "List imaging_results",
@@ -8029,10 +8029,10 @@
                     "imaging_results"
                   ]
                 },
-                "description": "Create a Imaging Results. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `imaging_order_id` → `GET /api/imaging_orders`",
+                "description": "Create a Imaging Results. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `imaging_order_id` → `GET /api/imaging_orders`, `author_id` → `GET /api/providers`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"imaging_order_id\": \"{{imaging_order_id}}\",\n  \"findings\": \"Sample findings\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"imaging_order_id\": \"{{imaging_order_id}}\",\n  \"author_id\": \"{{author_id}}\",\n  \"findings\": \"Sample findings\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -8148,7 +8148,7 @@
         },
         {
           "name": "pathology",
-          "description": "Pathology — CRUD at `/api/pathology`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `specimen_id` → `GET /api/specimen_tracking`",
+          "description": "Pathology — CRUD at `/api/pathology`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `specimen_id` → `GET /api/specimen_tracking`, `author_id` → `GET /api/providers`",
           "item": [
             {
               "name": "List pathology",
@@ -8212,10 +8212,10 @@
                     "pathology"
                   ]
                 },
-                "description": "Create a Pathology. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `specimen_id` → `GET /api/specimen_tracking`",
+                "description": "Create a Pathology. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `specimen_id` → `GET /api/specimen_tracking`, `author_id` → `GET /api/providers`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"specimen_id\": \"{{specimen_id}}\",\n  \"findings\": \"Sample findings\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"specimen_id\": \"{{specimen_id}}\",\n  \"author_id\": \"{{author_id}}\",\n  \"findings\": \"Sample findings\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -8331,7 +8331,7 @@
         },
         {
           "name": "radiology_worklist",
-          "description": "Radiology Worklist — CRUD at `/api/radiology_worklist`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+          "description": "Radiology Worklist — CRUD at `/api/radiology_worklist`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `imaging_order_id` → `GET /api/imaging_orders`, `provider_id` → `GET /api/providers`",
           "item": [
             {
               "name": "List radiology_worklist",
@@ -8395,10 +8395,10 @@
                     "radiology_worklist"
                   ]
                 },
-                "description": "Create a Radiology Worklist. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+                "description": "Create a Radiology Worklist. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `imaging_order_id` → `GET /api/imaging_orders`, `provider_id` → `GET /api/providers`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"modality\": \"xray\",\n  \"priority\": \"routine\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"imaging_order_id\": \"{{imaging_order_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"modality\": \"xray\",\n  \"priority\": \"routine\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -8514,7 +8514,7 @@
         },
         {
           "name": "specimen_tracking",
-          "description": "Specimen Tracking — CRUD at `/api/specimen_tracking`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+          "description": "Specimen Tracking — CRUD at `/api/specimen_tracking`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `lab_order_id` → `GET /api/lab_orders`",
           "item": [
             {
               "name": "List specimen_tracking",
@@ -8578,10 +8578,10 @@
                     "specimen_tracking"
                   ]
                 },
-                "description": "Create a Specimen Tracking. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+                "description": "Create a Specimen Tracking. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `lab_order_id` → `GET /api/lab_orders`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"specimen_type\": \"sample specimen_type\",\n  \"collected_at\": \"2026-01-15T09:00:00Z\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"lab_order_id\": \"{{lab_order_id}}\",\n  \"specimen_type\": \"sample specimen_type\",\n  \"collected_at\": \"2026-01-15T09:00:00Z\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -10171,7 +10171,7 @@
       "item": [
         {
           "name": "appointments",
-          "description": "Appointments — CRUD at `/api/appointments`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`",
+          "description": "Appointments — CRUD at `/api/appointments`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`, `facility_id` → `GET /api/facilities`",
           "item": [
             {
               "name": "List appointments",
@@ -10235,10 +10235,10 @@
                     "appointments"
                   ]
                 },
-                "description": "Create a Appointments. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`",
+                "description": "Create a Appointments. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`, `facility_id` → `GET /api/facilities`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"starts_at\": \"2026-01-15T09:00:00Z\",\n  \"duration_min\": 0,\n  \"reason\": \"sample reason\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"facility_id\": \"{{facility_id}}\",\n  \"starts_at\": \"2026-01-15T09:00:00Z\",\n  \"duration_min\": 0,\n  \"reason\": \"sample reason\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -10354,7 +10354,7 @@
         },
         {
           "name": "appointment_slots",
-          "description": "Appointment Slots — CRUD at `/api/appointment_slots`.\n\n**FK references (fetch these first):** `provider_id` → `GET /api/providers`",
+          "description": "Appointment Slots — CRUD at `/api/appointment_slots`.\n\n**FK references (fetch these first):** `provider_id` → `GET /api/providers`, `facility_id` → `GET /api/facilities`",
           "item": [
             {
               "name": "List appointment_slots",
@@ -10418,10 +10418,10 @@
                     "appointment_slots"
                   ]
                 },
-                "description": "Create a Appointment Slots. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `provider_id` → `GET /api/providers`",
+                "description": "Create a Appointment Slots. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `provider_id` → `GET /api/providers`, `facility_id` → `GET /api/facilities`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"starts_at\": \"2026-01-15T09:00:00Z\",\n  \"ends_at\": \"2026-01-15T09:00:00Z\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"facility_id\": \"{{facility_id}}\",\n  \"starts_at\": \"2026-01-15T09:00:00Z\",\n  \"ends_at\": \"2026-01-15T09:00:00Z\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -10903,7 +10903,7 @@
         },
         {
           "name": "room_booking",
-          "description": "Room Booking — CRUD at `/api/room_booking`.\n\n**FK references (fetch these first):** `facility_id` → `GET /api/facilities`",
+          "description": "Room Booking — CRUD at `/api/room_booking`.\n\n**FK references (fetch these first):** `facility_id` → `GET /api/facilities`, `appointment_id` → `GET /api/appointments`, `provider_id` → `GET /api/providers`",
           "item": [
             {
               "name": "List room_booking",
@@ -10967,10 +10967,10 @@
                     "room_booking"
                   ]
                 },
-                "description": "Create a Room Booking. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `facility_id` → `GET /api/facilities`",
+                "description": "Create a Room Booking. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `facility_id` → `GET /api/facilities`, `appointment_id` → `GET /api/appointments`, `provider_id` → `GET /api/providers`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"facility_id\": \"{{facility_id}}\",\n  \"room_name\": \"sample room_name\",\n  \"starts_at\": \"2026-01-15T09:00:00Z\",\n  \"ends_at\": \"2026-01-15T09:00:00Z\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"facility_id\": \"{{facility_id}}\",\n  \"appointment_id\": \"{{appointment_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"room_name\": \"sample room_name\",\n  \"starts_at\": \"2026-01-15T09:00:00Z\",\n  \"ends_at\": \"2026-01-15T09:00:00Z\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -11091,7 +11091,7 @@
       "item": [
         {
           "name": "billing",
-          "description": "Billing — CRUD at `/api/billing`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+          "description": "Billing — CRUD at `/api/billing`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`, `provider_id` → `GET /api/providers`",
           "item": [
             {
               "name": "List billing",
@@ -11155,10 +11155,10 @@
                     "billing"
                   ]
                 },
-                "description": "Create a Billing. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+                "description": "Create a Billing. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`, `provider_id` → `GET /api/providers`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"amount\": 0,\n  \"description\": \"sample description\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"amount\": 0,\n  \"description\": \"sample description\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -11274,7 +11274,7 @@
         },
         {
           "name": "charge_capture",
-          "description": "Charge Capture — CRUD at `/api/charge_capture`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`",
+          "description": "Charge Capture — CRUD at `/api/charge_capture`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`, `provider_id` → `GET /api/providers`",
           "item": [
             {
               "name": "List charge_capture",
@@ -11338,10 +11338,10 @@
                     "charge_capture"
                   ]
                 },
-                "description": "Create a Charge Capture. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`",
+                "description": "Create a Charge Capture. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`, `provider_id` → `GET /api/providers`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"cpt_code\": \"sample cpt_code\",\n  \"amount\": 0\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"cpt_code\": \"sample cpt_code\",\n  \"amount\": 0\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -12189,7 +12189,7 @@
         },
         {
           "name": "invoicing",
-          "description": "Invoicing — CRUD at `/api/invoicing`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+          "description": "Invoicing — CRUD at `/api/invoicing`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`, `claim_id` → `GET /api/claims_submission`",
           "item": [
             {
               "name": "List invoicing",
@@ -12253,10 +12253,10 @@
                     "invoicing"
                   ]
                 },
-                "description": "Create a Invoicing. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+                "description": "Create a Invoicing. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `encounter_id` → `GET /api/encounters`, `claim_id` → `GET /api/claims_submission`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"pending\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"amount\": 0,\n  \"description\": \"sample description\"\n}",
+                  "raw": "{\n  \"status\": \"pending\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"claim_id\": \"{{claim_id}}\",\n  \"amount\": 0,\n  \"description\": \"sample description\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -12372,7 +12372,7 @@
         },
         {
           "name": "payments",
-          "description": "Payments — CRUD at `/api/payments`.\n\n**FK references (fetch these first):** `invoice_id` → `GET /api/invoicing`",
+          "description": "Payments — CRUD at `/api/payments`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `invoice_id` → `GET /api/invoicing`",
           "item": [
             {
               "name": "List payments",
@@ -12436,10 +12436,10 @@
                     "payments"
                   ]
                 },
-                "description": "Create a Payments. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `invoice_id` → `GET /api/invoicing`",
+                "description": "Create a Payments. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `invoice_id` → `GET /api/invoicing`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"invoice_id\": \"{{invoice_id}}\",\n  \"amount\": 0,\n  \"method\": \"card\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"invoice_id\": \"{{invoice_id}}\",\n  \"amount\": 0,\n  \"method\": \"card\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -12738,7 +12738,7 @@
         },
         {
           "name": "collections",
-          "description": "Collections — CRUD at `/api/collections`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+          "description": "Collections — CRUD at `/api/collections`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `invoice_id` → `GET /api/invoicing`",
           "item": [
             {
               "name": "List collections",
@@ -12802,10 +12802,10 @@
                     "collections"
                   ]
                 },
-                "description": "Create a Collections. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`",
+                "description": "Create a Collections. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `invoice_id` → `GET /api/invoicing`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"amount\": 0\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"invoice_id\": \"{{invoice_id}}\",\n  \"amount\": 0\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -13109,7 +13109,7 @@
         },
         {
           "name": "prior_auth",
-          "description": "Prior Auth — CRUD at `/api/prior_auth`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`",
+          "description": "Prior Auth — CRUD at `/api/prior_auth`.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`, `payer_id` → `GET /api/payer_directory`",
           "item": [
             {
               "name": "List prior_auth",
@@ -13173,10 +13173,10 @@
                     "prior_auth"
                   ]
                 },
-                "description": "Create a Prior Auth. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`",
+                "description": "Create a Prior Auth. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`, `payer_id` → `GET /api/payer_directory`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"service_code\": \"sample service_code\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"payer_id\": \"{{payer_id}}\",\n  \"service_code\": \"sample service_code\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -14212,7 +14212,7 @@
         },
         {
           "name": "device_alerts",
-          "description": "Device Alerts — CRUD at `/api/device_alerts`.\n\n**FK references (fetch these first):** `device_id` → `GET /api/device_registry`",
+          "description": "Device Alerts — CRUD at `/api/device_alerts`.\n\n**FK references (fetch these first):** `device_id` → `GET /api/device_registry`, `patient_id` → `GET /api/patients`",
           "item": [
             {
               "name": "List device_alerts",
@@ -14276,10 +14276,10 @@
                     "device_alerts"
                   ]
                 },
-                "description": "Create a Device Alerts. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `device_id` → `GET /api/device_registry`",
+                "description": "Create a Device Alerts. Body fields mirror `services.ts` createFields.\n\n**FK references (fetch these first):** `device_id` → `GET /api/device_registry`, `patient_id` → `GET /api/patients`",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"device_id\": \"{{device_id}}\",\n  \"alert_type\": \"sample alert_type\",\n  \"severity\": \"low\"\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"device_id\": \"{{device_id}}\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"alert_type\": \"sample alert_type\",\n  \"severity\": \"low\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -17555,11 +17555,11 @@
     },
     {
       "name": "Workflows",
-      "description": "End-to-end scenarios chaining requests across services. Run in order after setting `patient_id`, `provider_id`, and `payer_id` collection variables.",
+      "description": "End-to-end scenarios chaining requests across services. Run in order after setting `patient_id`, `provider_id`, `facility_id`, and `payer_id` collection variables.",
       "item": [
         {
           "name": "Complete a patient visit and submit claim",
-          "description": "1. Book appointment → 2. Create encounter from that visit → 3. Add clinical notes → 4. Order a lab → 5. Prescribe a drug → 6. Order imaging → 7. Capture charge → 8. Submit claim referencing everything.",
+          "description": "1. Book appointment → 2. Create encounter → 3. Add note → 4. Order lab → 5. Prescribe → 6. Order imaging → 7. Capture charge → 8. Submit claim.",
           "item": [
             {
               "name": "1. Book appointment",
@@ -17590,7 +17590,7 @@
                 "description": "Creates the visit slot. Response has the appointment id.",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"scheduled\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"starts_at\": \"2026-01-15T09:00:00Z\",\n  \"duration_min\": 30,\n  \"reason\": \"Annual physical\"\n}",
+                  "raw": "{\n  \"status\": \"scheduled\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"facility_id\": \"{{facility_id}}\",\n  \"starts_at\": \"2026-01-15T09:00:00Z\",\n  \"duration_min\": 30,\n  \"reason\": \"Annual physical\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -17824,7 +17824,7 @@
                 "description": "Records the billable work done at the encounter.",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"cpt_code\": \"99213\",\n  \"amount\": 200\n}",
+                  "raw": "{\n  \"status\": \"active\",\n  \"patient_id\": \"{{patient_id}}\",\n  \"encounter_id\": \"{{encounter_id}}\",\n  \"provider_id\": \"{{provider_id}}\",\n  \"cpt_code\": \"99213\",\n  \"amount\": 200\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -17906,6 +17906,11 @@
     },
     {
       "key": "author_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "administered_by",
       "value": "1",
       "type": "string"
     },
