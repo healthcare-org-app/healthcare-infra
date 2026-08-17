@@ -696,6 +696,7 @@ export const SERVICES: ServiceDef[] = [
     createFields: [
       { key: "patient_id", required: true },
       { key: "ordered_by", label: "Ordered by (provider)", required: true },
+      { key: "encounter_id", label: "Encounter (visit this was ordered at)" },
       { key: "test_code", kind: "select", options: [
         { value: "CBC", label: "CBC — Complete Blood Count" },
         { value: "CMP", label: "CMP — Comprehensive Metabolic Panel" },
@@ -718,7 +719,8 @@ export const SERVICES: ServiceDef[] = [
   svc("imaging-orders-service", 8402, "python", "DIAGNOSTICS", {
     createFields: [
       { key: "patient_id", required: true },
-      { key: "ordered_by", required: true },
+      { key: "ordered_by", label: "Ordered by (provider)", required: true },
+      { key: "encounter_id", label: "Encounter (visit this was ordered at)" },
       { key: "modality", kind: "select", options: IMAGING_MODALITY, required: true },
       { key: "body_part" },
       { key: "priority", kind: "select", options: PRIORITY },
@@ -771,6 +773,7 @@ export const SERVICES: ServiceDef[] = [
     createFields: [
       { key: "patient_id", label: "Patient", required: true },
       { key: "provider_id", label: "Prescribing doctor", required: true },
+      { key: "encounter_id", label: "Encounter (visit this was prescribed at)" },
       { key: "drug", label: "Drug name", required: true },
       { key: "dose", placeholder: "10mg" },
       { key: "sig", label: "Instructions for use", placeholder: "1 tab daily", required: true },
@@ -881,10 +884,20 @@ export const SERVICES: ServiceDef[] = [
   }),
   svc("claims-submission-service", 8703, "python", "BILLING/RCM", {
     createFields: [
-      { key: "patient_id", required: true },
-      { key: "encounter_id" },
-      { key: "payer_id", label: "Payer" },
-      { key: "amount", kind: "number" },
+      { key: "patient_id", label: "Patient", required: true },
+      { key: "provider_id", label: "Rendering provider", required: true },
+      { key: "encounter_id", label: "Encounter", required: true },
+      { key: "payer_id", label: "Payer", required: true },
+      { key: "prescription_id", label: "Related prescription" },
+      { key: "lab_order_id", label: "Related lab order" },
+      { key: "imaging_order_id", label: "Related imaging order" },
+      {
+        key: "diagnosis_codes",
+        label: "Diagnosis codes (comma-separated ICD-10)",
+        kind: "textarea",
+        placeholder: "I10, E11.9",
+      },
+      { key: "amount", label: "Amount ($)", kind: "number", required: true },
     ],
   }),
   svc("claims-adjudication-service", 8704, "python", "BILLING/RCM", {
