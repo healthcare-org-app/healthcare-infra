@@ -124,13 +124,13 @@ No Kafka, no per-service containers, no Consul — the original 101-service flee
 
 - **Service registry** (`frontend/src/services.ts`) is the source of truth for what the UI shows:
   - 101 service definitions, each with `name`, `port` (historical), `domain`, `stack`, `resource` (table name), `prefix` (`/api/<resource>`), `displayName`, `hasCrud`, plus **`createFields`** — a healthcare-shaped form schema per service (patient/provider dropdowns, date pickers, priority selects, ICD-10 fields, etc.).
-  - `FK_TARGETS` maps 20 foreign-key field names (`patient_id`, `provider_id`, `encounter_id`, …) to their target service. Forms and tables use this to swap raw IDs for real dropdowns and clickable labels.
+  - `FK_TARGETS` maps 24 foreign-key field names (`patient_id`, `provider_id`, `encounter_id`, `payer_id`, `facility_id`, `prescription_id`, `lab_order_id`, `imaging_order_id`, `claim_id`, `invoice_id`, `agent_id`, `specimen_id`, `dispensed_by`, `administered_by`, `ordered_by`, `author_id`, `referring_provider_id`, `referred_to_provider_id`, `source_patient_id`, `target_patient_id`, `related_to`, `device_id`, `equipment_id`) to their target service. Forms and tables use this to swap raw IDs for real dropdowns and clickable labels. To thread a new relationship, add one line here and every form that already uses that key becomes a dropdown.
   - `formatRefLabel()` formats a row as a human string per service — e.g. patients → `"Ava Reyes (MRN-001)"`, providers → `"Sarah Chen — Family Medicine"`.
   - `ENABLED_STACKS` — legacy from the microservices deploy. Under Supabase every service is in one database, so effectively all stacks are on.
 
 - **Generic components**:
   - `ResourceTable` — reads a service's rows, auto-picks the top 5 non-JSONB columns, resolves FK columns to labels (fetches the target service's rows once, caches for the page).
-  - `ResourceForm` — renders inputs from `createFields`. For any key in `FK_TARGETS`, renders a `<select>` populated live from the target service.
+  - `ResourceForm` — renders inputs from `createFields`. For any key in `FK_TARGETS` (or with an explicit `refTo`), renders a `<select>` populated live from the target service, plus a **+ New \<singular\>** button next to it that jumps to the target's create page (so you never dead-end when a referenced catalog is empty). When the target has zero rows, the dropdown is disabled and shows "No \<target\> exist yet. Create one first →".
   - `ResourceDetail`, `KpiTile`, `PatientDetail`, `Sidebar`, `TopBar` — cross-service views and layout.
 
 ## Backend (Supabase)
@@ -163,7 +163,13 @@ No Kafka, no per-service containers, no Consul — the original 101-service flee
   - `?data->>patient_id=eq.5` — JSONB field match
   - `?limit=50&offset=0` — pagination
   - `Prefer: return=representation` header — returns the inserted/updated row
-- **Seed data** (see `supabase-fix.sql`): 6 patients, 4 providers, 6 encounters, 5 appointments, 4 prescriptions, 4 lab orders, 3 lab results, 4 invoices — so the frontend has something to render on first load.
+- **Seed data** (see `supabase-fix.sql`, paste into the Supabase SQL Editor to (re)load): a realistic cross-referencing set so every FK chain has something to point at.
+  - Core rosters: **6** patients, **4** providers, **5** payers (Aetna, BCBS, UnitedHealthcare, Cigna, Medicare), **4** facilities (Main Clinic, Cardiology Center, Downtown Urgent Care, Pediatric Wing).
+  - Clinical activity: **6** encounters, **5** appointments, **4** prescriptions, **4** lab orders / **3** results, **3** imaging orders / **2** results.
+  - Chart data: **4** problems (hypertension, hyperlipidemia, prehypertension, T2 diabetes), **3** allergies, **3** immunizations.
+  - Billing/insurance: **4** invoices, **4** charge captures, **4** claims submissions (each referencing patient + rendering provider + encounter + payer + one prescription/lab/imaging), **4** claim statuses.
+  - IDs start at 1 in every table because the seed uses `restart identity` — so `{{patient_id}}=1` in the Postman env resolves to Ava Reyes, `{{payer_id}}=1` to Aetna, etc.
+  - Empty by design (seed a row before referencing): `specimen_tracking`, `device_registry`, `equipment`, `ai_agents`.
 
 ## How the frontend talks to the backend
 
@@ -216,7 +222,8 @@ External callers (agents, Postman collections, third-party integrations) hit the
 - **Discovery**: `GET /api/health` and `GET /api/services` (returns the 94-resource registry so callers can enumerate what's exposed).
 - **Which resources are exposed**: the 94 services in `services.ts` with `hasCrud:true`. The 7 with `hasCrud:false` (api-gateway, service-registry, patient-portal-api, provider-portal-api, device-telemetry-service, sms-gateway-service, secure-messaging-service) return 404.
 - **Field storage**: same convention as the SPA — base typed columns are `id, status, created_at, updated_at`; `patients` also has `first_name, last_name, dob, mrn, identity_sub`; everything else is merged into a `data` JSONB column on write and flattened on read.
-- **Postman collection**: `postman/collections/gateway.postman_collection.json` (478 requests, one folder per domain) with a matching environment at `postman/environments/gateway-prod.postman_environment.json`.
+- **Postman collection**: `postman/collections/healthcare-org gateway/` (486 requests: 94 resources × 5 CRUD + 2 meta + 6 custom actions + an 8-step Workflows folder). Companion environment at `postman/environments/healthcare-org gateway — prod.environment.yaml` — sets `baseUrl`, `apiKey` (bind to your `GATEWAY_API_KEY` via Postman Vault), and **24 FK collection variables** (`patient_id`, `provider_id`, `encounter_id`, `payer_id`, `facility_id`, `claim_id`, …). Each FK var defaults to `1` because the seed uses `restart identity` — so every Create request body resolves to a real seeded row with no editing. Every Create request's description also lists the exact `GET /api/<target>` to hit first for each FK it uses.
+- **Workflows folder**: chains 8 requests demonstrating a full visit → claim flow (book appointment → open encounter → add note → order lab → prescribe → order imaging → capture charge → submit claim). The final claim payload references every prior artifact by id, showing the intertwined graph in one payload. Run via the Postman Collection Runner.
 - **Note on the SPA**: the SPA still talks to Supabase directly via supabase-js; it does **not** route through the gateway. The gateway is for external callers only.
 - **Note on Vercel function count**: this gateway uses 10 serverless functions, which fits within the Vercel Hobby limit of 12.
 
