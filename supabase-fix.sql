@@ -30,7 +30,17 @@ truncate table
   public.prescriptions,
   public.lab_orders,
   public.lab_results,
-  public.invoicing
+  public.imaging_orders,
+  public.imaging_results,
+  public.invoicing,
+  public.payer_directory,
+  public.facilities,
+  public.claims_submission,
+  public.claims_status,
+  public.problem_list,
+  public.allergies,
+  public.immunizations,
+  public.charge_capture
 restart identity;
 
 insert into public.patients (first_name, last_name, dob, mrn, data) values
@@ -80,7 +90,68 @@ insert into public.lab_results (data) values
   ('{"patient_id":5,"lab_order_id":4,"test_code":"HbA1c","result":"7.2% - target 7.0%"}');
 
 insert into public.invoicing (data) values
-  ('{"patient_id":1,"amount":250.00,"description":"Annual physical - 2026","status":"pending"}'),
-  ('{"patient_id":1,"amount":85.50,"description":"Cardiology consult","status":"pending"}'),
-  ('{"patient_id":2,"amount":150.00,"description":"BP check + labs","status":"paid"}'),
-  ('{"patient_id":5,"amount":320.00,"description":"Diabetes management + labs","status":"pending"}');
+  ('{"patient_id":1,"encounter_id":1,"amount":250.00,"description":"Annual physical - 2026","status":"pending"}'),
+  ('{"patient_id":1,"encounter_id":2,"amount":85.50,"description":"Cardiology consult","status":"pending"}'),
+  ('{"patient_id":2,"encounter_id":3,"amount":150.00,"description":"BP check + labs","status":"paid"}'),
+  ('{"patient_id":5,"encounter_id":5,"amount":320.00,"description":"Diabetes management + labs","status":"pending"}');
+
+-- 3) Cross-reference catalog + FK chain tables added 2026-08-17 ──────────
+-- Payers, facilities, imaging orders/results, claims, statuses, problems,
+-- allergies, immunizations, charges. Enough to demonstrate the full
+-- clinical → billing graph across every FK dropdown.
+
+insert into public.payer_directory (data) values
+  ('{"name":"Aetna","phone":"1-800-872-3862","address":"151 Farmington Ave, Hartford, CT"}'),
+  ('{"name":"Blue Cross Blue Shield","phone":"1-888-630-2583","address":"225 N Michigan Ave, Chicago, IL"}'),
+  ('{"name":"UnitedHealthcare","phone":"1-866-414-1959","address":"9700 Health Care Ln, Minnetonka, MN"}'),
+  ('{"name":"Cigna","phone":"1-800-244-6224","address":"900 Cottage Grove Rd, Bloomfield, CT"}'),
+  ('{"name":"Medicare","phone":"1-800-633-4227","address":"7500 Security Blvd, Baltimore, MD"}');
+
+insert into public.facilities (data) values
+  ('{"name":"Main Clinic","address":"123 Main St, Springfield, IL","phone":"+1-555-1000"}'),
+  ('{"name":"Cardiology Center","address":"456 Heart Way, Springfield, IL","phone":"+1-555-2000"}'),
+  ('{"name":"Downtown Urgent Care","address":"789 Central Ave, Springfield, IL","phone":"+1-555-3000"}'),
+  ('{"name":"Pediatric Wing","address":"321 Children Blvd, Springfield, IL","phone":"+1-555-4000"}');
+
+insert into public.imaging_orders (data) values
+  ('{"patient_id":1,"ordered_by":2,"encounter_id":2,"modality":"echo","body_part":"Heart","priority":"routine"}'),
+  ('{"patient_id":2,"ordered_by":1,"encounter_id":3,"modality":"xray","body_part":"Chest","priority":"routine"}'),
+  ('{"patient_id":5,"ordered_by":4,"encounter_id":5,"modality":"mri","body_part":"Abdomen","priority":"stat"}');
+
+insert into public.imaging_results (data) values
+  ('{"patient_id":1,"imaging_order_id":1,"author_id":2,"findings":"Normal LV function, EF 55%"}'),
+  ('{"patient_id":2,"imaging_order_id":2,"author_id":1,"findings":"Clear lung fields, no infiltrates"}');
+
+insert into public.claims_submission (status, data) values
+  ('submitted', '{"patient_id":1,"provider_id":1,"encounter_id":1,"payer_id":1,"prescription_id":1,"diagnosis_codes":"Z00.00","amount":250.00}'),
+  ('submitted', '{"patient_id":1,"provider_id":2,"encounter_id":2,"payer_id":1,"imaging_order_id":1,"diagnosis_codes":"I10","amount":450.00}'),
+  ('paid',      '{"patient_id":2,"provider_id":1,"encounter_id":3,"payer_id":2,"lab_order_id":3,"diagnosis_codes":"I10","amount":150.00}'),
+  ('submitted', '{"patient_id":5,"provider_id":4,"encounter_id":5,"payer_id":5,"prescription_id":4,"lab_order_id":4,"diagnosis_codes":"E11.9","amount":320.00}');
+
+insert into public.claims_status (data) values
+  ('{"claim_id":1,"status_code":"pending_review","checked_at":"2026-08-15T10:00:00Z"}'),
+  ('{"claim_id":2,"status_code":"in_adjudication","checked_at":"2026-08-16T10:00:00Z"}'),
+  ('{"claim_id":3,"status_code":"paid","checked_at":"2026-08-14T10:00:00Z"}'),
+  ('{"claim_id":4,"status_code":"pending_review","checked_at":"2026-08-17T10:00:00Z"}');
+
+insert into public.problem_list (data) values
+  ('{"patient_id":1,"encounter_id":1,"condition":"Essential hypertension","icd10":"I10","onset_at":"2020-05-14"}'),
+  ('{"patient_id":1,"encounter_id":2,"condition":"Hyperlipidemia","icd10":"E78.5","onset_at":"2022-11-01"}'),
+  ('{"patient_id":2,"encounter_id":3,"condition":"Prehypertension","icd10":"R03.0","onset_at":"2024-01-15"}'),
+  ('{"patient_id":5,"encounter_id":5,"condition":"Type 2 diabetes mellitus","icd10":"E11.9","onset_at":"2015-03-22"}');
+
+insert into public.allergies (data) values
+  ('{"patient_id":1,"allergen":"Penicillin","reaction":"Hives","severity":"moderate"}'),
+  ('{"patient_id":2,"allergen":"Peanuts","reaction":"Anaphylaxis","severity":"critical"}'),
+  ('{"patient_id":3,"allergen":"Latex","reaction":"Contact dermatitis","severity":"low"}');
+
+insert into public.immunizations (data) values
+  ('{"patient_id":1,"administered_by":1,"vaccine":"Influenza","administered_at":"2025-10-01","lot_number":"FLU-2025-A"}'),
+  ('{"patient_id":3,"administered_by":3,"vaccine":"MMR","administered_at":"2024-02-15","lot_number":"MMR-2024-B"}'),
+  ('{"patient_id":6,"administered_by":3,"vaccine":"HPV","administered_at":"2025-06-20","lot_number":"HPV-2025-A"}');
+
+insert into public.charge_capture (data) values
+  ('{"patient_id":1,"encounter_id":1,"provider_id":1,"cpt_code":"99213","amount":150.00}'),
+  ('{"patient_id":1,"encounter_id":2,"provider_id":2,"cpt_code":"93000","amount":85.50}'),
+  ('{"patient_id":2,"encounter_id":3,"provider_id":1,"cpt_code":"99214","amount":200.00}'),
+  ('{"patient_id":5,"encounter_id":5,"provider_id":4,"cpt_code":"99215","amount":250.00}');
