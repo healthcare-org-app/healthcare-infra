@@ -1,0 +1,119 @@
+name: healthcare-org gateway — prod
+# Companion environment for postman/collections/healthcare-org gateway.
+# Every FK variable defaults to `1` because supabase-fix.sql seeds with
+# `restart identity`, so the first inserted row of each table has id=1.
+# Override per-request or per-run as needed.
+values:
+  - key: baseUrl
+    value: https://myhealthcare.dev
+    type: default
+  - key: apiKey
+    value: REPLACE_ME_WITH_GATEWAY_API_KEY
+    type: secret
+    description: Bearer token. Match the GATEWAY_API_KEY set on the myhealthcare Vercel project.
+
+  # Patients
+  - key: patient_id
+    value: '1'
+    type: default
+    description: Ava Reyes (MRN-001)
+  - key: source_patient_id
+    value: '1'
+    type: default
+    description: For patient-merge — "from" patient (Ava Reyes)
+  - key: target_patient_id
+    value: '2'
+    type: default
+    description: For patient-merge — "into" patient (Julian Okafor)
+  - key: related_to
+    value: '2'
+    type: default
+    description: Related patient id, for patient-relationships
+
+  # Providers
+  - key: provider_id
+    value: '1'
+    type: default
+    description: Sarah Chen — Family Medicine
+  - key: ordered_by
+    value: '1'
+    type: default
+    description: Provider who placed the order (Sarah Chen)
+  - key: author_id
+    value: '1'
+    type: default
+    description: Authoring provider (notes, discharge summaries, results)
+  - key: administered_by
+    value: '1'
+    type: default
+    description: Provider who administered (e.g. immunization)
+  - key: dispensed_by
+    value: '1'
+    type: default
+    description: Provider who dispensed
+  - key: referring_provider_id
+    value: '1'
+    type: default
+    description: Referring provider (Sarah Chen)
+  - key: referred_to_provider_id
+    value: '2'
+    type: default
+    description: Referred-to provider (Marcus Rodriguez, Cardiology)
+
+  # Clinical activity
+  - key: encounter_id
+    value: '1'
+    type: default
+    description: Ava's annual physical
+  - key: appointment_id
+    value: '1'
+    type: default
+    description: Ava's next visit
+  - key: prescription_id
+    value: '1'
+    type: default
+    description: Lisinopril 10mg for Ava
+  - key: lab_order_id
+    value: '1'
+    type: default
+    description: CBC for Ava
+  - key: imaging_order_id
+    value: '1'
+    type: default
+    description: Echo of heart for Ava
+  - key: specimen_id
+    value: '1'
+    type: default
+    description: specimen-tracking table is empty in the seed — seed one before using
+
+  # Billing / insurance
+  - key: invoice_id
+    value: '1'
+    type: default
+    description: Ava's annual physical invoice
+  - key: claim_id
+    value: '1'
+    type: default
+    description: Ava's annual physical claim (submitted to Aetna)
+  - key: payer_id
+    value: '1'
+    type: default
+    description: Aetna
+  - key: facility_id
+    value: '1'
+    type: default
+    description: Main Clinic
+
+  # Devices / AI (empty in the seed — seed at least one row before using)
+  - key: device_id
+    value: '1'
+    type: default
+    description: device-registry is empty in the seed
+  - key: equipment_id
+    value: '1'
+    type: default
+    description: equipment is empty in the seed
+  - key: agent_id
+    value: '1'
+    type: default
+    description: ai-agents is empty in the seed
