@@ -22,9 +22,28 @@ async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
     if (error) throw new HttpError(500, "db_error", error.message);
     if (!data) throw new HttpError(404, "not_found", `no eligibility record with id ${id}`);
     const merged = mergeRow(data as Row);
+
+    if (data.status !== "active") {
+      res.status(200).json({
+        ...merged,
+        checked_at: new Date().toISOString(),
+        active: false,
+        reason: "coverage_inactive",
+      });
+      return;
+    }
+
+    // Deterministic stand-in for a real payer eligibility call: a stable
+    // per-payer plan tier gives a reproducible copay instead of a live quote.
+    const PLAN_TIERS = [20, 35, 50];
+    const payerId = Number((merged as Record<string, unknown>).payer_id ?? 0);
+    const copay = PLAN_TIERS[payerId % PLAN_TIERS.length];
+
     res.status(200).json({
       ...merged,
       checked_at: new Date().toISOString(),
+      active: true,
+      copay,
     });
   } catch (err) {
     sendError(res, err);

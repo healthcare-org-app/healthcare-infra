@@ -5,6 +5,7 @@ import { requireApiKey } from "../_lib/auth.js";
 import { withCors } from "../_lib/cors.js";
 import { HttpError, sendError } from "../_lib/errors.js";
 import { splitBody, mergeRow, type Row } from "../_lib/rows.js";
+import { assertFkExists, assertTransition, computeAdjudication } from "../_lib/businessRules.js";
 
 const BASE_TYPED = new Set(["id", "status", "created_at", "updated_at"]);
 const PATIENTS_TYPED = new Set(["first_name", "last_name", "dob", "mrn", "identity_sub"]);
@@ -52,9 +53,40 @@ async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
 
     if (req.method === "POST") {
       const body = (req.body ?? {}) as Record<string, unknown>;
+
+      if (def.table === "eligibility") {
+        await assertFkExists(sb, "patients", body.patient_id, "patient_id");
+        await assertFkExists(sb, "payer_directory", body.payer_id, "payer_id");
+      }
+
+      if (def.table === "claims_adjudication") {
+        await assertFkExists(sb, "claims_submission", body.claim_id, "claim_id");
+        const { data: claim, error: claimErr } = await sb
+          .from("claims_submission")
+          .select("id, status, data")
+          .eq("id", Number(body.claim_id))
+          .maybeSingle();
+        if (claimErr) throw new HttpError(500, "db_error", claimErr.message);
+        assertTransition("claims_submission", claim?.status as string | undefined, "adjudicated");
+        const claimData = (claim as { data?: Record<string, unknown> }).data ?? {};
+        const result = computeAdjudication(Number(claimData.amount ?? 0), claimData.diagnosis_codes);
+        body.decision = result.decision;
+        body.amount_allowed = result.amount_allowed;
+        body.denial_reason = result.denial_reason;
+      }
+
       const insertRow = splitBody(def.table, body);
       const { data, error } = await sb.from(def.table).insert(insertRow).select().single();
       if (error) throw new HttpError(400, "db_error", error.message);
+
+      if (def.table === "claims_adjudication") {
+        const { error: patchErr } = await sb
+          .from("claims_submission")
+          .update({ status: "adjudicated", updated_at: new Date().toISOString() })
+          .eq("id", Number(body.claim_id));
+        if (patchErr) throw new HttpError(500, "db_error", patchErr.message);
+      }
+
       res.status(201).json(mergeRow(data as Row));
       return;
     }

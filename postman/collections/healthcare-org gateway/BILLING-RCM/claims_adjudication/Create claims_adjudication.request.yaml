@@ -3,6 +3,13 @@ description: |-
   Create a Claims Adjudication. Body fields mirror `services.ts` createFields.
 
   **FK references (fetch these first):** `claim_id` → `GET /api/claims_submission`
+
+  The gateway computes the real outcome server-side — `decision`, `amount_allowed`,
+  and `denial_reason` in the response are derived from the referenced claim's
+  `amount`/`diagnosis_codes` and override whatever is sent in this body. The
+  referenced claim's `status` also flips to `adjudicated`. Adjudicating the same
+  `claim_id` twice returns `409 illegal_transition`; an unknown `claim_id` returns
+  `422 fk_not_found`.
 url: "{{baseUrl}}/api/claims_adjudication"
 method: POST
 headers:

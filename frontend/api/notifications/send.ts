@@ -16,6 +16,10 @@ async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
     if (!to || !channel) {
       throw new HttpError(400, "bad_body", "'to' and 'channel' are required");
     }
+    const VALID_CHANNELS = new Set(["email", "sms", "push"]);
+    if (!VALID_CHANNELS.has(String(channel))) {
+      throw new HttpError(400, "bad_channel", `'channel' must be one of: ${[...VALID_CHANNELS].join(", ")}`);
+    }
     const sb = serverClient();
     const { data, error } = await sb
       .from("notifications")
