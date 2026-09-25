@@ -1,0 +1,6 @@
+$kind: collection
+description: >-
+  Notion — creates and updates pages, e.g. ops runbooks or audit trails.
+  Not a HIPAA-eligible service and will not sign a BAA: never send
+  patient/clinical data through these requests.
+order: 3000

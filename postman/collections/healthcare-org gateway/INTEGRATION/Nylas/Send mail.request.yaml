@@ -1,0 +1,20 @@
+$kind: http-request
+description: >-
+  Sends mail from the connected clinician's mailbox (as them, not from a
+  clinic-wide sender). `idempotency_key` makes a retried send replay instead
+  of duplicating — vary it for genuinely distinct messages.
+url: "{{baseUrl}}/api/nylas/inbox"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "provider_id": "{{provider_id}}",
+      "to": [{ "email": "patient@example.com" }],
+      "subject": "Your upcoming appointment",
+      "body": "This is a reminder about your visit."
+    }
+order: 7000

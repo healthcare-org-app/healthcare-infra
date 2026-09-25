@@ -1,0 +1,23 @@
+$kind: http-request
+description: >-
+  Creates a Nylas calendar event for the appointment and invites the patient
+  by email. Idempotent — a repeat call reads the existing event back instead
+  of double-booking. Requires the provider to have a connected mailbox first
+  (see `Nylas/Connect mailbox`, under Integration). Body is optional; every
+  field shown is a default. `conferencing` must be "Google Meet" or
+  "Microsoft Teams" to auto-create a video link; omit it for none.
+url: "{{baseUrl}}/api/appointments/{{appointment_id}}/invite"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "calendar_id": "primary",
+      "timezone": "America/New_York",
+      "conferencing": "Google Meet",
+      "notify_participants": true
+    }
+order: 2500

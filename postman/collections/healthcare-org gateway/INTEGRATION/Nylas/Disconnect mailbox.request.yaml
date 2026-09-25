@@ -1,0 +1,17 @@
+$kind: http-request
+description: >-
+  Disconnects a clinician's mailbox: revokes the grant upstream, then marks
+  the local row "revoked" (kept, not deleted, for the audit trail). 409
+  `not_connected` if the provider never connected one.
+url: "{{baseUrl}}/api/nylas/disconnect"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "provider_id": "{{provider_id}}"
+    }
+order: 3000

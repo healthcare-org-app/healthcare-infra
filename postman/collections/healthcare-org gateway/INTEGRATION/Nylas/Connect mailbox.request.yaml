@@ -1,0 +1,20 @@
+$kind: http-request
+description: >-
+  Starts the mailbox connection flow for one clinician. Returns an `auth_url`
+  (valid for `expires_in` seconds) rather than issuing a redirect — the caller
+  navigates the clinician to it. `provider` is optional and one of google,
+  microsoft, imap, virtual-calendar; `login_hint` optionally pre-fills the
+  account picker.
+url: "{{baseUrl}}/api/nylas/connect"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "provider_id": "{{provider_id}}",
+      "provider": "google"
+    }
+order: 1000

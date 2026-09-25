@@ -1,0 +1,12 @@
+$kind: http-request
+description: >-
+  Reads one page's properties (not its block content). The response carries
+  `property_types`, which is what a subsequent PATCH needs to shape its
+  values correctly. A page id Notion has not been shared with 404s, same as
+  a page that does not exist.
+url: "{{baseUrl}}/api/notion/pages/{{notion_page_id}}"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+order: 2000

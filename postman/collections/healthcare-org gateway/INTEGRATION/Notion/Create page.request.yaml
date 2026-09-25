@@ -1,0 +1,24 @@
+$kind: http-request
+description: >-
+  Creates a page as a row of `database_id` (may be omitted when
+  NOTION_DATABASE_ID is set on the Vercel project) — property values are
+  plain JSON, widened against the database's own schema, so a select is just
+  its name and a date is just an ISO string. Pass `parent_page_id` instead of
+  `database_id` to create a child page under an existing page — that parent
+  has no schema, so `title` is the only property.
+url: "{{baseUrl}}/api/notion/pages"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "database_id": "{{notionDatabaseId}}",
+      "properties": {
+        "Name": "Q3 access audit",
+        "Status": "Open"
+      }
+    }
+order: 1000

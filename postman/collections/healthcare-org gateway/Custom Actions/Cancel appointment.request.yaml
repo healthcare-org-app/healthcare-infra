@@ -1,8 +1,21 @@
 $kind: http-request
-description: status='cancelled'.
+description: >-
+  status='cancelled'. If the appointment has a Nylas calendar invite (created
+  via `Invite appointment`), withdraws it too before returning. Body is
+  optional; `notify_participants` (default true) controls whether the
+  calendar cancellation notice goes out. Returns 207 when the appointment is
+  cancelled locally but the calendar withdrawal failed — `calendar_invite`
+  in the response distinguishes "none" | "cancelled" | "failed".
 url: "{{baseUrl}}/api/appointments/{{appointment_id}}/cancel"
 method: POST
 headers:
   Authorization: Bearer {{apiKey}}
   Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "notify_participants": true
+    }
+examples: './.resources/Cancel appointment.resources/examples'
 order: 2000

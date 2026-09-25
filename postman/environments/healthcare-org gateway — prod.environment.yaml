@@ -117,3 +117,21 @@ values:
     value: '1'
     type: default
     description: ai-agents is empty in the seed
+
+  # Consent / third-party integrations
+  - key: patient_consent_id
+    value: '1'
+    type: default
+    description: patient_consent is empty in the seed — create one via PATIENTS/patient_consent/Create first
+  - key: docusignConsentTemplateId
+    value: REPLACE_WITH_DOCUSIGN_TEMPLATE_ID
+    type: default
+    description: Mirrors DOCUSIGN_CONSENT_TEMPLATE_ID on the Vercel project (DocuSign → Templates → your consent form → Template ID). Optional — omit and pass template_id or document_base64 per-request instead.
+  - key: notionDatabaseId
+    value: REPLACE_WITH_NOTION_DATABASE_ID
+    type: default
+    description: Mirrors NOTION_DATABASE_ID on the Vercel project. Only needed per-request if that env var is unset.
+  - key: notion_page_id
+    value: REPLACE_WITH_NOTION_PAGE_ID
+    type: default
+    description: Notion pages aren't part of the Supabase seed — set this after running Notion/Create page.

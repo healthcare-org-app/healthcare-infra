@@ -1,0 +1,36 @@
+$kind: http-example
+name: 207 Multi-Status
+request:
+  url: '{{baseUrl}}/api/appointments/1/cancel'
+  method: POST
+response:
+  statusCode: 207
+  statusText: Multi-Status
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "status": "cancelled",
+        "created_at": "2026-01-10T14:00:00.000Z",
+        "updated_at": "2026-09-25T17:40:00.000Z",
+        "patient_id": 1,
+        "provider_id": 1,
+        "facility_id": 1,
+        "starts_at": "2026-09-30T13:00:00.000Z",
+        "duration_min": 30,
+        "reason": "Annual physical",
+        "cancelled_at": "2026-09-25T17:40:00.000Z",
+        "nylas_event_id": "nylas-evt-88fa21",
+        "nylas_cancel_error": "nylas_provider_unreachable: request to Nylas timed out",
+        "calendar_invite": {
+          "status": "failed",
+          "event_id": "nylas-evt-88fa21",
+          "code": "nylas_provider_unreachable",
+          "message": "request to Nylas timed out"
+        }
+      }
+order: 2000
