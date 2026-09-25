@@ -17,4 +17,18 @@ body:
       "provider_id": "{{provider_id}}",
       "provider": "google"
     }
+examples: './.resources/Connect mailbox.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("returns a usable hosted-auth handoff", function () {
+        const body = pm.response.json();
+        pm.expect(body.auth_url).to.include("nylas.com/v3/connect/auth");
+        pm.expect(body.expires_in).to.eql(600);
+        pm.expect(body.state).to.be.a("string");
+      });
 order: 1000

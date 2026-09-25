@@ -11,4 +11,17 @@ headers:
   Content-Type: application/json
 queryParams:
   provider_id: '{{provider_id}}'
+examples: './.resources/List calendar.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("lists the connected clinician's calendars", function () {
+        const body = pm.response.json();
+        pm.expect(body.calendars).to.be.an("array");
+        pm.expect(body.count).to.eql(body.calendars.length);
+      });
 order: 5000

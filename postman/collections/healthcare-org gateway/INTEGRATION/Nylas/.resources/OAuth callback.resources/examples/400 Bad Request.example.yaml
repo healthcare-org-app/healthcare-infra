@@ -1,0 +1,21 @@
+$kind: http-example
+name: 400 Bad Request
+request:
+  url: '{{baseUrl}}/api/nylas/callback?state=&code='
+  method: GET
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "bad_state",
+          "message": "state parameter is malformed"
+        }
+      }
+order: 1000

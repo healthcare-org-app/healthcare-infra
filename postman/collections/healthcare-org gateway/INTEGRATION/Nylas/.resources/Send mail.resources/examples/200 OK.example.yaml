@@ -1,0 +1,22 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/nylas/inbox'
+  method: POST
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "provider_id": 1,
+        "from": "sarah.chen@myhealthcare.dev",
+        "message_id": "nylas-msg-9f2",
+        "thread_id": "nylas-thread-9f2",
+        "delivery_status": "sent"
+      }
+order: 1000

@@ -11,4 +11,19 @@ headers:
   Content-Type: application/json
 queryParams:
   provider_id: '{{provider_id}}'
+examples: './.resources/Read inbox.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("lists inbox messages without leaking bodies", function () {
+        const body = pm.response.json();
+        pm.expect(body.messages).to.be.an("array");
+        if (body.messages.length > 0) {
+          pm.expect(body.messages[0]).to.not.have.property("body");
+        }
+      });
 order: 6000

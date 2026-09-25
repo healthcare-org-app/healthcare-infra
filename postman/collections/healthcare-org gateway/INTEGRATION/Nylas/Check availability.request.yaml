@@ -21,4 +21,18 @@ body:
       "end": "2026-09-29T00:00:00Z",
       "duration_minutes": 30
     }
+examples: './.resources/Check availability.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("returns bookable slots for the requested mode", function () {
+        const body = pm.response.json();
+        pm.expect(body.mode).to.eql("slots");
+        pm.expect(body.slots).to.be.an("array");
+        pm.expect(body.count).to.eql(body.slots.length);
+      });
 order: 4000

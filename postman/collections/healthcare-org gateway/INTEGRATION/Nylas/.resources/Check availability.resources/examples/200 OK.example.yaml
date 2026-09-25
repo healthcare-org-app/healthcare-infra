@@ -1,0 +1,26 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/nylas/availability'
+  method: POST
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "provider_id": 1,
+        "mode": "slots",
+        "window": { "start": "2026-09-28T00:00:00Z", "end": "2026-09-29T00:00:00Z" },
+        "duration_minutes": 30,
+        "count": 2,
+        "slots": [
+          { "start": "2026-09-28T14:00:00.000Z", "end": "2026-09-28T14:30:00.000Z", "emails": ["sarah.chen@myhealthcare.dev"] },
+          { "start": "2026-09-28T15:00:00.000Z", "end": "2026-09-28T15:30:00.000Z", "emails": ["sarah.chen@myhealthcare.dev"] }
+        ]
+      }
+order: 1000

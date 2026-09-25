@@ -20,4 +20,17 @@ body:
       "conferencing": "Google Meet",
       "notify_participants": true
     }
+examples: './.resources/Invite appointment.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 200 (event created or idempotent read-back)", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("response documents the invite outcome", function () {
+        const body = pm.response.json();
+        pm.expect(body.event_created).to.be.a("boolean");
+        pm.expect(body.event).to.have.property("id");
+      });
 order: 2500

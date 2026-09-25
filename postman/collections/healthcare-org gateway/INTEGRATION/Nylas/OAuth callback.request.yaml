@@ -11,4 +11,13 @@ method: GET
 queryParams:
   state: ''
   code: ''
+examples: './.resources/OAuth callback.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("placeholder state/code fails verification as documented", function () {
+        pm.response.to.have.status(400);
+        pm.expect(pm.response.json().error.code).to.eql("bad_state");
+      });
 order: 2000

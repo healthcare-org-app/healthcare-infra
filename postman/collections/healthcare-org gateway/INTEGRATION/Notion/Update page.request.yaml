@@ -16,4 +16,16 @@ body:
         "Status": "In review"
       }
     }
+examples: './.resources/Update page.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("only the named property changed", function () {
+        const body = pm.response.json();
+        pm.expect(body.properties.Status).to.eql("In review");
+      });
 order: 3000

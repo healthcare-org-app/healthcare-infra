@@ -21,4 +21,18 @@ body:
         "Status": "Open"
       }
     }
+examples: './.resources/Create page.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 201", function () {
+        pm.response.to.have.status(201);
+      });
+      pm.test("created page carries an id and its property schema", function () {
+        const body = pm.response.json();
+        pm.expect(body.id).to.be.a("string");
+        pm.expect(body.archived).to.eql(false);
+        pm.expect(body.property_types).to.be.an("object");
+      });
 order: 1000

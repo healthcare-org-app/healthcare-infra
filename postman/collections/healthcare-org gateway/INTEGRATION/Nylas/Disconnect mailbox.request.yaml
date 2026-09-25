@@ -14,4 +14,15 @@ body:
     {
       "provider_id": "{{provider_id}}"
     }
+examples: './.resources/Disconnect mailbox.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("grant is marked revoked", function () {
+        pm.expect(pm.response.json().status).to.eql("revoked");
+      });
 order: 3000

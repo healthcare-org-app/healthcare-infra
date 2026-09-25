@@ -17,4 +17,17 @@ body:
       "subject": "Your upcoming appointment",
       "body": "This is a reminder about your visit."
     }
+examples: './.resources/Send mail.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("mail was accepted for delivery", function () {
+        const body = pm.response.json();
+        pm.expect(body.delivery_status).to.eql("sent");
+        pm.expect(body.message_id).to.be.a("string");
+      });
 order: 7000
