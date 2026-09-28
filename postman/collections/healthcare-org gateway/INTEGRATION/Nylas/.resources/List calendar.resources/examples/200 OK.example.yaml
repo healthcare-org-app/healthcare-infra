@@ -1,0 +1,23 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/nylas/calendar?provider_id=1'
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "provider_id": 1,
+        "mailbox": "sarah.chen@myhealthcare.dev",
+        "count": 1,
+        "calendars": [
+          { "id": "primary", "name": "Sarah Chen", "description": null, "timezone": "America/New_York", "is_primary": true, "read_only": false }
+        ]
+      }
+order: 1000

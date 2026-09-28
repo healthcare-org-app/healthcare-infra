@@ -1,0 +1,21 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/nylas/connect'
+  method: POST
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "provider_id": 1,
+        "auth_url": "https://api.us.nylas.com/v3/connect/auth?client_id=abc123&redirect_uri=https%3A%2F%2Fmyhealthcare.dev%2Fapi%2Fnylas%2Fcallback&response_type=code&access_type=offline&state=1.1769362800.9f2a1b",
+        "state": "1.1769362800.9f2a1b",
+        "expires_in": 600
+      }
+order: 1000

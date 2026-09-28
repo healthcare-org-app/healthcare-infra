@@ -1,0 +1,21 @@
+$kind: http-example
+name: 404 Not Found
+request:
+  url: '{{baseUrl}}/api/patients/999999'
+  method: GET
+response:
+  statusCode: 404
+  statusText: Not Found
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "not_found",
+          "message": "no patients with id 999999"
+        }
+      }
+order: 2000

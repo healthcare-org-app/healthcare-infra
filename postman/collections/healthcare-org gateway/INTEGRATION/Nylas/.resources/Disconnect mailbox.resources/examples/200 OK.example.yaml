@@ -1,0 +1,21 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/nylas/disconnect'
+  method: POST
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "provider_id": 1,
+        "mailbox": "sarah.chen@myhealthcare.dev",
+        "status": "revoked",
+        "revoked_at": "2026-09-25T17:50:00.000Z"
+      }
+order: 1000

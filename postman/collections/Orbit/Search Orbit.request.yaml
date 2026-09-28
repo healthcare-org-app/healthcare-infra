@@ -1,0 +1,13 @@
+$kind: http-request
+name: Search Orbit
+url: https://api.buildwithorbit.ai/v1/search?limit=10
+method: POST
+queryParams:
+  limit: "10"
+body:
+  type: json
+  content: |-
+    {
+        "q": "find me an api that I should use to allow patients to video call with their doctor for their telehealth appointment."
+    }
+order: 1787704032361

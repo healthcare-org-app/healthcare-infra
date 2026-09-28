@@ -1,0 +1,38 @@
+$kind: http-request
+description: >-
+  Finds bookable slots (`mode: "slots"`, the default) or raw busy blocks
+  (`mode: "freebusy"`) for a set of clinicians. `emails` defaults to the
+  connected grant's own address when omitted. `freebusy` requires every
+  address to be on the same upstream provider (all-Google or all-Microsoft);
+  `slots` only sees addresses already connected to this Nylas app. Window
+  cannot exceed 31 days.
+url: "{{baseUrl}}/api/nylas/availability"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "provider_id": "{{provider_id}}",
+      "mode": "slots",
+      "start": "2026-09-28T00:00:00Z",
+      "end": "2026-09-29T00:00:00Z",
+      "duration_minutes": 30
+    }
+examples: './.resources/Check availability.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("returns bookable slots for the requested mode", function () {
+        const body = pm.response.json();
+        pm.expect(body.mode).to.eql("slots");
+        pm.expect(body.slots).to.be.an("array");
+        pm.expect(body.count).to.eql(body.slots.length);
+      });
+order: 4000

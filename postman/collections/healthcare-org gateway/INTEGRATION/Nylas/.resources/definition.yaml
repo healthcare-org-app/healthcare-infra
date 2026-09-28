@@ -1,0 +1,7 @@
+$kind: collection
+description: >-
+  Nylas v3 — connects a clinician's mailbox by hosted OAuth, then reads/writes
+  calendar and inbox on their behalf. One grant per provider; see
+  `Connect mailbox` to start the flow and `OAuth callback` for the redirect
+  target Nylas sends the clinician's browser to.
+order: 2000

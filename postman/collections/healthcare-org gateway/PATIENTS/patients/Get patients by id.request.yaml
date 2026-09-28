@@ -5,4 +5,5 @@ method: GET
 headers:
   Authorization: Bearer {{apiKey}}
   Content-Type: application/json
+examples: './.resources/Get patients by id.resources/examples'
 order: 3000

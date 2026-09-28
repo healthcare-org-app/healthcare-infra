@@ -1,0 +1,10 @@
+version: 1
+id: a9bc212f-e982-4d6c-8fcf-159c47e121b5
+name: healthcare-org-gateway
+slug: healthcare-org-gateway
+protocol: http
+port: 4010
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

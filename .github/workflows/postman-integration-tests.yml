@@ -1,0 +1,66 @@
+name: Postman integration tests
+
+on:
+  pull_request:
+    paths:
+      - "frontend/api/**"
+      - "postman/collections/healthcare-org gateway/**"
+      - "postman/mocks/healthcare-org-gateway/**"
+      - ".github/workflows/postman-integration-tests.yml"
+
+jobs:
+  lint-collection:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install -g postman-cli
+      - run: postman collection lint "postman/collections/healthcare-org gateway" -f error
+
+  test-new-integrations:
+    runs-on: ubuntu-latest
+    needs: lint-collection
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install -g postman-cli
+      # Targets the local mock generated from this collection's saved examples,
+      # not live prod — Cancel/Invite/Send mail/Create page all have real
+      # third-party side effects (Nylas email + calendar, Notion writes), so a
+      # PR-triggered run must never hit the real integrations.
+      # -r junit is not supported for this v3 (git-native) collection format,
+      # so the CLI's own exit code — nonzero on any failed pm.test — is the
+      # actual gate; the log is captured only for convenience.
+      - name: Run Nylas/Notion/Invite/Cancel appointment tests against the mock
+        run: |
+          set -o pipefail
+          postman collection run "postman/collections/healthcare-org gateway" \
+            --use-mock "{{baseUrl}} mock:./postman/mocks/healthcare-org-gateway/config.yaml" \
+            -i "Custom Actions/Cancel appointment" \
+            -i "Custom Actions/Invite appointment" \
+            -i "INTEGRATION/Nylas/Connect mailbox" \
+            -i "INTEGRATION/Nylas/Disconnect mailbox" \
+            -i "INTEGRATION/Nylas/OAuth callback" \
+            -i "INTEGRATION/Nylas/Check availability" \
+            -i "INTEGRATION/Nylas/List calendar" \
+            -i "INTEGRATION/Nylas/Read inbox" \
+            -i "INTEGRATION/Nylas/Send mail" \
+            -i "INTEGRATION/Notion/Create page" \
+            -i "INTEGRATION/Notion/Get page" \
+            -i "INTEGRATION/Notion/Update page" \
+            --env-var apiKey=ci-mock-key \
+            --env-var provider_id=1 \
+            --env-var appointment_id=1 \
+            --env-var notion_page_id=b1a2c3d4-e5f6-7890-abcd-ef1234567890 \
+            --no-report-events \
+            | tee postman-run.log
+      - name: Publish run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-run-log
+          path: postman-run.log

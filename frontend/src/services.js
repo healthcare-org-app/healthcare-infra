@@ -11,6 +11,8 @@ export const FK_TARGETS = {
     provider_id: "providers-service",
     ordered_by: "providers-service",
     author_id: "providers-service",
+    administered_by: "providers-service",
+    dispensed_by: "providers-service",
     referring_provider_id: "providers-service",
     referred_to_provider_id: "providers-service",
     encounter_id: "encounters-service",
@@ -24,6 +26,8 @@ export const FK_TARGETS = {
     facility_id: "facilities-service",
     device_id: "device-registry-service",
     equipment_id: "equipment-service",
+    agent_id: "ai-agents-service",
+    specimen_id: "specimen-tracking-service",
     source_patient_id: "patients-service",
     target_patient_id: "patients-service",
     related_to: "patients-service",
@@ -67,15 +71,73 @@ export function formatRefLabel(serviceName, row) {
     if (serviceName === "lab-orders-service") {
         return [idFallback, s("test_code")].filter(Boolean).join(" · ");
     }
+    if (serviceName === "imaging-orders-service") {
+        return [idFallback, s("modality"), s("body_part")].filter(Boolean).join(" · ");
+    }
     if (serviceName === "invoicing-service") {
         const amount = row.amount != null ? `$${row.amount}` : "";
         return [idFallback, s("description"), amount].filter(Boolean).join(" · ");
     }
+    if (serviceName === "claims-submission-service") {
+        const amount = row.amount != null ? `$${row.amount}` : "";
+        return [idFallback, amount].filter(Boolean).join(" · ");
+    }
+    if (serviceName === "charge-capture-service") {
+        const amount = row.amount != null ? `$${row.amount}` : "";
+        return [idFallback, s("cpt_code"), amount].filter(Boolean).join(" · ");
+    }
     if (serviceName === "facilities-service" || serviceName === "payer-directory") {
         return s("name") || idFallback;
     }
+    if (serviceName === "device-registry-service") {
+        return [idFallback, s("device_type"), s("serial_number")].filter(Boolean).join(" · ");
+    }
+    if (serviceName === "device-alerts-service") {
+        return [idFallback, s("alert_type"), s("severity")].filter(Boolean).join(" · ");
+    }
+    if (serviceName === "specimen-tracking-service") {
+        return [idFallback, s("specimen_type")].filter(Boolean).join(" · ");
+    }
+    if (serviceName === "problem-list-service") {
+        const dx = s("icd10");
+        const cond = s("condition");
+        if (cond && dx)
+            return `${cond} (${dx})`;
+        return [idFallback, cond || dx].filter(Boolean).join(" · ");
+    }
+    if (serviceName === "allergies-service") {
+        return [idFallback, s("allergen"), s("reaction")].filter(Boolean).join(" · ");
+    }
+    if (serviceName === "immunizations-service") {
+        return [idFallback, s("vaccine")].filter(Boolean).join(" · ");
+    }
+    if (serviceName === "refills-service" || serviceName === "pharmacy-service") {
+        return [idFallback, row.prescription_id ? `Rx #${row.prescription_id}` : ""]
+            .filter(Boolean)
+            .join(" · ");
+    }
+    if (serviceName === "dispensing-service") {
+        return [idFallback, row.prescription_id ? `Rx #${row.prescription_id}` : "", s("dispensed_at")]
+            .filter(Boolean)
+            .join(" · ");
+    }
+    if (serviceName === "room-booking-service") {
+        return [idFallback, s("room_name")].filter(Boolean).join(" · ");
+    }
+    if (serviceName === "wards-beds-service") {
+        const beds = row.bed_count != null ? `${row.bed_count} beds` : "";
+        return [idFallback, s("ward_name"), beds].filter(Boolean).join(" · ");
+    }
     // Generic fallback — grab a short label from typical name-ish fields.
-    const guess = s("name") || s("title") || s("code") || s("test_code") || s("drug") || s("description");
+    const guess = s("name") ||
+        s("title") ||
+        s("code") ||
+        s("test_code") ||
+        s("drug") ||
+        s("description") ||
+        s("serial_number") ||
+        s("ward_name") ||
+        s("room_name");
     return guess ? `${idFallback} — ${guess.slice(0, 40)}` : idFallback;
 }
 // Turn a snake_case key into a human label. patient_id → "Patient", ordered_by → "Ordered by".
@@ -458,6 +520,7 @@ export const SERVICES = [
     svc("problem-list-service", 8303, "python", "CLINICAL/EHR", {
         createFields: [
             { key: "patient_id", required: true },
+            { key: "encounter_id", label: "Encounter (visit this was documented at)" },
             { key: "condition", required: true },
             { key: "icd10", label: "ICD-10 code" },
             { key: "onset_at", kind: "date" },
@@ -481,6 +544,8 @@ export const SERVICES = [
     svc("immunizations-service", 8306, "python", "CLINICAL/EHR", {
         createFields: [
             { key: "patient_id", required: true },
+            { key: "administered_by", label: "Administered by (provider)" },
+            { key: "encounter_id", label: "Encounter" },
             { key: "vaccine", required: true },
             { key: "administered_at", kind: "date" },
             { key: "lot_number" },
@@ -500,6 +565,7 @@ export const SERVICES = [
         createFields: [
             { key: "patient_id", required: true },
             { key: "provider_id", required: true },
+            { key: "encounter_id", label: "Encounter" },
             { key: "order_type", kind: "select", options: [
                     { value: "med", label: "Medication" }, { value: "lab", label: "Lab" },
                     { value: "imaging", label: "Imaging" }, { value: "procedure", label: "Procedure" },
@@ -510,7 +576,8 @@ export const SERVICES = [
     svc("care-plan-service", 8309, "python", "CLINICAL/EHR", {
         createFields: [
             { key: "patient_id", required: true },
-            { key: "provider_id" },
+            { key: "provider_id", label: "Responsible provider" },
+            { key: "encounter_id", label: "Encounter (visit this plan was set at)" },
             { key: "goals", kind: "textarea" },
         ],
     }),
@@ -526,13 +593,17 @@ export const SERVICES = [
         createFields: [
             { key: "encounter_id", required: true },
             { key: "patient_id", required: true },
+            { key: "author_id", label: "Authoring provider", required: true },
             { key: "summary", kind: "textarea", required: true },
         ],
     }),
     svc("clinical-decision-support", 8312, "python", "CLINICAL/EHR", {
         createFields: [
             { key: "patient_id", required: true },
-            { key: "alert_type" }, { key: "recommendation", kind: "textarea" },
+            { key: "encounter_id", label: "Encounter (visit that triggered this)" },
+            { key: "provider_id", label: "Notified provider" },
+            { key: "alert_type" },
+            { key: "recommendation", kind: "textarea" },
         ],
     }),
     svc("diagnosis-codes-service", 8313, "python", "CLINICAL/EHR", {
@@ -553,6 +624,7 @@ export const SERVICES = [
         createFields: [
             { key: "patient_id", required: true },
             { key: "ordered_by", label: "Ordered by (provider)", required: true },
+            { key: "encounter_id", label: "Encounter (visit this was ordered at)" },
             { key: "test_code", kind: "select", options: [
                     { value: "CBC", label: "CBC — Complete Blood Count" },
                     { value: "CMP", label: "CMP — Comprehensive Metabolic Panel" },
@@ -568,6 +640,7 @@ export const SERVICES = [
         createFields: [
             { key: "patient_id", required: true },
             { key: "lab_order_id", required: true },
+            { key: "author_id", label: "Reviewing provider" },
             { key: "test_code" },
             { key: "result" },
         ],
@@ -575,7 +648,8 @@ export const SERVICES = [
     svc("imaging-orders-service", 8402, "python", "DIAGNOSTICS", {
         createFields: [
             { key: "patient_id", required: true },
-            { key: "ordered_by", required: true },
+            { key: "ordered_by", label: "Ordered by (provider)", required: true },
+            { key: "encounter_id", label: "Encounter (visit this was ordered at)" },
             { key: "modality", kind: "select", options: IMAGING_MODALITY, required: true },
             { key: "body_part" },
             { key: "priority", kind: "select", options: PRIORITY },
@@ -585,6 +659,7 @@ export const SERVICES = [
         createFields: [
             { key: "patient_id", required: true },
             { key: "imaging_order_id", required: true },
+            { key: "author_id", label: "Radiologist" },
             { key: "findings", kind: "textarea" },
         ],
     }),
@@ -592,12 +667,15 @@ export const SERVICES = [
         createFields: [
             { key: "patient_id", required: true },
             { key: "specimen_id" },
+            { key: "author_id", label: "Pathologist" },
             { key: "findings", kind: "textarea" },
         ],
     }),
     svc("radiology-worklist", 8405, "python", "DIAGNOSTICS", {
         createFields: [
             { key: "patient_id", required: true },
+            { key: "imaging_order_id", label: "Imaging order" },
+            { key: "provider_id", label: "Assigned radiologist" },
             { key: "modality", kind: "select", options: IMAGING_MODALITY },
             { key: "priority", kind: "select", options: PRIORITY },
         ],
@@ -605,6 +683,7 @@ export const SERVICES = [
     svc("specimen-tracking-service", 8406, "python", "DIAGNOSTICS", {
         createFields: [
             { key: "patient_id", required: true },
+            { key: "lab_order_id", label: "Lab order this specimen is for" },
             { key: "specimen_type" },
             { key: "collected_at", kind: "datetime" },
         ],
@@ -625,11 +704,12 @@ export const SERVICES = [
     }),
     svc("prescriptions-service", 8501, "python", "PHARMACY", {
         createFields: [
-            { key: "patient_id", required: true },
-            { key: "provider_id", required: true },
-            { key: "drug", required: true },
+            { key: "patient_id", label: "Patient", required: true },
+            { key: "provider_id", label: "Prescribing doctor", required: true },
+            { key: "encounter_id", label: "Encounter (visit this was prescribed at)" },
+            { key: "drug", label: "Drug name", required: true },
             { key: "dose", placeholder: "10mg" },
-            { key: "sig", label: "Sig (directions)", placeholder: "1 tab daily" },
+            { key: "sig", label: "Instructions for use", placeholder: "1 tab daily", required: true },
         ],
         actions: [{ label: "Refill", method: "POST", path: "/refill" }],
     }),
@@ -674,6 +754,7 @@ export const SERVICES = [
         createFields: [
             { key: "patient_id", required: true },
             { key: "provider_id", required: true },
+            { key: "facility_id", label: "Facility" },
             { key: "starts_at", kind: "datetime", required: true },
             { key: "duration_min", label: "Duration (min)", kind: "number", placeholder: "30" },
             { key: "reason" },
@@ -686,6 +767,7 @@ export const SERVICES = [
     svc("appointment-slots-service", 8601, "python", "SCHEDULING", {
         createFields: [
             { key: "provider_id", required: true },
+            { key: "facility_id", label: "Facility" },
             { key: "starts_at", kind: "datetime", required: true },
             { key: "ends_at", kind: "datetime", required: true },
         ],
@@ -706,6 +788,8 @@ export const SERVICES = [
     svc("room-booking-service", 8604, "python", "SCHEDULING", {
         createFields: [
             { key: "facility_id" },
+            { key: "appointment_id", label: "Appointment being booked" },
+            { key: "provider_id", label: "Provider" },
             { key: "room_name", required: true },
             { key: "starts_at", kind: "datetime", required: true },
             { key: "ends_at", kind: "datetime", required: true },
@@ -715,6 +799,8 @@ export const SERVICES = [
     svc("billing-service", 8700, "python", "BILLING/RCM", {
         createFields: [
             { key: "patient_id", required: true },
+            { key: "encounter_id", label: "Encounter" },
+            { key: "provider_id", label: "Rendering provider" },
             { key: "amount", kind: "number", required: true },
             { key: "description" },
         ],
@@ -723,6 +809,7 @@ export const SERVICES = [
         createFields: [
             { key: "patient_id", required: true },
             { key: "encounter_id" },
+            { key: "provider_id", label: "Rendering provider" },
             { key: "cpt_code", label: "CPT code" },
             { key: "amount", kind: "number" },
         ],
@@ -735,10 +822,20 @@ export const SERVICES = [
     }),
     svc("claims-submission-service", 8703, "python", "BILLING/RCM", {
         createFields: [
-            { key: "patient_id", required: true },
-            { key: "encounter_id" },
-            { key: "payer_id", label: "Payer" },
-            { key: "amount", kind: "number" },
+            { key: "patient_id", label: "Patient", required: true },
+            { key: "provider_id", label: "Rendering provider", required: true },
+            { key: "encounter_id", label: "Encounter", required: true },
+            { key: "payer_id", label: "Payer", required: true },
+            { key: "prescription_id", label: "Related prescription" },
+            { key: "lab_order_id", label: "Related lab order" },
+            { key: "imaging_order_id", label: "Related imaging order" },
+            {
+                key: "diagnosis_codes",
+                label: "Diagnosis codes (comma-separated ICD-10)",
+                kind: "textarea",
+                placeholder: "I10, E11.9",
+            },
+            { key: "amount", label: "Amount ($)", kind: "number", required: true },
         ],
     }),
     svc("claims-adjudication-service", 8704, "python", "BILLING/RCM", {
@@ -759,6 +856,8 @@ export const SERVICES = [
     svc("invoicing-service", 8706, "python", "BILLING/RCM", {
         createFields: [
             { key: "patient_id", required: true },
+            { key: "encounter_id", label: "Encounter" },
+            { key: "claim_id", label: "Claim (if this invoice covers patient responsibility from a claim)" },
             { key: "amount", kind: "number", required: true },
             { key: "description" },
             { key: "status", kind: "select", options: INVOICE_STATUS },
@@ -766,6 +865,7 @@ export const SERVICES = [
     }),
     svc("payments-service", 8707, "python", "BILLING/RCM", {
         createFields: [
+            { key: "patient_id", label: "Patient" },
             { key: "invoice_id", required: true },
             { key: "amount", kind: "number", required: true },
             { key: "method", kind: "select", options: PAYMENT_METHOD },
@@ -780,6 +880,7 @@ export const SERVICES = [
     svc("collections-service", 8709, "python", "BILLING/RCM", {
         createFields: [
             { key: "patient_id", required: true },
+            { key: "invoice_id", label: "Unpaid invoice being collected" },
             { key: "amount", kind: "number", required: true },
         ],
     }),
@@ -794,7 +895,8 @@ export const SERVICES = [
     svc("prior-auth-service", 8801, "python", "INSURANCE", {
         createFields: [
             { key: "patient_id", required: true },
-            { key: "provider_id" },
+            { key: "provider_id", label: "Requesting provider" },
+            { key: "payer_id", label: "Payer" },
             { key: "service_code" },
         ],
     }),
@@ -831,6 +933,7 @@ export const SERVICES = [
     svc("device-alerts-service", 8902, "python", "DEVICES/IOT", {
         createFields: [
             { key: "device_id", required: true },
+            { key: "patient_id", label: "Patient this device is monitoring" },
             { key: "alert_type" },
             { key: "severity", kind: "select", options: SEVERITY },
         ],

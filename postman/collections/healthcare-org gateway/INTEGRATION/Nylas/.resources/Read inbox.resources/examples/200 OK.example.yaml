@@ -1,0 +1,35 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/nylas/inbox?provider_id=1'
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "provider_id": 1,
+        "mailbox": "sarah.chen@myhealthcare.dev",
+        "count": 1,
+        "next_cursor": null,
+        "messages": [
+          {
+            "id": "nylas-msg-7a1",
+            "thread_id": "nylas-thread-3c9",
+            "subject": "Re: appointment reminder",
+            "from": [{ "email": "ava.reyes@example.com", "name": "Ava Reyes", "status": null }],
+            "to": [{ "email": "sarah.chen@myhealthcare.dev", "name": null, "status": null }],
+            "date": "2026-09-24T18:00:00.000Z",
+            "unread": true,
+            "starred": false,
+            "has_attachments": false,
+            "folders": ["INBOX"]
+          }
+        ]
+      }
+order: 1000

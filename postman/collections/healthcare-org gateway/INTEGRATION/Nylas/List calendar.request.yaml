@@ -1,0 +1,27 @@
+$kind: http-request
+description: >-
+  With no `calendar_id`, lists the connected clinician's calendars. With one,
+  lists that calendar's events (`limit` 1–200, default 50; cancelled events
+  excluded unless `show_cancelled=true`; recurring series expanded unless
+  `expand_recurring=false`).
+url: "{{baseUrl}}/api/nylas/calendar?provider_id={{provider_id}}"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+queryParams:
+  provider_id: '{{provider_id}}'
+examples: './.resources/List calendar.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("lists the connected clinician's calendars", function () {
+        const body = pm.response.json();
+        pm.expect(body.calendars).to.be.an("array");
+        pm.expect(body.count).to.eql(body.calendars.length);
+      });
+order: 5000

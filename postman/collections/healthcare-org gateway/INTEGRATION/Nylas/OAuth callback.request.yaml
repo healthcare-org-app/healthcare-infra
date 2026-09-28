@@ -1,0 +1,23 @@
+$kind: http-request
+description: >-
+  OAuth redirect target — Nylas sends the clinician's browser here after they
+  approve or decline access. Not behind the gateway bearer token; the signed
+  `state` from `Connect mailbox` is what authenticates the callback instead,
+  and it expires 10 minutes after issue. Not meant to be called directly —
+  this request exists to document the contract. `code`/`state` below are
+  placeholders and will fail verification as-is.
+url: "{{baseUrl}}/api/nylas/callback?state=&code="
+method: GET
+queryParams:
+  state: ''
+  code: ''
+examples: './.resources/OAuth callback.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("placeholder state/code fails verification as documented", function () {
+        pm.response.to.have.status(400);
+        pm.expect(pm.response.json().error.code).to.eql("bad_state");
+      });
+order: 2000

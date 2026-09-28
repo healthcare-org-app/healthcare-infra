@@ -1,0 +1,15 @@
+$kind: http-request
+description: >-
+  Polls the DocuSign envelope behind a patient_consent row and mirrors a
+  terminal outcome onto the row — `completed` sets the row's status to
+  `signed`, `declined` and `voided` map likewise. A poll that changes nothing
+  writes nothing, so it will not churn `updated_at`. `include_documents=true`
+  lists the envelope's documents once it is finished; `include_disclosure=true`
+  returns the Electronic Record and Signature Disclosure the signer was shown,
+  which is the record that makes the signature defensible under ESIGN/UETA.
+  Both are opt-in because they are large.
+url: "{{baseUrl}}/api/patient_consent/{{patient_consent_id}}/signature-status?include_documents=true&include_disclosure=false"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+order: 8100

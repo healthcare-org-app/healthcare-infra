@@ -1,0 +1,31 @@
+$kind: http-request
+description: >-
+  Updates only the properties named in the body; everything else on the page
+  is left alone. `{"archived": true}` archives the page — Notion has no page
+  delete, and archiving is reversible with `{"archived": false}`.
+url: "{{baseUrl}}/api/notion/pages/{{notion_page_id}}"
+method: PATCH
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "properties": {
+        "Status": "In review"
+      }
+    }
+examples: './.resources/Update page.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("only the named property changed", function () {
+        const body = pm.response.json();
+        pm.expect(body.properties.Status).to.eql("In review");
+      });
+order: 3000

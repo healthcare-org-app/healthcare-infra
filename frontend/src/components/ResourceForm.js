@@ -1,6 +1,8 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { Plus } from "lucide-react";
 import { FK_TARGETS, serviceByName, formatRefLabel, humanizeKey, } from "@/services";
 import { api } from "@/api";
 const DEFAULT_FIELDS = [
@@ -64,5 +66,11 @@ function RefSelect({ hint, value, onChange, }) {
     if (q.isError) {
         return (_jsxs("div", { className: "space-y-1", children: [_jsx("input", { className: "input", value: value, onChange: (e) => onChange(e.target.value), placeholder: `${singular} ID` }), _jsxs("div", { className: "text-xs text-danger-700", children: ["Couldn't load ", target.displayName.toLowerCase(), " \u2014 fell back to raw ID."] })] }));
     }
-    return (_jsxs("select", { className: "input", value: value, onChange: (e) => onChange(e.target.value), required: hint.required, disabled: q.isPending, children: [_jsx("option", { value: "", children: q.isPending ? "Loading…" : `Select a ${singular}…` }), (q.data?.items ?? []).map((row) => (_jsx("option", { value: String(row.id), children: formatRefLabel(targetName, row) }, row.id)))] }));
+    const items = q.data?.items ?? [];
+    const isEmpty = !q.isPending && items.length === 0;
+    return (_jsxs("div", { className: "space-y-1", children: [_jsxs("div", { className: "flex items-center gap-2", children: [_jsxs("select", { className: "input flex-1", value: value, onChange: (e) => onChange(e.target.value), required: hint.required, disabled: q.isPending || isEmpty, children: [_jsx("option", { value: "", children: q.isPending
+                                    ? "Loading…"
+                                    : isEmpty
+                                        ? `No ${target.displayName.toLowerCase()} yet`
+                                        : `Select a ${singular}…` }), items.map((row) => (_jsx("option", { value: String(row.id), children: formatRefLabel(targetName, row) }, row.id)))] }), _jsxs(Link, { to: `/service/${target.name}`, className: "btn btn-secondary shrink-0", title: `Create a new ${singular} in ${target.displayName}`, children: [_jsx(Plus, { className: "w-4 h-4" }), "New ", singular] })] }), isEmpty && (_jsxs("div", { className: "text-xs text-ink-500", children: ["No ", target.displayName.toLowerCase(), " exist yet.", " ", _jsx(Link, { to: `/service/${target.name}`, className: "text-brand-700 hover:underline", children: "Create one first \u2192" })] }))] }));
 }

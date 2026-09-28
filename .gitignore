@@ -9,6 +9,11 @@ node_modules/
 dist/
 *.tsbuildinfo
 
+# `tsc -b` emits .js next to .ts in place (no outDir configured for
+# frontend/api) — Vercel's build fails outright if both land in git, since
+# it can't disambiguate api/foo.js from api/foo.ts as the same route.
+frontend/api/**/*.js
+
 # Vercel workspace state (project link is created via `vercel link`)
 .vercel/
 
