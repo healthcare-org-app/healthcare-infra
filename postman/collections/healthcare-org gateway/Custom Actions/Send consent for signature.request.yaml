@@ -1,0 +1,27 @@
+$kind: http-request
+description: >-
+  Sends the consent form on a patient_consent row to its patient for electronic
+  signature via DocuSign, and records the envelope id back on the row.
+  Idempotent — a repeat call reads the existing envelope back instead of putting
+  a second copy in the patient's inbox. Body is optional; every field shown is a
+  default. Supply `template_id` to override `DOCUSIGN_CONSENT_TEMPLATE_ID`, or
+  drop it and pass `document_base64` to send a one-off PDF instead — an inline
+  PDF needs the literal `sign_here_anchor` string somewhere in its text layer or
+  the patient gets a document with nothing to sign. Set `draft: true` to stage
+  the envelope in DocuSign without sending it.
+url: "{{baseUrl}}/api/patient_consent/{{patient_consent_id}}/send-for-signature"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "template_id": "{{docusignConsentTemplateId}}",
+      "email_subject": "Please sign: Consent form",
+      "role_name": "Signer 1",
+      "sign_here_anchor": "/sig1/",
+      "draft": false
+    }
+order: 8000

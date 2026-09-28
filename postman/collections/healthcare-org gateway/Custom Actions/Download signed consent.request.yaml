@@ -1,0 +1,13 @@
+$kind: http-request
+description: >-
+  Downloads the executed consent as a PDF. Defaults to DocuSign's `combined`
+  pseudo-document — every document on the envelope plus the certificate of
+  completion, which carries the signer's identity, IP, timestamps and
+  disclosure acceptance. Returns 409 until the envelope is actually
+  `completed`, so it can never hand back a half-signed document that looks
+  executed. Response is binary PHI and is marked no-store.
+url: "{{baseUrl}}/api/patient_consent/{{patient_consent_id}}/signed-document?document_id=combined"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+order: 8200
