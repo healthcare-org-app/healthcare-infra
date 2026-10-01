@@ -76,6 +76,10 @@ export const FK_TARGETS: Record<string, string> = {
   source_patient_id: "patients-service",
   target_patient_id: "patients-service",
   related_to: "patients-service",
+  referral_id: "referrals-service",
+  prior_auth_id: "prior-auth-service",
+  care_plan_id: "care-plan-service",
+  case_id: "case-management-service",
 };
 
 // Turn a Row from a given service into a human-readable label for dropdowns
@@ -698,6 +702,32 @@ export const SERVICES: ServiceDef[] = [
       { key: "patient_id", required: true },
       { key: "provider_id", required: true },
       { key: "role" },
+    ],
+  }),
+  svc("case-management-service", 8315, "python", "CLINICAL/EHR", {
+    createFields: [
+      { key: "patient_id", label: "Patient", required: true },
+      { key: "provider_id", label: "Case manager (provider)", required: true },
+      { key: "encounter_id", label: "Triggering encounter" },
+      { key: "referral_id", label: "Linked referral" },
+      { key: "prior_auth_id", label: "Linked prior authorization" },
+      { key: "care_plan_id", label: "Linked care plan" },
+      { key: "appointment_id", label: "Next follow-up appointment" },
+      { key: "equipment_id", label: "DME / equipment request" },
+      { key: "device_id", label: "Remote monitoring device" },
+      { key: "facility_id", label: "Target facility / discharge destination" },
+      { key: "payer_id", label: "Payer (benefit coordination)" },
+      { key: "case_type", label: "Case type", kind: "select", required: true, options: [
+        { value: "complex_chronic", label: "Complex chronic" },
+        { value: "transitional_care", label: "Transitional care" },
+        { value: "behavioral_health", label: "Behavioral health" },
+        { value: "high_risk_ob", label: "High-risk OB" },
+        { value: "oncology", label: "Oncology" },
+        { value: "post_acute", label: "Post-acute" },
+      ] },
+      { key: "risk_level", label: "Risk level", kind: "select", options: SEVERITY },
+      { key: "target_closure_date", label: "Target closure date", kind: "date" },
+      { key: "notes", label: "Case notes", kind: "textarea" },
     ],
   }),
 

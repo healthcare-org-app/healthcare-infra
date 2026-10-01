@@ -1,0 +1,32 @@
+$kind: http-request
+description: |-
+  Create a Case Management record. Body fields mirror `services.ts` createFields.
+
+  **FK references (fetch these first):** `patient_id` → `GET /api/patients`, `provider_id` → `GET /api/providers`, `encounter_id` → `GET /api/encounters`, `referral_id` → `GET /api/referrals`, `prior_auth_id` → `GET /api/prior_auth`, `care_plan_id` → `GET /api/care_plan`, `appointment_id` → `GET /api/appointments`, `equipment_id` → `GET /api/equipment`, `device_id` → `GET /api/device_registry`, `facility_id` → `GET /api/facilities`, `payer_id` → `GET /api/payer_directory`
+url: "{{baseUrl}}/api/case_management"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "provider_id": "{{provider_id}}",
+      "encounter_id": "{{encounter_id}}",
+      "referral_id": "{{referral_id}}",
+      "prior_auth_id": "{{prior_auth_id}}",
+      "care_plan_id": "{{care_plan_id}}",
+      "appointment_id": "{{appointment_id}}",
+      "equipment_id": "{{equipment_id}}",
+      "device_id": "{{device_id}}",
+      "facility_id": "{{facility_id}}",
+      "payer_id": "{{payer_id}}",
+      "case_type": "complex_chronic",
+      "risk_level": "moderate",
+      "target_closure_date": "2026-12-31",
+      "notes": "Sample case notes"
+    }
+order: 2000

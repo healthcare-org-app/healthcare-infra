@@ -1430,6 +1430,41 @@ const server = http.createServer((req, res) => {
     return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
   }
 
+  // @endpoint GET /api/case_management
+  if (req.method === 'GET' && pathname === '/api/case_management') {
+    // Sample response as there are no examples saved on the request.
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+  }
+
+  // @endpoint POST /api/case_management
+  if (req.method === 'POST' && pathname === '/api/case_management') {
+    // Sample response as there are no examples saved on the request.
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+  }
+
+  // @endpoint GET /api/case_management/1
+  if (req.method === 'GET' && pathname === '/api/case_management/1') {
+    // Sample response as there are no examples saved on the request.
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+  }
+
+  // @endpoint PATCH /api/case_management/1
+  if (req.method === 'PATCH' && pathname === '/api/case_management/1') {
+    // Sample response as there are no examples saved on the request.
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+  }
+
+  // @endpoint DELETE /api/case_management/1
+  if (req.method === 'DELETE' && pathname === '/api/case_management/1') {
+    // Sample response as there are no examples saved on the request.
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+  }
+
   // @endpoint GET /api/lab_orders
   if (req.method === 'GET' && pathname === '/api/lab_orders') {
     // Sample response as there are no examples saved on the request.
@@ -3378,6 +3413,12 @@ const server = http.createServer((req, res) => {
   if (req.method === 'PATCH' && /^\/api\/notion\/pages\/([^/]+)$/.test(pathname)) {
     res.writeHead(200, {"Content-Type":"application/json"});
     return res.end(JSON.stringify({"id":"b1a2c3d4-e5f6-7890-abcd-ef1234567890","url":"https://www.notion.so/Q3-access-audit-b1a2c3d4e5f67890abcdef1234567890","archived":false,"created_time":"2026-09-25T17:55:00.000Z","last_edited_time":"2026-09-25T18:00:00.000Z","parent":{"type":"database_id","id":"d0d0d0d0-1111-2222-3333-444455556666"},"properties":{"Name":"Q3 access audit","Status":"In review"},"property_types":{"Name":"title","Status":"status"}}));
+  }
+
+  // @endpoint GET /api/drugs/search
+  if (req.method === 'GET' && pathname === '/api/drugs/search') {
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"query":"ibuprofen","count":1,"results":[{"brand_name":"Ibuprofen","generic_name":"IBUPROFEN","manufacturer":"Kroger Company","active_ingredients":["Ibuprofen 200 mg"],"inactive_ingredients":["Carnauba wax, colloidal silicon dioxide, corn starch, croscarmellose sodium, hypromellose, magnesium stearate, microcrystalline cellulose, polydextrose, polyethylene glycol, polysorbate 80, propylene glycol, sodium lauryl sulfate, titanium dioxide"]}]}));
   }
 
   // @endpoint GET /api/patients/search

@@ -1,0 +1,28 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/drugs/search?q=ibuprofen&limit=1'
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "query": "ibuprofen",
+        "count": 1,
+        "results": [
+          {
+            "brand_name": "Ibuprofen",
+            "generic_name": "IBUPROFEN",
+            "manufacturer": "Kroger Company",
+            "active_ingredients": ["Ibuprofen 200 mg"],
+            "inactive_ingredients": ["Carnauba wax, colloidal silicon dioxide, corn starch, croscarmellose sodium, hypromellose, magnesium stearate, microcrystalline cellulose, polydextrose, polyethylene glycol, polysorbate 80, propylene glycol, sodium lauryl sulfate, titanium dioxide"]
+          }
+        ]
+      }
+order: 1000
