@@ -1,6 +1,6 @@
 $kind: collection
 description: |-
-  Public API gateway for myhealthcare.dev. 94 CRUD resources + 6 custom actions + a Workflows folder.
+  Public API gateway for myhealthcare.dev. 95 CRUD resources + 6 custom actions + a Workflows folder.
 
   **Setup:** import this collection and `gateway-prod.postman_environment.json`, select the env, set `apiKey` to your GATEWAY_API_KEY.
 
@@ -36,3 +36,6 @@ variables:
   source_patient_id: "1"
   target_patient_id: "1"
   related_to: "1"
+  referral_id: "1"
+  prior_auth_id: "1"
+  care_plan_id: "1"

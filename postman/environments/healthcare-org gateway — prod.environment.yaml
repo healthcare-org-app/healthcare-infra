@@ -96,3 +96,6 @@ values:
   - key: notion_page_id
     value: 'REPLACE_WITH_NOTION_PAGE_ID'
     description: Notion pages aren't part of the Supabase seed — set this after running Notion/Create page.
+  - key: drug_name
+    value: 'ibuprofen'
+    description: Brand or generic name searched against openFDA's public drug label data.

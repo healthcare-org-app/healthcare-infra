@@ -1,6 +1,13 @@
 cloudResources:
   collections:
-    ../postman/collections/healthcare-org gateway: healthcare-gateway-collection
+    ../postman/collections/Orbit: 48916573-5f3efd4c-e05b-4255-8339-38d02267d2d6
+    ../postman/collections/healthcare-org gateway: 48916573-400d1215-edc4-4e63-8f8d-252c2782f6f9
+  environments:
+    ../postman/environments/healthcare-org gateway — prod.environment.yaml: 48916573-550e393b-3669-4b36-9c68-499fa1252a5b
+  globals:
+    ../postman/globals/workspace.globals.yaml: 846c1a73-728b-42a1-8864-54d1d8ff5baf
+  mocks:
+    ../postman/mocks/healthcare-org-gateway/config.yaml: a9bc212f-e982-4d6c-8fcf-159c47e121b5
 localResources:
   collections:
     - ../postman/collections/Orbit
