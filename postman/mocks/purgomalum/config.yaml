@@ -1,0 +1,10 @@
+version: 1
+id: b2f11d91-263a-4dfc-b395-67fa88fe4668
+name: purgomalum
+slug: purgomalum
+protocol: http
+port: 4020
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

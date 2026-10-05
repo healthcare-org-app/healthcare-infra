@@ -1,0 +1,10 @@
+version: 1
+id: 35324c63-5902-42a5-a15e-61017aa4664f
+name: docusign
+slug: docusign
+protocol: http
+port: 4021
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -3,7 +3,11 @@ import { HttpError } from "./errors.js";
 // Notion. Bearer-authenticated JSON, plus a mandatory version header — Notion
 // treats the version as part of the request contract and rejects calls without
 // it rather than defaulting to the newest.
-const BASE_URL = "https://api.notion.com/v1";
+const DEFAULT_BASE_URL = "https://api.notion.com/v1";
+
+function baseUrl(): string {
+  return (process.env.NOTION_BASE_URL ?? DEFAULT_BASE_URL).replace(/\/+$/, "");
+}
 
 // Pinned deliberately. Under `2022-06-28` a page is created against
 // `parent.database_id`; from `2025-09-03` a database fans out into data sources
@@ -59,7 +63,7 @@ async function request(
 ): Promise<Record<string, unknown>> {
   let resp: Response;
   try {
-    resp = await fetch(`${BASE_URL}${path}`, {
+    resp = await fetch(`${baseUrl()}${path}`, {
       method,
       headers: {
         Authorization: `Bearer ${apiKey()}`,

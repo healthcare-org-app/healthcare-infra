@@ -1,0 +1,10 @@
+version: 1
+id: c7164967-a7d5-4d4f-8aa5-7c20964f2c54
+name: nylas
+slug: nylas
+protocol: http
+port: 4023
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true
