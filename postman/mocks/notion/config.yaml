@@ -1,0 +1,10 @@
+version: 1
+id: f1b51726-25e1-4785-8954-64900e842696
+name: notion
+slug: notion
+protocol: http
+port: 4024
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true
