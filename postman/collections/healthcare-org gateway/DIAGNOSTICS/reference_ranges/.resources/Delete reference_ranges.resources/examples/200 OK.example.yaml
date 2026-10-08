@@ -1,0 +1,19 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/reference_ranges/1'
+  method: DELETE
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "deleted": true,
+        "id": 1
+      }
+order: 1000

@@ -8,3 +8,4 @@ headers:
 queryParams:
   q: reyes
 order: 1000
+examples: './.resources/Search patients.resources/examples'

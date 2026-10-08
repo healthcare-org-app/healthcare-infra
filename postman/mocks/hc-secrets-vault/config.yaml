@@ -1,0 +1,10 @@
+version: 1
+id: c982e93f-affb-4151-ad3a-b18abbaa5770
+name: hc-secrets-vault
+slug: hc-secrets-vault
+protocol: http
+port: 4184
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

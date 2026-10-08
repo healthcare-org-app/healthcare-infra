@@ -19,3 +19,4 @@ body:
       "severity": "low"
     }
 order: 2000
+examples: './.resources/Create allergies.resources/examples'

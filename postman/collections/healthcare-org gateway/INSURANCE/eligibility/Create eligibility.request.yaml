@@ -17,3 +17,4 @@ body:
       "payer_id": "{{payer_id}}"
     }
 order: 2000
+examples: './.resources/Create eligibility.resources/examples'

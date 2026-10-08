@@ -24,3 +24,4 @@ body:
       "amount": 0
     }
 order: 2000
+examples: './.resources/Create claims_submission.resources/examples'

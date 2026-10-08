@@ -1,0 +1,21 @@
+$kind: http-example
+name: 400 Bad Request
+request:
+  url: '{{baseUrl}}/api/audit_log/1'
+  method: PATCH
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "db_error",
+          "message": "invalid input value for enum status"
+        }
+      }
+order: 2000

@@ -1,0 +1,25 @@
+$kind: http-example
+name: 202 Accepted
+request:
+  url: '{{baseUrl}}/api/notifications/send'
+  method: POST
+response:
+  statusCode: 202
+  statusText: Accepted
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "status": "queued",
+        "created_at": "2026-01-16T14:05:00.000Z",
+        "updated_at": "2026-01-16T14:05:00.000Z",
+        "to": "jane.doe@example.com",
+        "channel": "email",
+        "subject": "Appointment reminder",
+        "body": "Your appointment is confirmed for tomorrow."
+      }
+order: 1000

@@ -1,0 +1,10 @@
+version: 1
+id: 0903b439-445a-4e3c-986b-06742d0b0600
+name: hc-authorization-records
+slug: hc-authorization-records
+protocol: http
+port: 4180
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -14,3 +14,4 @@ body:
       "session_type": "web"
     }
 order: 2000
+examples: './.resources/Create auth.resources/examples'

@@ -1,0 +1,10 @@
+version: 1
+id: 876bd26b-e62e-40bf-8545-3f99eb22866d
+name: hc-on-call
+slug: hc-on-call
+protocol: http
+port: 4188
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

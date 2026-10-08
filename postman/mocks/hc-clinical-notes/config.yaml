@@ -1,0 +1,10 @@
+version: 1
+id: 768d21f5-6fc4-4693-ba3f-9a73fdd94061
+name: hc-clinical-notes
+slug: hc-clinical-notes
+protocol: http
+port: 4120
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

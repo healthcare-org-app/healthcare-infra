@@ -1,0 +1,10 @@
+version: 1
+id: 8d2696e1-1a33-4ecd-afb4-445556a9ad26
+name: hc-claims-submission
+slug: hc-claims-submission
+protocol: http
+port: 4109
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

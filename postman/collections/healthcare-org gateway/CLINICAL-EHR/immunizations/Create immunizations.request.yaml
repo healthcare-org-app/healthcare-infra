@@ -21,3 +21,4 @@ body:
       "lot_number": "sample lot_number"
     }
 order: 2000
+examples: './.resources/Create immunizations.resources/examples'

@@ -1,0 +1,10 @@
+version: 1
+id: 09403760-2ea5-496a-a7ce-5887189db347
+name: hc-config
+slug: hc-config
+protocol: http
+port: 4181
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -21,3 +21,4 @@ body:
       "priority": "routine"
     }
 order: 2000
+examples: './.resources/Create imaging_orders.resources/examples'

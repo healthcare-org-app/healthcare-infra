@@ -1,0 +1,10 @@
+version: 1
+id: 4c232ae5-d150-4f48-a016-52e861d27a87
+name: hc-vitals
+slug: hc-vitals
+protocol: http
+port: 4130
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -21,3 +21,4 @@ body:
       "amount": 500
     }
 order: 8000
+examples: './.resources/8. Submit claim.resources/examples'

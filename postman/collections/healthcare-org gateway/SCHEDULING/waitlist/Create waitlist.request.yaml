@@ -17,3 +17,4 @@ body:
       "appointment_id": "{{appointment_id}}"
     }
 order: 2000
+examples: './.resources/Create waitlist.resources/examples'

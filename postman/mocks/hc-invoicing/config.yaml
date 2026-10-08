@@ -1,0 +1,10 @@
+version: 1
+id: e6ef5b24-2fb5-4d1e-b801-3eaa36ac693b
+name: hc-invoicing
+slug: hc-invoicing
+protocol: http
+port: 4113
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

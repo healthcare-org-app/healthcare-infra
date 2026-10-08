@@ -1,0 +1,10 @@
+version: 1
+id: a8871f8e-f97b-4017-b2e4-38c68e4f3a8d
+name: hc-ai-invocations
+slug: hc-ai-invocations
+protocol: http
+port: 4102
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -1,0 +1,10 @@
+version: 1
+id: cc525759-e9f4-46f6-ab57-91dd245de8cb
+name: hc-identity
+slug: hc-identity
+protocol: http
+port: 4183
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

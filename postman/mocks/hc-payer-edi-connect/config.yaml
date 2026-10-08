@@ -1,0 +1,10 @@
+version: 1
+id: c030e8e7-6938-4e51-b090-f7702d494a21
+name: hc-payer-edi-connect
+slug: hc-payer-edi-connect
+protocol: http
+port: 4156
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

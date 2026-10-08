@@ -14,3 +14,4 @@ body:
       "version": "sample version"
     }
 order: 2000
+examples: './.resources/Create ml_models.resources/examples'

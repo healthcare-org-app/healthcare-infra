@@ -1,0 +1,10 @@
+version: 1
+id: fd67b635-3a9d-42cc-9071-140cfe1b3c98
+name: hc-credentialing
+slug: hc-credentialing
+protocol: http
+port: 4186
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

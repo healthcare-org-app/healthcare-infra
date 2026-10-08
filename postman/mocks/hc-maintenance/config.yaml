@@ -1,0 +1,10 @@
+version: 1
+id: f50b1d90-f036-460e-b1cf-3cfb7554403a
+name: hc-maintenance
+slug: hc-maintenance
+protocol: http
+port: 4149
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

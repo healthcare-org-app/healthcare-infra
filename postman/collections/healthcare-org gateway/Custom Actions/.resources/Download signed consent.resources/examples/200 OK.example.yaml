@@ -1,0 +1,18 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/patient_consent/{{patient_consent_id}}/signed-document?document_id=combined'
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/pdf
+  body:
+    type: text
+    content: |-
+      %PDF-1.7
+      %mock signed consent (binary PDF omitted)
+      %%EOF
+order: 1000

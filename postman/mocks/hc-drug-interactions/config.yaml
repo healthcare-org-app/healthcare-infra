@@ -1,0 +1,10 @@
+version: 1
+id: db909e68-16be-44e8-98fb-bb24c4e6b45e
+name: hc-drug-interactions
+slug: hc-drug-interactions
+protocol: http
+port: 4172
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

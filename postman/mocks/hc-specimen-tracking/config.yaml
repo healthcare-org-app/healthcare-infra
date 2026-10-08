@@ -1,0 +1,10 @@
+version: 1
+id: 89d42719-f798-48b6-9721-b0be5678182e
+name: hc-specimen-tracking
+slug: hc-specimen-tracking
+protocol: http
+port: 4146
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -1,0 +1,10 @@
+version: 1
+id: 09614f7b-d710-47ad-a6bc-4bf83d5b7d0e
+name: hc-facilities
+slug: hc-facilities
+protocol: http
+port: 4148
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

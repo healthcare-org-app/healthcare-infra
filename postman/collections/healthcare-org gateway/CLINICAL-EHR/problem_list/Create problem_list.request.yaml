@@ -20,3 +20,4 @@ body:
       "onset_at": "2026-01-15"
     }
 order: 2000
+examples: './.resources/Create problem_list.resources/examples'

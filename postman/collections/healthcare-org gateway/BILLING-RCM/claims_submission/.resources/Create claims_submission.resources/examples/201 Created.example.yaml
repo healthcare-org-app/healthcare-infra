@@ -1,0 +1,30 @@
+$kind: http-example
+name: 201 Created
+request:
+  url: '{{baseUrl}}/api/claims_submission'
+  method: POST
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "status": "active",
+        "created_at": "2026-01-15T09:30:00.000Z",
+        "updated_at": "2026-01-15T09:30:00.000Z",
+        "patient_id": 1,
+        "provider_id": 1,
+        "encounter_id": 1,
+        "payer_id": 1,
+        "prescription_id": 1,
+        "lab_order_id": 1,
+        "imaging_order_id": 1,
+        "diagnosis_codes": "I10, E11.9",
+        "amount": 150.0
+      }
+order: 1000

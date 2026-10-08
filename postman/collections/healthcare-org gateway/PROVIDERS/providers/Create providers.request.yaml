@@ -17,3 +17,4 @@ body:
       "specialty": "sample specialty"
     }
 order: 2000
+examples: './.resources/Create providers.resources/examples'

@@ -13,3 +13,4 @@ body:
       "query": "name or MRN…"
     }
 order: 2000
+examples: './.resources/Create patient_search.resources/examples'

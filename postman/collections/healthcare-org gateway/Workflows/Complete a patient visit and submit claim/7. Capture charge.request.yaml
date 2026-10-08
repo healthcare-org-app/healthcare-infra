@@ -17,3 +17,4 @@ body:
       "amount": 200
     }
 order: 7000
+examples: './.resources/7. Capture charge.resources/examples'

@@ -1,0 +1,10 @@
+version: 1
+id: fe90b90f-b641-4459-9b98-543b8268e766
+name: hc-licensing
+slug: hc-licensing
+protocol: http
+port: 4187
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

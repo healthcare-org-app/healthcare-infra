@@ -18,3 +18,4 @@ body:
       "dispensed_by": "{{dispensed_by}}"
     }
 order: 2000
+examples: './.resources/Create dispensing.resources/examples'

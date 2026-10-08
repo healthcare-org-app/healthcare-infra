@@ -1,0 +1,10 @@
+version: 1
+id: 2783ef3d-2887-4d35-b7dc-8e7093d8d6fe
+name: hc-sterile-supply
+slug: hc-sterile-supply
+protocol: http
+port: 4150
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

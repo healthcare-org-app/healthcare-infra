@@ -16,3 +16,4 @@ body:
       "unit": "sample unit"
     }
 order: 2000
+examples: './.resources/Create reference_ranges.resources/examples'

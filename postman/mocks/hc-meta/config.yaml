@@ -1,0 +1,10 @@
+version: 1
+id: cedbdee9-e950-4ba9-b38e-3337e461f79f
+name: hc-meta
+slug: hc-meta
+protocol: http
+port: 4161
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

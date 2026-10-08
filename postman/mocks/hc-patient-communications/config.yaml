@@ -1,0 +1,10 @@
+version: 1
+id: ad6a5759-384d-49f3-9934-9b1ce8502aea
+name: hc-patient-communications
+slug: hc-patient-communications
+protocol: http
+port: 4163
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

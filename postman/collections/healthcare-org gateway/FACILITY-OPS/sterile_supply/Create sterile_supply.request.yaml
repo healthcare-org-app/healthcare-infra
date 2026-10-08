@@ -15,3 +15,4 @@ body:
       "quantity": 0
     }
 order: 2000
+examples: './.resources/Create sterile_supply.resources/examples'

@@ -17,3 +17,4 @@ body:
       "invoice_id": "{{invoice_id}}"
     }
 order: 2000
+examples: './.resources/Create statements.resources/examples'

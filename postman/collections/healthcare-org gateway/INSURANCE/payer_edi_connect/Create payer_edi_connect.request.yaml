@@ -17,3 +17,4 @@ body:
       "endpoint": "sample endpoint"
     }
 order: 2000
+examples: './.resources/Create payer_edi_connect.resources/examples'

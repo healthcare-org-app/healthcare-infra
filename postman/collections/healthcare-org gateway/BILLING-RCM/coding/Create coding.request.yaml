@@ -18,3 +18,4 @@ body:
       "cpt": "sample cpt"
     }
 order: 2000
+examples: './.resources/Create coding.resources/examples'

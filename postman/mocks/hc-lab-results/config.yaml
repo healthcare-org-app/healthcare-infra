@@ -1,0 +1,10 @@
+version: 1
+id: 17c599a9-7c11-4add-9690-f06c69dddde5
+name: hc-lab-results
+slug: hc-lab-results
+protocol: http
+port: 4142
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

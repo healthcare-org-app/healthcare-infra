@@ -1,0 +1,21 @@
+$kind: http-example
+name: 500 Internal Server Error
+request:
+  url: '{{baseUrl}}/api/on_call/1'
+  method: DELETE
+response:
+  statusCode: 500
+  statusText: Internal Server Error
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "db_error",
+          "message": "connection to the database timed out"
+        }
+      }
+order: 4000

@@ -1,0 +1,10 @@
+version: 1
+id: ef5454f3-a6c6-45c0-ae2a-64b65ec0b295
+name: hc-imaging-results
+slug: hc-imaging-results
+protocol: http
+port: 4140
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

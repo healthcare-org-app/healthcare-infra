@@ -14,3 +14,4 @@ body:
       "tier": "1"
     }
 order: 2000
+examples: './.resources/Create formulary.resources/examples'

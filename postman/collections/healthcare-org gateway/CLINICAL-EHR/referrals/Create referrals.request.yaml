@@ -19,3 +19,4 @@ body:
       "reason": "sample reason"
     }
 order: 2000
+examples: './.resources/Create referrals.resources/examples'

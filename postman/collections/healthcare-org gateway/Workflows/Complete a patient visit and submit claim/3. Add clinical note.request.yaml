@@ -15,3 +15,4 @@ body:
       "body": "Pt presents for annual physical. Vitals stable."
     }
 order: 3000
+examples: './.resources/3. Add clinical note.resources/examples'

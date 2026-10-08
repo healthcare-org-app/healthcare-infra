@@ -1,0 +1,10 @@
+version: 1
+id: 7a9da2f2-1467-4ad0-8103-2687b1f468d2
+name: hc-complete-a-patient-visit-and-submit-claim
+slug: hc-complete-a-patient-visit-and-
+protocol: http
+port: 4199
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

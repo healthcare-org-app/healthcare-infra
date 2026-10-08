@@ -1,0 +1,10 @@
+version: 1
+id: 004e3490-e790-494b-9456-fd4310780846
+name: hc-remote-monitoring
+slug: hc-remote-monitoring
+protocol: http
+port: 4138
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

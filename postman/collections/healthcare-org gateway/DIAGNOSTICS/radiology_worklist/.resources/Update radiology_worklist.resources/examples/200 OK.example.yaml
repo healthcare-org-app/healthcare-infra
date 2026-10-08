@@ -1,0 +1,26 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/radiology_worklist/1'
+  method: PATCH
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "status": "active",
+        "created_at": "2026-01-15T09:30:00.000Z",
+        "updated_at": "2026-01-16T14:05:00.000Z",
+        "patient_id": 1,
+        "imaging_order_id": 1,
+        "provider_id": 1,
+        "modality": "xray",
+        "priority": "routine"
+      }
+order: 1000

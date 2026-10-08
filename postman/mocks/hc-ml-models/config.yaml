@@ -1,0 +1,10 @@
+version: 1
+id: 57694b33-b999-4026-9009-ee52479efe9a
+name: hc-ml-models
+slug: hc-ml-models
+protocol: http
+port: 4104
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

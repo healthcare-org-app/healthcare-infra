@@ -1,0 +1,10 @@
+version: 1
+id: 8fa09188-d396-408c-a7e3-a8d96071960c
+name: hc-erp-bridge
+slug: hc-erp-bridge
+protocol: http
+port: 4160
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

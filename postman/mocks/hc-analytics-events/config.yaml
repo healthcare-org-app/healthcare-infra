@@ -1,0 +1,10 @@
+version: 1
+id: 8569c09d-bc3c-4dc3-9e8f-3ba0a68d5ed7
+name: hc-analytics-events
+slug: hc-analytics-events
+protocol: http
+port: 4103
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

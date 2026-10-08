@@ -1,0 +1,10 @@
+version: 1
+id: 6687624b-549c-4a56-ba8d-4e9bad4c4aae
+name: hc-waitlist
+slug: hc-waitlist
+protocol: http
+port: 4198
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

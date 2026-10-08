@@ -17,3 +17,4 @@ body:
       "fleet_name": "sample fleet_name"
     }
 order: 2000
+examples: './.resources/Create device_fleet.resources/examples'

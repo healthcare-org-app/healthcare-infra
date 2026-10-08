@@ -10,320 +10,1173 @@ const server = http.createServer((req, res) => {
 
   // @endpoint GET /api/health
   if (req.method === 'GET' && pathname === '/api/health') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"internal","message":"supabase client is not configured"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"status":"ok","supabase":"reachable","ts":"2026-01-16T14:05:00.000Z"}));
   }
 
   // @endpoint GET /api/services
   if (req.method === 'GET' && pathname === '/api/services') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    res.writeHead(404, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"error":{"code":"unknown_resource","message":"no CRUD surface for /api/services"}}));
   }
 
   // @endpoint GET /api/identity
   if (req.method === 'GET' && pathname === '/api/identity') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","email":"jane.doe@example.com","name":"Identity 1","role":"patient"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","email":"marcus.rivera@example.com","name":"Identity 2","role":"patient"}]}));
   }
 
   // @endpoint POST /api/identity
   if (req.method === 'POST' && pathname === '/api/identity') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","email":"jane.doe@example.com","name":"Identity 1","role":"patient"}));
   }
 
   // @endpoint GET /api/identity/1
   if (req.method === 'GET' && pathname === '/api/identity/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no identity with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","email":"jane.doe@example.com","name":"Identity 1","role":"patient"}));
   }
 
   // @endpoint PATCH /api/identity/1
   if (req.method === 'PATCH' && pathname === '/api/identity/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no identity with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","email":"jane.doe@example.com","name":"Identity 1","role":"patient"}));
   }
 
   // @endpoint DELETE /api/identity/1
   if (req.method === 'DELETE' && pathname === '/api/identity/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/auth
   if (req.method === 'GET' && pathname === '/api/auth') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","email":"jane.doe@example.com","session_type":"web"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","email":"marcus.rivera@example.com","session_type":"web"}]}));
   }
 
   // @endpoint POST /api/auth
   if (req.method === 'POST' && pathname === '/api/auth') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","email":"jane.doe@example.com","session_type":"web"}));
   }
 
   // @endpoint GET /api/auth/1
   if (req.method === 'GET' && pathname === '/api/auth/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no auth with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","email":"jane.doe@example.com","session_type":"web"}));
   }
 
   // @endpoint PATCH /api/auth/1
   if (req.method === 'PATCH' && pathname === '/api/auth/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no auth with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","email":"jane.doe@example.com","session_type":"web"}));
   }
 
   // @endpoint DELETE /api/auth/1
   if (req.method === 'DELETE' && pathname === '/api/auth/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/authorization_records
   if (req.method === 'GET' && pathname === '/api/authorization_records') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","principal":"user:1","scope":"patient:read","grant_type":"read"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","principal":"user:2","scope":"billing:write","grant_type":"read"}]}));
   }
 
   // @endpoint POST /api/authorization_records
   if (req.method === 'POST' && pathname === '/api/authorization_records') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","principal":"user:1","scope":"patient:read","grant_type":"read"}));
   }
 
   // @endpoint GET /api/authorization_records/1
   if (req.method === 'GET' && pathname === '/api/authorization_records/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no authorization_records with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","principal":"user:1","scope":"patient:read","grant_type":"read"}));
   }
 
   // @endpoint PATCH /api/authorization_records/1
   if (req.method === 'PATCH' && pathname === '/api/authorization_records/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no authorization_records with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","principal":"user:1","scope":"patient:read","grant_type":"read"}));
   }
 
   // @endpoint DELETE /api/authorization_records/1
   if (req.method === 'DELETE' && pathname === '/api/authorization_records/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/config
   if (req.method === 'GET' && pathname === '/api/config') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","key":"max_login_attempts","value":"enabled","description":"Annual wellness visit"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","key":"session_timeout_min","value":"disabled","description":"Follow-up consultation"}]}));
   }
 
   // @endpoint POST /api/config
   if (req.method === 'POST' && pathname === '/api/config') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","key":"max_login_attempts","value":"enabled","description":"Annual wellness visit"}));
   }
 
   // @endpoint GET /api/config/1
   if (req.method === 'GET' && pathname === '/api/config/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no config with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","key":"max_login_attempts","value":"enabled","description":"Annual wellness visit"}));
   }
 
   // @endpoint PATCH /api/config/1
   if (req.method === 'PATCH' && pathname === '/api/config/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no config with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","key":"max_login_attempts","value":"enabled","description":"Annual wellness visit"}));
   }
 
   // @endpoint DELETE /api/config/1
   if (req.method === 'DELETE' && pathname === '/api/config/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/secrets_vault
   if (req.method === 'GET' && pathname === '/api/secrets_vault') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Secrets vault 1","value":"enabled"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Secrets vault 2","value":"disabled"}]}));
   }
 
   // @endpoint POST /api/secrets_vault
   if (req.method === 'POST' && pathname === '/api/secrets_vault') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Secrets vault 1","value":"enabled"}));
   }
 
   // @endpoint GET /api/secrets_vault/1
   if (req.method === 'GET' && pathname === '/api/secrets_vault/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no secrets_vault with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Secrets vault 1","value":"enabled"}));
   }
 
   // @endpoint PATCH /api/secrets_vault/1
   if (req.method === 'PATCH' && pathname === '/api/secrets_vault/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no secrets_vault with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","name":"Secrets vault 1","value":"enabled"}));
   }
 
   // @endpoint DELETE /api/secrets_vault/1
   if (req.method === 'DELETE' && pathname === '/api/secrets_vault/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/audit_log
   if (req.method === 'GET' && pathname === '/api/audit_log') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","actor":"dr.chen","action":"read","target":"patients/1","notes":"Patient reports no new concerns."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","actor":"nurse.alvarez","action":"update","target":"encounters/2","notes":"Reviewed medication list."}]}));
   }
 
   // @endpoint POST /api/audit_log
   if (req.method === 'POST' && pathname === '/api/audit_log') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","actor":"dr.chen","action":"read","target":"patients/1","notes":"Patient reports no new concerns."}));
   }
 
   // @endpoint GET /api/audit_log/1
   if (req.method === 'GET' && pathname === '/api/audit_log/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no audit_log with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","actor":"dr.chen","action":"read","target":"patients/1","notes":"Patient reports no new concerns."}));
   }
 
   // @endpoint PATCH /api/audit_log/1
   if (req.method === 'PATCH' && pathname === '/api/audit_log/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no audit_log with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","actor":"dr.chen","action":"read","target":"patients/1","notes":"Patient reports no new concerns."}));
   }
 
   // @endpoint DELETE /api/audit_log/1
   if (req.method === 'DELETE' && pathname === '/api/audit_log/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/feature_flags
   if (req.method === 'GET' && pathname === '/api/feature_flags') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"new_scheduler","enabled":true,"description":"Annual wellness visit"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"ai_scribe","enabled":true,"description":"Follow-up consultation"}]}));
   }
 
   // @endpoint POST /api/feature_flags
   if (req.method === 'POST' && pathname === '/api/feature_flags') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"new_scheduler","enabled":true,"description":"Annual wellness visit"}));
   }
 
   // @endpoint GET /api/feature_flags/1
   if (req.method === 'GET' && pathname === '/api/feature_flags/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no feature_flags with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"new_scheduler","enabled":true,"description":"Annual wellness visit"}));
   }
 
   // @endpoint PATCH /api/feature_flags/1
   if (req.method === 'PATCH' && pathname === '/api/feature_flags/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no feature_flags with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","name":"new_scheduler","enabled":true,"description":"Annual wellness visit"}));
   }
 
   // @endpoint DELETE /api/feature_flags/1
   if (req.method === 'DELETE' && pathname === '/api/feature_flags/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/tenancy
   if (req.method === 'GET' && pathname === '/api/tenancy') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Acme Health","tier":"trial"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Riverside Clinics","tier":"trial"}]}));
   }
 
   // @endpoint POST /api/tenancy
   if (req.method === 'POST' && pathname === '/api/tenancy') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Acme Health","tier":"trial"}));
   }
 
   // @endpoint GET /api/tenancy/1
   if (req.method === 'GET' && pathname === '/api/tenancy/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no tenancy with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Acme Health","tier":"trial"}));
   }
 
   // @endpoint PATCH /api/tenancy/1
   if (req.method === 'PATCH' && pathname === '/api/tenancy/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no tenancy with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","name":"Acme Health","tier":"trial"}));
   }
 
   // @endpoint DELETE /api/tenancy/1
   if (req.method === 'DELETE' && pathname === '/api/tenancy/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/patients
   if (req.method === 'GET' && pathname === '/api/patients') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","first_name":"Jane","last_name":"Doe","dob":"2026-01-15","mrn":"MRN-100234","email":"jane.doe@example.com","phone":"555-0142"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","first_name":"Marcus","last_name":"Rivera","dob":"2026-01-15","mrn":"MRN-100235","email":"marcus.rivera@example.com","phone":"555-0187"}]}));
   }
 
   // @endpoint POST /api/patients
   if (req.method === 'POST' && pathname === '/api/patients') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","first_name":"Jane","last_name":"Doe","dob":"2026-01-15","mrn":"MRN-100234","email":"jane.doe@example.com","phone":"555-0142"}));
   }
 
   // @endpoint GET /api/patients/1
   if (req.method === 'GET' && pathname === '/api/patients/1') {
     const requestedStatusCode = req.headers['x-mock-response-code'];
 
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
     // "404 Not Found" — when x-mock-response-code: 404
     if (requestedStatusCode === '404') {
       res.writeHead(404, {"Content-Type":"application/json"});
       return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patients with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
     }
 
     // "200 OK" — default
@@ -333,2991 +1186,11537 @@ const server = http.createServer((req, res) => {
 
   // @endpoint PATCH /api/patients/1
   if (req.method === 'PATCH' && pathname === '/api/patients/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patients with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","first_name":"Jane","last_name":"Doe","dob":"2026-01-15","mrn":"MRN-100234","email":"jane.doe@example.com","phone":"555-0142"}));
   }
 
   // @endpoint DELETE /api/patients/1
   if (req.method === 'DELETE' && pathname === '/api/patients/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/demographics
   if (req.method === 'GET' && pathname === '/api/demographics') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"address":"100 Main St","city":"Springfield","state":"IL","zip":"62701"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"address":"42 Oak Avenue","city":"Riverton","state":"CO","zip":"80123"}]}));
   }
 
   // @endpoint POST /api/demographics
   if (req.method === 'POST' && pathname === '/api/demographics') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"address":"100 Main St","city":"Springfield","state":"IL","zip":"62701"}));
   }
 
   // @endpoint GET /api/demographics/1
   if (req.method === 'GET' && pathname === '/api/demographics/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no demographics with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"address":"100 Main St","city":"Springfield","state":"IL","zip":"62701"}));
   }
 
   // @endpoint PATCH /api/demographics/1
   if (req.method === 'PATCH' && pathname === '/api/demographics/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no demographics with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"address":"100 Main St","city":"Springfield","state":"IL","zip":"62701"}));
   }
 
   // @endpoint DELETE /api/demographics/1
   if (req.method === 'DELETE' && pathname === '/api/demographics/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/patient_consent
   if (req.method === 'GET' && pathname === '/api/patient_consent') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"consent_type":"hipaa","granted":true,"notes":"Patient reports no new concerns."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"consent_type":"hipaa","granted":true,"notes":"Reviewed medication list."}]}));
   }
 
   // @endpoint POST /api/patient_consent
   if (req.method === 'POST' && pathname === '/api/patient_consent') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"consent_type":"hipaa","granted":true,"notes":"Patient reports no new concerns."}));
   }
 
   // @endpoint GET /api/patient_consent/1
   if (req.method === 'GET' && pathname === '/api/patient_consent/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_consent with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"consent_type":"hipaa","granted":true,"notes":"Patient reports no new concerns."}));
   }
 
   // @endpoint PATCH /api/patient_consent/1
   if (req.method === 'PATCH' && pathname === '/api/patient_consent/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_consent with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"consent_type":"hipaa","granted":true,"notes":"Patient reports no new concerns."}));
   }
 
   // @endpoint DELETE /api/patient_consent/1
   if (req.method === 'DELETE' && pathname === '/api/patient_consent/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/patient_preferences
   if (req.method === 'GET' && pathname === '/api/patient_preferences') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"key":"max_login_attempts","value":"enabled"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"key":"session_timeout_min","value":"disabled"}]}));
   }
 
   // @endpoint POST /api/patient_preferences
   if (req.method === 'POST' && pathname === '/api/patient_preferences') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"key":"max_login_attempts","value":"enabled"}));
   }
 
   // @endpoint GET /api/patient_preferences/1
   if (req.method === 'GET' && pathname === '/api/patient_preferences/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_preferences with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"key":"max_login_attempts","value":"enabled"}));
   }
 
   // @endpoint PATCH /api/patient_preferences/1
   if (req.method === 'PATCH' && pathname === '/api/patient_preferences/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_preferences with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"key":"max_login_attempts","value":"enabled"}));
   }
 
   // @endpoint DELETE /api/patient_preferences/1
   if (req.method === 'DELETE' && pathname === '/api/patient_preferences/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/patient_relationships
   if (req.method === 'GET' && pathname === '/api/patient_relationships') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"related_to":1,"relationship":"spouse"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"related_to":2,"relationship":"spouse"}]}));
   }
 
   // @endpoint POST /api/patient_relationships
   if (req.method === 'POST' && pathname === '/api/patient_relationships') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"related_to":1,"relationship":"spouse"}));
   }
 
   // @endpoint GET /api/patient_relationships/1
   if (req.method === 'GET' && pathname === '/api/patient_relationships/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_relationships with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"related_to":1,"relationship":"spouse"}));
   }
 
   // @endpoint PATCH /api/patient_relationships/1
   if (req.method === 'PATCH' && pathname === '/api/patient_relationships/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_relationships with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"related_to":1,"relationship":"spouse"}));
   }
 
   // @endpoint DELETE /api/patient_relationships/1
   if (req.method === 'DELETE' && pathname === '/api/patient_relationships/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/patient_timeline
   if (req.method === 'GET' && pathname === '/api/patient_timeline') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"event_type":"created","description":"Annual wellness visit"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"event_type":"updated","description":"Follow-up consultation"}]}));
   }
 
   // @endpoint POST /api/patient_timeline
   if (req.method === 'POST' && pathname === '/api/patient_timeline') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"event_type":"created","description":"Annual wellness visit"}));
   }
 
   // @endpoint GET /api/patient_timeline/1
   if (req.method === 'GET' && pathname === '/api/patient_timeline/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_timeline with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"event_type":"created","description":"Annual wellness visit"}));
   }
 
   // @endpoint PATCH /api/patient_timeline/1
   if (req.method === 'PATCH' && pathname === '/api/patient_timeline/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_timeline with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"event_type":"created","description":"Annual wellness visit"}));
   }
 
   // @endpoint DELETE /api/patient_timeline/1
   if (req.method === 'DELETE' && pathname === '/api/patient_timeline/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/patient_search
   if (req.method === 'GET' && pathname === '/api/patient_search') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","query":"name or MRN…"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","query":"name or MRN…"}]}));
   }
 
   // @endpoint POST /api/patient_search
   if (req.method === 'POST' && pathname === '/api/patient_search') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","query":"name or MRN…"}));
   }
 
   // @endpoint GET /api/patient_search/1
   if (req.method === 'GET' && pathname === '/api/patient_search/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_search with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","query":"name or MRN…"}));
   }
 
   // @endpoint PATCH /api/patient_search/1
   if (req.method === 'PATCH' && pathname === '/api/patient_search/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_search with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","query":"name or MRN…"}));
   }
 
   // @endpoint DELETE /api/patient_search/1
   if (req.method === 'DELETE' && pathname === '/api/patient_search/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/patient_merge
   if (req.method === 'GET' && pathname === '/api/patient_merge') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","source_patient_id":1,"target_patient_id":1,"reason":"Annual physical"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","source_patient_id":2,"target_patient_id":2,"reason":"Follow-up visit"}]}));
   }
 
   // @endpoint POST /api/patient_merge
   if (req.method === 'POST' && pathname === '/api/patient_merge') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","source_patient_id":1,"target_patient_id":1,"reason":"Annual physical"}));
   }
 
   // @endpoint GET /api/patient_merge/1
   if (req.method === 'GET' && pathname === '/api/patient_merge/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_merge with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","source_patient_id":1,"target_patient_id":1,"reason":"Annual physical"}));
   }
 
   // @endpoint PATCH /api/patient_merge/1
   if (req.method === 'PATCH' && pathname === '/api/patient_merge/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_merge with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","source_patient_id":1,"target_patient_id":1,"reason":"Annual physical"}));
   }
 
   // @endpoint DELETE /api/patient_merge/1
   if (req.method === 'DELETE' && pathname === '/api/patient_merge/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/patient_communications
   if (req.method === 'GET' && pathname === '/api/patient_communications') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"channel":"email","message":"Please call the clinic."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"channel":"email","message":"Your refill is ready."}]}));
   }
 
   // @endpoint POST /api/patient_communications
   if (req.method === 'POST' && pathname === '/api/patient_communications') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"channel":"email","message":"Please call the clinic."}));
   }
 
   // @endpoint GET /api/patient_communications/1
   if (req.method === 'GET' && pathname === '/api/patient_communications/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_communications with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"channel":"email","message":"Please call the clinic."}));
   }
 
   // @endpoint PATCH /api/patient_communications/1
   if (req.method === 'PATCH' && pathname === '/api/patient_communications/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_communications with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"channel":"email","message":"Please call the clinic."}));
   }
 
   // @endpoint DELETE /api/patient_communications/1
   if (req.method === 'DELETE' && pathname === '/api/patient_communications/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/providers
   if (req.method === 'GET' && pathname === '/api/providers') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","first_name":"Jane","last_name":"Doe","npi":"1234567893","employee_id":"EMP-4821","specialty":"Cardiology"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","first_name":"Marcus","last_name":"Rivera","npi":"1098765432","employee_id":"EMP-4822","specialty":"Family Medicine"}]}));
   }
 
   // @endpoint POST /api/providers
   if (req.method === 'POST' && pathname === '/api/providers') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","first_name":"Jane","last_name":"Doe","npi":"1234567893","employee_id":"EMP-4821","specialty":"Cardiology"}));
   }
 
   // @endpoint GET /api/providers/1
   if (req.method === 'GET' && pathname === '/api/providers/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no providers with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","first_name":"Jane","last_name":"Doe","npi":"1234567893","employee_id":"EMP-4821","specialty":"Cardiology"}));
   }
 
   // @endpoint PATCH /api/providers/1
   if (req.method === 'PATCH' && pathname === '/api/providers/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no providers with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","first_name":"Jane","last_name":"Doe","npi":"1234567893","employee_id":"EMP-4821","specialty":"Cardiology"}));
   }
 
   // @endpoint DELETE /api/providers/1
   if (req.method === 'DELETE' && pathname === '/api/providers/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/credentialing
   if (req.method === 'GET' && pathname === '/api/credentialing') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"credential_type":"board_cert","granted_at":"2026-01-15","expires_at":"2026-01-15"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":2,"credential_type":"board_cert","granted_at":"2026-01-15","expires_at":"2026-01-15"}]}));
   }
 
   // @endpoint POST /api/credentialing
   if (req.method === 'POST' && pathname === '/api/credentialing') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"credential_type":"board_cert","granted_at":"2026-01-15","expires_at":"2026-01-15"}));
   }
 
   // @endpoint GET /api/credentialing/1
   if (req.method === 'GET' && pathname === '/api/credentialing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no credentialing with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"credential_type":"board_cert","granted_at":"2026-01-15","expires_at":"2026-01-15"}));
   }
 
   // @endpoint PATCH /api/credentialing/1
   if (req.method === 'PATCH' && pathname === '/api/credentialing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no credentialing with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","provider_id":1,"credential_type":"board_cert","granted_at":"2026-01-15","expires_at":"2026-01-15"}));
   }
 
   // @endpoint DELETE /api/credentialing/1
   if (req.method === 'DELETE' && pathname === '/api/credentialing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/licensing
   if (req.method === 'GET' && pathname === '/api/licensing') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"license_number":"IL-0098123","state":"IL","expires_at":"2026-01-15"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":2,"license_number":"CO-0044217","state":"CO","expires_at":"2026-01-15"}]}));
   }
 
   // @endpoint POST /api/licensing
   if (req.method === 'POST' && pathname === '/api/licensing') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"license_number":"IL-0098123","state":"IL","expires_at":"2026-01-15"}));
   }
 
   // @endpoint GET /api/licensing/1
   if (req.method === 'GET' && pathname === '/api/licensing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no licensing with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"license_number":"IL-0098123","state":"IL","expires_at":"2026-01-15"}));
   }
 
   // @endpoint PATCH /api/licensing/1
   if (req.method === 'PATCH' && pathname === '/api/licensing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no licensing with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","provider_id":1,"license_number":"IL-0098123","state":"IL","expires_at":"2026-01-15"}));
   }
 
   // @endpoint DELETE /api/licensing/1
   if (req.method === 'DELETE' && pathname === '/api/licensing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/specialties
   if (req.method === 'GET' && pathname === '/api/specialties') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Cardiology","description":"Annual wellness visit"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Pediatrics","description":"Follow-up consultation"}]}));
   }
 
   // @endpoint POST /api/specialties
   if (req.method === 'POST' && pathname === '/api/specialties') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Cardiology","description":"Annual wellness visit"}));
   }
 
   // @endpoint GET /api/specialties/1
   if (req.method === 'GET' && pathname === '/api/specialties/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no specialties with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Cardiology","description":"Annual wellness visit"}));
   }
 
   // @endpoint PATCH /api/specialties/1
   if (req.method === 'PATCH' && pathname === '/api/specialties/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no specialties with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","name":"Cardiology","description":"Annual wellness visit"}));
   }
 
   // @endpoint DELETE /api/specialties/1
   if (req.method === 'DELETE' && pathname === '/api/specialties/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/provider_schedule
   if (req.method === 'GET' && pathname === '/api/provider_schedule') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"day_of_week":"mon","start_time":"09:00","end_time":"17:00"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":2,"day_of_week":"mon","start_time":"09:00","end_time":"17:00"}]}));
   }
 
   // @endpoint POST /api/provider_schedule
   if (req.method === 'POST' && pathname === '/api/provider_schedule') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"day_of_week":"mon","start_time":"09:00","end_time":"17:00"}));
   }
 
   // @endpoint GET /api/provider_schedule/1
   if (req.method === 'GET' && pathname === '/api/provider_schedule/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no provider_schedule with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"day_of_week":"mon","start_time":"09:00","end_time":"17:00"}));
   }
 
   // @endpoint PATCH /api/provider_schedule/1
   if (req.method === 'PATCH' && pathname === '/api/provider_schedule/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no provider_schedule with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","provider_id":1,"day_of_week":"mon","start_time":"09:00","end_time":"17:00"}));
   }
 
   // @endpoint DELETE /api/provider_schedule/1
   if (req.method === 'DELETE' && pathname === '/api/provider_schedule/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/on_call
   if (req.method === 'GET' && pathname === '/api/on_call') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":2,"starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"}]}));
   }
 
   // @endpoint POST /api/on_call
   if (req.method === 'POST' && pathname === '/api/on_call') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint GET /api/on_call/1
   if (req.method === 'GET' && pathname === '/api/on_call/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no on_call with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint PATCH /api/on_call/1
   if (req.method === 'PATCH' && pathname === '/api/on_call/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no on_call with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","provider_id":1,"starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint DELETE /api/on_call/1
   if (req.method === 'DELETE' && pathname === '/api/on_call/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/provider_directory
   if (req.method === 'GET' && pathname === '/api/provider_directory') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"location":"Building A, Floor 2","phone":"555-0142"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":2,"location":"North Clinic","phone":"555-0187"}]}));
   }
 
   // @endpoint POST /api/provider_directory
   if (req.method === 'POST' && pathname === '/api/provider_directory') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"location":"Building A, Floor 2","phone":"555-0142"}));
   }
 
   // @endpoint GET /api/provider_directory/1
   if (req.method === 'GET' && pathname === '/api/provider_directory/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no provider_directory with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"location":"Building A, Floor 2","phone":"555-0142"}));
   }
 
   // @endpoint PATCH /api/provider_directory/1
   if (req.method === 'PATCH' && pathname === '/api/provider_directory/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no provider_directory with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","provider_id":1,"location":"Building A, Floor 2","phone":"555-0142"}));
   }
 
   // @endpoint DELETE /api/provider_directory/1
   if (req.method === 'DELETE' && pathname === '/api/provider_directory/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/provider_performance
   if (req.method === 'GET' && pathname === '/api/provider_performance') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"metric":"readmission_rate","value":"enabled"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":2,"metric":"avg_wait_minutes","value":"disabled"}]}));
   }
 
   // @endpoint POST /api/provider_performance
   if (req.method === 'POST' && pathname === '/api/provider_performance') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"metric":"readmission_rate","value":"enabled"}));
   }
 
   // @endpoint GET /api/provider_performance/1
   if (req.method === 'GET' && pathname === '/api/provider_performance/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no provider_performance with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"metric":"readmission_rate","value":"enabled"}));
   }
 
   // @endpoint PATCH /api/provider_performance/1
   if (req.method === 'PATCH' && pathname === '/api/provider_performance/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no provider_performance with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","provider_id":1,"metric":"readmission_rate","value":"enabled"}));
   }
 
   // @endpoint DELETE /api/provider_performance/1
   if (req.method === 'DELETE' && pathname === '/api/provider_performance/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/ehr
   if (req.method === 'GET' && pathname === '/api/ehr') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"record_type":"Record type 1","content":"Patient presents with mild hypertension."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"record_type":"Record type 2","content":"Plan reviewed with patient."}]}));
   }
 
   // @endpoint POST /api/ehr
   if (req.method === 'POST' && pathname === '/api/ehr') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"record_type":"Record type 1","content":"Patient presents with mild hypertension."}));
   }
 
   // @endpoint GET /api/ehr/1
   if (req.method === 'GET' && pathname === '/api/ehr/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no ehr with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"record_type":"Record type 1","content":"Patient presents with mild hypertension."}));
   }
 
   // @endpoint PATCH /api/ehr/1
   if (req.method === 'PATCH' && pathname === '/api/ehr/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no ehr with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"record_type":"Record type 1","content":"Patient presents with mild hypertension."}));
   }
 
   // @endpoint DELETE /api/ehr/1
   if (req.method === 'DELETE' && pathname === '/api/ehr/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/encounters
   if (req.method === 'GET' && pathname === '/api/encounters') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_type":"visit","reason":"Annual physical","location":"Building A, Floor 2"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"provider_id":2,"encounter_type":"visit","reason":"Follow-up visit","location":"North Clinic"}]}));
   }
 
   // @endpoint POST /api/encounters
   if (req.method === 'POST' && pathname === '/api/encounters') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_type":"visit","reason":"Annual physical","location":"Building A, Floor 2"}));
   }
 
   // @endpoint GET /api/encounters/1
   if (req.method === 'GET' && pathname === '/api/encounters/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no encounters with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_type":"visit","reason":"Annual physical","location":"Building A, Floor 2"}));
   }
 
   // @endpoint PATCH /api/encounters/1
   if (req.method === 'PATCH' && pathname === '/api/encounters/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no encounters with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"provider_id":1,"encounter_type":"visit","reason":"Annual physical","location":"Building A, Floor 2"}));
   }
 
   // @endpoint DELETE /api/encounters/1
   if (req.method === 'DELETE' && pathname === '/api/encounters/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/clinical_notes
   if (req.method === 'GET' && pathname === '/api/clinical_notes') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":1,"author_id":1,"body":"Your appointment is confirmed for tomorrow."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":2,"author_id":2,"body":"Your lab results are ready."}]}));
   }
 
   // @endpoint POST /api/clinical_notes
   if (req.method === 'POST' && pathname === '/api/clinical_notes') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":1,"author_id":1,"body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint GET /api/clinical_notes/1
   if (req.method === 'GET' && pathname === '/api/clinical_notes/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no clinical_notes with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":1,"author_id":1,"body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint PATCH /api/clinical_notes/1
   if (req.method === 'PATCH' && pathname === '/api/clinical_notes/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no clinical_notes with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","encounter_id":1,"author_id":1,"body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint DELETE /api/clinical_notes/1
   if (req.method === 'DELETE' && pathname === '/api/clinical_notes/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/problem_list
   if (req.method === 'GET' && pathname === '/api/problem_list') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"condition":"Hypertension","icd10":"I10","onset_at":"2026-01-15"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"encounter_id":2,"condition":"Type 2 diabetes","icd10":"E11.9","onset_at":"2026-01-15"}]}));
   }
 
   // @endpoint POST /api/problem_list
   if (req.method === 'POST' && pathname === '/api/problem_list') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"condition":"Hypertension","icd10":"I10","onset_at":"2026-01-15"}));
   }
 
   // @endpoint GET /api/problem_list/1
   if (req.method === 'GET' && pathname === '/api/problem_list/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no problem_list with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"condition":"Hypertension","icd10":"I10","onset_at":"2026-01-15"}));
   }
 
   // @endpoint PATCH /api/problem_list/1
   if (req.method === 'PATCH' && pathname === '/api/problem_list/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no problem_list with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"encounter_id":1,"condition":"Hypertension","icd10":"I10","onset_at":"2026-01-15"}));
   }
 
   // @endpoint DELETE /api/problem_list/1
   if (req.method === 'DELETE' && pathname === '/api/problem_list/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/med_reconciliation
   if (req.method === 'GET' && pathname === '/api/med_reconciliation') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"notes":"Patient reports no new concerns."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"encounter_id":2,"notes":"Reviewed medication list."}]}));
   }
 
   // @endpoint POST /api/med_reconciliation
   if (req.method === 'POST' && pathname === '/api/med_reconciliation') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"notes":"Patient reports no new concerns."}));
   }
 
   // @endpoint GET /api/med_reconciliation/1
   if (req.method === 'GET' && pathname === '/api/med_reconciliation/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no med_reconciliation with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"notes":"Patient reports no new concerns."}));
   }
 
   // @endpoint PATCH /api/med_reconciliation/1
   if (req.method === 'PATCH' && pathname === '/api/med_reconciliation/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no med_reconciliation with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"encounter_id":1,"notes":"Patient reports no new concerns."}));
   }
 
   // @endpoint DELETE /api/med_reconciliation/1
   if (req.method === 'DELETE' && pathname === '/api/med_reconciliation/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/allergies
   if (req.method === 'GET' && pathname === '/api/allergies') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"allergen":"Penicillin","reaction":"Hives","severity":"low"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"allergen":"Peanuts","reaction":"Anaphylaxis","severity":"low"}]}));
   }
 
   // @endpoint POST /api/allergies
   if (req.method === 'POST' && pathname === '/api/allergies') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"allergen":"Penicillin","reaction":"Hives","severity":"low"}));
   }
 
   // @endpoint GET /api/allergies/1
   if (req.method === 'GET' && pathname === '/api/allergies/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no allergies with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"allergen":"Penicillin","reaction":"Hives","severity":"low"}));
   }
 
   // @endpoint PATCH /api/allergies/1
   if (req.method === 'PATCH' && pathname === '/api/allergies/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no allergies with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"allergen":"Penicillin","reaction":"Hives","severity":"low"}));
   }
 
   // @endpoint DELETE /api/allergies/1
   if (req.method === 'DELETE' && pathname === '/api/allergies/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/immunizations
   if (req.method === 'GET' && pathname === '/api/immunizations') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"administered_by":1,"encounter_id":1,"vaccine":"Influenza","administered_at":"2026-01-15","lot_number":"LOT-77231"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"administered_by":2,"encounter_id":2,"vaccine":"Tdap","administered_at":"2026-01-15","lot_number":"LOT-77232"}]}));
   }
 
   // @endpoint POST /api/immunizations
   if (req.method === 'POST' && pathname === '/api/immunizations') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"administered_by":1,"encounter_id":1,"vaccine":"Influenza","administered_at":"2026-01-15","lot_number":"LOT-77231"}));
   }
 
   // @endpoint GET /api/immunizations/1
   if (req.method === 'GET' && pathname === '/api/immunizations/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no immunizations with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"administered_by":1,"encounter_id":1,"vaccine":"Influenza","administered_at":"2026-01-15","lot_number":"LOT-77231"}));
   }
 
   // @endpoint PATCH /api/immunizations/1
   if (req.method === 'PATCH' && pathname === '/api/immunizations/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no immunizations with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"administered_by":1,"encounter_id":1,"vaccine":"Influenza","administered_at":"2026-01-15","lot_number":"LOT-77231"}));
   }
 
   // @endpoint DELETE /api/immunizations/1
   if (req.method === 'DELETE' && pathname === '/api/immunizations/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/vitals
   if (req.method === 'GET' && pathname === '/api/vitals') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"heart_rate":72,"bp":"120/80","temperature":98.6,"spo2":98},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"encounter_id":2,"heart_rate":88,"bp":"120/80","temperature":99.1,"spo2":96}]}));
   }
 
   // @endpoint POST /api/vitals
   if (req.method === 'POST' && pathname === '/api/vitals') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"heart_rate":72,"bp":"120/80","temperature":98.6,"spo2":98}));
   }
 
   // @endpoint GET /api/vitals/1
   if (req.method === 'GET' && pathname === '/api/vitals/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no vitals with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"heart_rate":72,"bp":"120/80","temperature":98.6,"spo2":98}));
   }
 
   // @endpoint PATCH /api/vitals/1
   if (req.method === 'PATCH' && pathname === '/api/vitals/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no vitals with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"encounter_id":1,"heart_rate":72,"bp":"120/80","temperature":98.6,"spo2":98}));
   }
 
   // @endpoint DELETE /api/vitals/1
   if (req.method === 'DELETE' && pathname === '/api/vitals/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/cpoe
   if (req.method === 'GET' && pathname === '/api/cpoe') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"order_type":"med","details":"STAT order placed."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"provider_id":2,"encounter_id":2,"order_type":"med","details":"Routine order."}]}));
   }
 
   // @endpoint POST /api/cpoe
   if (req.method === 'POST' && pathname === '/api/cpoe') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"order_type":"med","details":"STAT order placed."}));
   }
 
   // @endpoint GET /api/cpoe/1
   if (req.method === 'GET' && pathname === '/api/cpoe/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no cpoe with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"order_type":"med","details":"STAT order placed."}));
   }
 
   // @endpoint PATCH /api/cpoe/1
   if (req.method === 'PATCH' && pathname === '/api/cpoe/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no cpoe with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"order_type":"med","details":"STAT order placed."}));
   }
 
   // @endpoint DELETE /api/cpoe/1
   if (req.method === 'DELETE' && pathname === '/api/cpoe/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/care_plan
   if (req.method === 'GET' && pathname === '/api/care_plan') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"goals":"Reduce A1c below 7.0."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"provider_id":2,"encounter_id":2,"goals":"Walk 30 minutes daily."}]}));
   }
 
   // @endpoint POST /api/care_plan
   if (req.method === 'POST' && pathname === '/api/care_plan') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"goals":"Reduce A1c below 7.0."}));
   }
 
   // @endpoint GET /api/care_plan/1
   if (req.method === 'GET' && pathname === '/api/care_plan/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no care_plan with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"goals":"Reduce A1c below 7.0."}));
   }
 
   // @endpoint PATCH /api/care_plan/1
   if (req.method === 'PATCH' && pathname === '/api/care_plan/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no care_plan with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"goals":"Reduce A1c below 7.0."}));
   }
 
   // @endpoint DELETE /api/care_plan/1
   if (req.method === 'DELETE' && pathname === '/api/care_plan/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/referrals
   if (req.method === 'GET' && pathname === '/api/referrals') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"referring_provider_id":1,"referred_to_provider_id":1,"reason":"Annual physical"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"referring_provider_id":2,"referred_to_provider_id":2,"reason":"Follow-up visit"}]}));
   }
 
   // @endpoint POST /api/referrals
   if (req.method === 'POST' && pathname === '/api/referrals') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"referring_provider_id":1,"referred_to_provider_id":1,"reason":"Annual physical"}));
   }
 
   // @endpoint GET /api/referrals/1
   if (req.method === 'GET' && pathname === '/api/referrals/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no referrals with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"referring_provider_id":1,"referred_to_provider_id":1,"reason":"Annual physical"}));
   }
 
   // @endpoint PATCH /api/referrals/1
   if (req.method === 'PATCH' && pathname === '/api/referrals/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no referrals with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"referring_provider_id":1,"referred_to_provider_id":1,"reason":"Annual physical"}));
   }
 
   // @endpoint DELETE /api/referrals/1
   if (req.method === 'DELETE' && pathname === '/api/referrals/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/discharge_summary
   if (req.method === 'GET' && pathname === '/api/discharge_summary') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":1,"patient_id":1,"author_id":1,"summary":"Uncomplicated stay; discharged home."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":2,"patient_id":2,"author_id":2,"summary":"Transferred to rehab."}]}));
   }
 
   // @endpoint POST /api/discharge_summary
   if (req.method === 'POST' && pathname === '/api/discharge_summary') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":1,"patient_id":1,"author_id":1,"summary":"Uncomplicated stay; discharged home."}));
   }
 
   // @endpoint GET /api/discharge_summary/1
   if (req.method === 'GET' && pathname === '/api/discharge_summary/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no discharge_summary with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":1,"patient_id":1,"author_id":1,"summary":"Uncomplicated stay; discharged home."}));
   }
 
   // @endpoint PATCH /api/discharge_summary/1
   if (req.method === 'PATCH' && pathname === '/api/discharge_summary/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no discharge_summary with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","encounter_id":1,"patient_id":1,"author_id":1,"summary":"Uncomplicated stay; discharged home."}));
   }
 
   // @endpoint DELETE /api/discharge_summary/1
   if (req.method === 'DELETE' && pathname === '/api/discharge_summary/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/clinical_decision_support
   if (req.method === 'GET' && pathname === '/api/clinical_decision_support') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"alert_type":"Alert type 1","recommendation":"Consider dose adjustment."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"encounter_id":2,"provider_id":2,"alert_type":"Alert type 2","recommendation":"Order baseline labs."}]}));
   }
 
   // @endpoint POST /api/clinical_decision_support
   if (req.method === 'POST' && pathname === '/api/clinical_decision_support') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"alert_type":"Alert type 1","recommendation":"Consider dose adjustment."}));
   }
 
   // @endpoint GET /api/clinical_decision_support/1
   if (req.method === 'GET' && pathname === '/api/clinical_decision_support/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no clinical_decision_support with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"alert_type":"Alert type 1","recommendation":"Consider dose adjustment."}));
   }
 
   // @endpoint PATCH /api/clinical_decision_support/1
   if (req.method === 'PATCH' && pathname === '/api/clinical_decision_support/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no clinical_decision_support with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"alert_type":"Alert type 1","recommendation":"Consider dose adjustment."}));
   }
 
   // @endpoint DELETE /api/clinical_decision_support/1
   if (req.method === 'DELETE' && pathname === '/api/clinical_decision_support/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/diagnosis_codes
   if (req.method === 'GET' && pathname === '/api/diagnosis_codes') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","code":"E11.9","description":"Annual wellness visit"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","code":"I10","description":"Follow-up consultation"}]}));
   }
 
   // @endpoint POST /api/diagnosis_codes
   if (req.method === 'POST' && pathname === '/api/diagnosis_codes') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","code":"E11.9","description":"Annual wellness visit"}));
   }
 
   // @endpoint GET /api/diagnosis_codes/1
   if (req.method === 'GET' && pathname === '/api/diagnosis_codes/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no diagnosis_codes with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","code":"E11.9","description":"Annual wellness visit"}));
   }
 
   // @endpoint PATCH /api/diagnosis_codes/1
   if (req.method === 'PATCH' && pathname === '/api/diagnosis_codes/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no diagnosis_codes with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","code":"E11.9","description":"Annual wellness visit"}));
   }
 
   // @endpoint DELETE /api/diagnosis_codes/1
   if (req.method === 'DELETE' && pathname === '/api/diagnosis_codes/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/care_teams
   if (req.method === 'GET' && pathname === '/api/care_teams') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"role":"patient"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"provider_id":2,"role":"provider"}]}));
   }
 
   // @endpoint POST /api/care_teams
   if (req.method === 'POST' && pathname === '/api/care_teams') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"role":"patient"}));
   }
 
   // @endpoint GET /api/care_teams/1
   if (req.method === 'GET' && pathname === '/api/care_teams/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no care_teams with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"role":"patient"}));
   }
 
   // @endpoint PATCH /api/care_teams/1
   if (req.method === 'PATCH' && pathname === '/api/care_teams/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no care_teams with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"provider_id":1,"role":"patient"}));
   }
 
   // @endpoint DELETE /api/care_teams/1
   if (req.method === 'DELETE' && pathname === '/api/care_teams/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/lab_orders
   if (req.method === 'GET' && pathname === '/api/lab_orders') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"ordered_by":1,"encounter_id":1,"test_code":"CBC","priority":"routine"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"ordered_by":2,"encounter_id":2,"test_code":"CBC","priority":"routine"}]}));
   }
 
   // @endpoint POST /api/lab_orders
   if (req.method === 'POST' && pathname === '/api/lab_orders') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"ordered_by":1,"encounter_id":1,"test_code":"CBC","priority":"routine"}));
   }
 
   // @endpoint GET /api/lab_orders/1
   if (req.method === 'GET' && pathname === '/api/lab_orders/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no lab_orders with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"ordered_by":1,"encounter_id":1,"test_code":"CBC","priority":"routine"}));
   }
 
   // @endpoint PATCH /api/lab_orders/1
   if (req.method === 'PATCH' && pathname === '/api/lab_orders/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no lab_orders with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"ordered_by":1,"encounter_id":1,"test_code":"CBC","priority":"routine"}));
   }
 
   // @endpoint DELETE /api/lab_orders/1
   if (req.method === 'DELETE' && pathname === '/api/lab_orders/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/lab_results
   if (req.method === 'GET' && pathname === '/api/lab_results') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"lab_order_id":1,"author_id":1,"test_code":"CBC","result":"Normal"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"lab_order_id":2,"author_id":2,"test_code":"BMP","result":"Abnormal - follow up"}]}));
   }
 
   // @endpoint POST /api/lab_results
   if (req.method === 'POST' && pathname === '/api/lab_results') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"lab_order_id":1,"author_id":1,"test_code":"CBC","result":"Normal"}));
   }
 
   // @endpoint GET /api/lab_results/1
   if (req.method === 'GET' && pathname === '/api/lab_results/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no lab_results with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"lab_order_id":1,"author_id":1,"test_code":"CBC","result":"Normal"}));
   }
 
   // @endpoint PATCH /api/lab_results/1
   if (req.method === 'PATCH' && pathname === '/api/lab_results/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no lab_results with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"lab_order_id":1,"author_id":1,"test_code":"CBC","result":"Normal"}));
   }
 
   // @endpoint DELETE /api/lab_results/1
   if (req.method === 'DELETE' && pathname === '/api/lab_results/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/imaging_orders
   if (req.method === 'GET' && pathname === '/api/imaging_orders') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"ordered_by":1,"encounter_id":1,"modality":"xray","body_part":"chest","priority":"routine"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"ordered_by":2,"encounter_id":2,"modality":"xray","body_part":"left knee","priority":"routine"}]}));
   }
 
   // @endpoint POST /api/imaging_orders
   if (req.method === 'POST' && pathname === '/api/imaging_orders') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"ordered_by":1,"encounter_id":1,"modality":"xray","body_part":"chest","priority":"routine"}));
   }
 
   // @endpoint GET /api/imaging_orders/1
   if (req.method === 'GET' && pathname === '/api/imaging_orders/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no imaging_orders with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"ordered_by":1,"encounter_id":1,"modality":"xray","body_part":"chest","priority":"routine"}));
   }
 
   // @endpoint PATCH /api/imaging_orders/1
   if (req.method === 'PATCH' && pathname === '/api/imaging_orders/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no imaging_orders with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"ordered_by":1,"encounter_id":1,"modality":"xray","body_part":"chest","priority":"routine"}));
   }
 
   // @endpoint DELETE /api/imaging_orders/1
   if (req.method === 'DELETE' && pathname === '/api/imaging_orders/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/imaging_results
   if (req.method === 'GET' && pathname === '/api/imaging_results') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"imaging_order_id":1,"author_id":1,"findings":"No acute findings."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"imaging_order_id":2,"author_id":2,"findings":"Mild degenerative changes."}]}));
   }
 
   // @endpoint POST /api/imaging_results
   if (req.method === 'POST' && pathname === '/api/imaging_results') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"imaging_order_id":1,"author_id":1,"findings":"No acute findings."}));
   }
 
   // @endpoint GET /api/imaging_results/1
   if (req.method === 'GET' && pathname === '/api/imaging_results/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no imaging_results with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"imaging_order_id":1,"author_id":1,"findings":"No acute findings."}));
   }
 
   // @endpoint PATCH /api/imaging_results/1
   if (req.method === 'PATCH' && pathname === '/api/imaging_results/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no imaging_results with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"imaging_order_id":1,"author_id":1,"findings":"No acute findings."}));
   }
 
   // @endpoint DELETE /api/imaging_results/1
   if (req.method === 'DELETE' && pathname === '/api/imaging_results/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/pathology
   if (req.method === 'GET' && pathname === '/api/pathology') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"specimen_id":1,"author_id":1,"findings":"No acute findings."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"specimen_id":2,"author_id":2,"findings":"Mild degenerative changes."}]}));
   }
 
   // @endpoint POST /api/pathology
   if (req.method === 'POST' && pathname === '/api/pathology') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"specimen_id":1,"author_id":1,"findings":"No acute findings."}));
   }
 
   // @endpoint GET /api/pathology/1
   if (req.method === 'GET' && pathname === '/api/pathology/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no pathology with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"specimen_id":1,"author_id":1,"findings":"No acute findings."}));
   }
 
   // @endpoint PATCH /api/pathology/1
   if (req.method === 'PATCH' && pathname === '/api/pathology/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no pathology with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"specimen_id":1,"author_id":1,"findings":"No acute findings."}));
   }
 
   // @endpoint DELETE /api/pathology/1
   if (req.method === 'DELETE' && pathname === '/api/pathology/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/radiology_worklist
   if (req.method === 'GET' && pathname === '/api/radiology_worklist') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"imaging_order_id":1,"provider_id":1,"modality":"xray","priority":"routine"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"imaging_order_id":2,"provider_id":2,"modality":"xray","priority":"routine"}]}));
   }
 
   // @endpoint POST /api/radiology_worklist
   if (req.method === 'POST' && pathname === '/api/radiology_worklist') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"imaging_order_id":1,"provider_id":1,"modality":"xray","priority":"routine"}));
   }
 
   // @endpoint GET /api/radiology_worklist/1
   if (req.method === 'GET' && pathname === '/api/radiology_worklist/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no radiology_worklist with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"imaging_order_id":1,"provider_id":1,"modality":"xray","priority":"routine"}));
   }
 
   // @endpoint PATCH /api/radiology_worklist/1
   if (req.method === 'PATCH' && pathname === '/api/radiology_worklist/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no radiology_worklist with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"imaging_order_id":1,"provider_id":1,"modality":"xray","priority":"routine"}));
   }
 
   // @endpoint DELETE /api/radiology_worklist/1
   if (req.method === 'DELETE' && pathname === '/api/radiology_worklist/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/specimen_tracking
   if (req.method === 'GET' && pathname === '/api/specimen_tracking') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"lab_order_id":1,"specimen_type":"blood","collected_at":"2026-01-15T09:00:00Z"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"lab_order_id":2,"specimen_type":"urine","collected_at":"2026-01-15T09:00:00Z"}]}));
   }
 
   // @endpoint POST /api/specimen_tracking
   if (req.method === 'POST' && pathname === '/api/specimen_tracking') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"lab_order_id":1,"specimen_type":"blood","collected_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint GET /api/specimen_tracking/1
   if (req.method === 'GET' && pathname === '/api/specimen_tracking/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no specimen_tracking with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"lab_order_id":1,"specimen_type":"blood","collected_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint PATCH /api/specimen_tracking/1
   if (req.method === 'PATCH' && pathname === '/api/specimen_tracking/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no specimen_tracking with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"lab_order_id":1,"specimen_type":"blood","collected_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint DELETE /api/specimen_tracking/1
   if (req.method === 'DELETE' && pathname === '/api/specimen_tracking/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/reference_ranges
   if (req.method === 'GET' && pathname === '/api/reference_ranges') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","test_code":"CBC","low":70,"high":99,"unit":"mg/dL"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","test_code":"BMP","low":4,"high":5.6,"unit":"mmol/L"}]}));
   }
 
   // @endpoint POST /api/reference_ranges
   if (req.method === 'POST' && pathname === '/api/reference_ranges') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","test_code":"CBC","low":70,"high":99,"unit":"mg/dL"}));
   }
 
   // @endpoint GET /api/reference_ranges/1
   if (req.method === 'GET' && pathname === '/api/reference_ranges/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no reference_ranges with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","test_code":"CBC","low":70,"high":99,"unit":"mg/dL"}));
   }
 
   // @endpoint PATCH /api/reference_ranges/1
   if (req.method === 'PATCH' && pathname === '/api/reference_ranges/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no reference_ranges with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","test_code":"CBC","low":70,"high":99,"unit":"mg/dL"}));
   }
 
   // @endpoint DELETE /api/reference_ranges/1
   if (req.method === 'DELETE' && pathname === '/api/reference_ranges/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/pharmacy
   if (req.method === 'GET' && pathname === '/api/pharmacy') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","prescription_id":1,"filled_at":"2026-01-15T09:00:00Z"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","prescription_id":2,"filled_at":"2026-01-15T09:00:00Z"}]}));
   }
 
   // @endpoint POST /api/pharmacy
   if (req.method === 'POST' && pathname === '/api/pharmacy') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","prescription_id":1,"filled_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint GET /api/pharmacy/1
   if (req.method === 'GET' && pathname === '/api/pharmacy/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no pharmacy with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","prescription_id":1,"filled_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint PATCH /api/pharmacy/1
   if (req.method === 'PATCH' && pathname === '/api/pharmacy/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no pharmacy with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","prescription_id":1,"filled_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint DELETE /api/pharmacy/1
   if (req.method === 'DELETE' && pathname === '/api/pharmacy/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/prescriptions
   if (req.method === 'GET' && pathname === '/api/prescriptions') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"drug":"Lisinopril","dose":"10mg","sig":"1 tab daily"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"provider_id":2,"encounter_id":2,"drug":"Metformin","dose":"10mg","sig":"1 tab daily"}]}));
   }
 
   // @endpoint POST /api/prescriptions
   if (req.method === 'POST' && pathname === '/api/prescriptions') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"drug":"Lisinopril","dose":"10mg","sig":"1 tab daily"}));
   }
 
   // @endpoint GET /api/prescriptions/1
   if (req.method === 'GET' && pathname === '/api/prescriptions/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no prescriptions with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"drug":"Lisinopril","dose":"10mg","sig":"1 tab daily"}));
   }
 
   // @endpoint PATCH /api/prescriptions/1
   if (req.method === 'PATCH' && pathname === '/api/prescriptions/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no prescriptions with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"drug":"Lisinopril","dose":"10mg","sig":"1 tab daily"}));
   }
 
   // @endpoint DELETE /api/prescriptions/1
   if (req.method === 'DELETE' && pathname === '/api/prescriptions/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/refills
   if (req.method === 'GET' && pathname === '/api/refills') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","prescription_id":1,"requested_at":"2026-01-15T09:00:00Z"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","prescription_id":2,"requested_at":"2026-01-15T09:00:00Z"}]}));
   }
 
   // @endpoint POST /api/refills
   if (req.method === 'POST' && pathname === '/api/refills') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","prescription_id":1,"requested_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint GET /api/refills/1
   if (req.method === 'GET' && pathname === '/api/refills/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no refills with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","prescription_id":1,"requested_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint PATCH /api/refills/1
   if (req.method === 'PATCH' && pathname === '/api/refills/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no refills with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","prescription_id":1,"requested_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint DELETE /api/refills/1
   if (req.method === 'DELETE' && pathname === '/api/refills/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/drug_interactions
   if (req.method === 'GET' && pathname === '/api/drug_interactions') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","drug_a":"Drug a 1","drug_b":"Drug b 1","severity":"low"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","drug_a":"Drug a 2","drug_b":"Drug b 2","severity":"low"}]}));
   }
 
   // @endpoint POST /api/drug_interactions
   if (req.method === 'POST' && pathname === '/api/drug_interactions') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","drug_a":"Drug a 1","drug_b":"Drug b 1","severity":"low"}));
   }
 
   // @endpoint GET /api/drug_interactions/1
   if (req.method === 'GET' && pathname === '/api/drug_interactions/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no drug_interactions with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","drug_a":"Drug a 1","drug_b":"Drug b 1","severity":"low"}));
   }
 
   // @endpoint PATCH /api/drug_interactions/1
   if (req.method === 'PATCH' && pathname === '/api/drug_interactions/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no drug_interactions with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","drug_a":"Drug a 1","drug_b":"Drug b 1","severity":"low"}));
   }
 
   // @endpoint DELETE /api/drug_interactions/1
   if (req.method === 'DELETE' && pathname === '/api/drug_interactions/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/formulary
   if (req.method === 'GET' && pathname === '/api/formulary') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","drug":"Lisinopril","tier":"1"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","drug":"Metformin","tier":"1"}]}));
   }
 
   // @endpoint POST /api/formulary
   if (req.method === 'POST' && pathname === '/api/formulary') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","drug":"Lisinopril","tier":"1"}));
   }
 
   // @endpoint GET /api/formulary/1
   if (req.method === 'GET' && pathname === '/api/formulary/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no formulary with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","drug":"Lisinopril","tier":"1"}));
   }
 
   // @endpoint PATCH /api/formulary/1
   if (req.method === 'PATCH' && pathname === '/api/formulary/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no formulary with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","drug":"Lisinopril","tier":"1"}));
   }
 
   // @endpoint DELETE /api/formulary/1
   if (req.method === 'DELETE' && pathname === '/api/formulary/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/pharmacy_inventory
   if (req.method === 'GET' && pathname === '/api/pharmacy_inventory') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","drug":"Lisinopril","quantity":30,"lot_number":"LOT-77231"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","drug":"Metformin","quantity":90,"lot_number":"LOT-77232"}]}));
   }
 
   // @endpoint POST /api/pharmacy_inventory
   if (req.method === 'POST' && pathname === '/api/pharmacy_inventory') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","drug":"Lisinopril","quantity":30,"lot_number":"LOT-77231"}));
   }
 
   // @endpoint GET /api/pharmacy_inventory/1
   if (req.method === 'GET' && pathname === '/api/pharmacy_inventory/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no pharmacy_inventory with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","drug":"Lisinopril","quantity":30,"lot_number":"LOT-77231"}));
   }
 
   // @endpoint PATCH /api/pharmacy_inventory/1
   if (req.method === 'PATCH' && pathname === '/api/pharmacy_inventory/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no pharmacy_inventory with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","drug":"Lisinopril","quantity":30,"lot_number":"LOT-77231"}));
   }
 
   // @endpoint DELETE /api/pharmacy_inventory/1
   if (req.method === 'DELETE' && pathname === '/api/pharmacy_inventory/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/dispensing
   if (req.method === 'GET' && pathname === '/api/dispensing') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","prescription_id":1,"dispensed_at":"2026-01-15T09:00:00Z","dispensed_by":1},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","prescription_id":2,"dispensed_at":"2026-01-15T09:00:00Z","dispensed_by":2}]}));
   }
 
   // @endpoint POST /api/dispensing
   if (req.method === 'POST' && pathname === '/api/dispensing') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","prescription_id":1,"dispensed_at":"2026-01-15T09:00:00Z","dispensed_by":1}));
   }
 
   // @endpoint GET /api/dispensing/1
   if (req.method === 'GET' && pathname === '/api/dispensing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no dispensing with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","prescription_id":1,"dispensed_at":"2026-01-15T09:00:00Z","dispensed_by":1}));
   }
 
   // @endpoint PATCH /api/dispensing/1
   if (req.method === 'PATCH' && pathname === '/api/dispensing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no dispensing with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","prescription_id":1,"dispensed_at":"2026-01-15T09:00:00Z","dispensed_by":1}));
   }
 
   // @endpoint DELETE /api/dispensing/1
   if (req.method === 'DELETE' && pathname === '/api/dispensing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/appointments
   if (req.method === 'GET' && pathname === '/api/appointments') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"facility_id":1,"starts_at":"2026-01-15T09:00:00Z","duration_min":30,"reason":"Annual physical"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"provider_id":2,"facility_id":2,"starts_at":"2026-01-15T09:00:00Z","duration_min":45,"reason":"Follow-up visit"}]}));
   }
 
   // @endpoint POST /api/appointments
   if (req.method === 'POST' && pathname === '/api/appointments') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"facility_id":1,"starts_at":"2026-01-15T09:00:00Z","duration_min":30,"reason":"Annual physical"}));
   }
 
   // @endpoint GET /api/appointments/1
   if (req.method === 'GET' && pathname === '/api/appointments/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no appointments with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"facility_id":1,"starts_at":"2026-01-15T09:00:00Z","duration_min":30,"reason":"Annual physical"}));
   }
 
   // @endpoint PATCH /api/appointments/1
   if (req.method === 'PATCH' && pathname === '/api/appointments/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no appointments with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"provider_id":1,"facility_id":1,"starts_at":"2026-01-15T09:00:00Z","duration_min":30,"reason":"Annual physical"}));
   }
 
   // @endpoint DELETE /api/appointments/1
   if (req.method === 'DELETE' && pathname === '/api/appointments/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/appointment_slots
   if (req.method === 'GET' && pathname === '/api/appointment_slots') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"facility_id":1,"starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":2,"facility_id":2,"starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"}]}));
   }
 
   // @endpoint POST /api/appointment_slots
   if (req.method === 'POST' && pathname === '/api/appointment_slots') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"facility_id":1,"starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint GET /api/appointment_slots/1
   if (req.method === 'GET' && pathname === '/api/appointment_slots/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no appointment_slots with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","provider_id":1,"facility_id":1,"starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint PATCH /api/appointment_slots/1
   if (req.method === 'PATCH' && pathname === '/api/appointment_slots/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no appointment_slots with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","provider_id":1,"facility_id":1,"starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint DELETE /api/appointment_slots/1
   if (req.method === 'DELETE' && pathname === '/api/appointment_slots/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/reminders
   if (req.method === 'GET' && pathname === '/api/reminders') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"appointment_id":1,"channel":"email"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"appointment_id":2,"channel":"email"}]}));
   }
 
   // @endpoint POST /api/reminders
   if (req.method === 'POST' && pathname === '/api/reminders') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"appointment_id":1,"channel":"email"}));
   }
 
   // @endpoint GET /api/reminders/1
   if (req.method === 'GET' && pathname === '/api/reminders/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no reminders with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"appointment_id":1,"channel":"email"}));
   }
 
   // @endpoint PATCH /api/reminders/1
   if (req.method === 'PATCH' && pathname === '/api/reminders/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no reminders with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"appointment_id":1,"channel":"email"}));
   }
 
   // @endpoint DELETE /api/reminders/1
   if (req.method === 'DELETE' && pathname === '/api/reminders/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/waitlist
   if (req.method === 'GET' && pathname === '/api/waitlist') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"appointment_id":1},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"appointment_id":2}]}));
   }
 
   // @endpoint POST /api/waitlist
   if (req.method === 'POST' && pathname === '/api/waitlist') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"appointment_id":1}));
   }
 
   // @endpoint GET /api/waitlist/1
   if (req.method === 'GET' && pathname === '/api/waitlist/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no waitlist with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"appointment_id":1}));
   }
 
   // @endpoint PATCH /api/waitlist/1
   if (req.method === 'PATCH' && pathname === '/api/waitlist/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no waitlist with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"appointment_id":1}));
   }
 
   // @endpoint DELETE /api/waitlist/1
   if (req.method === 'DELETE' && pathname === '/api/waitlist/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/room_booking
   if (req.method === 'GET' && pathname === '/api/room_booking') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","facility_id":1,"appointment_id":1,"provider_id":1,"room_name":"Exam Room 2","starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","facility_id":2,"appointment_id":2,"provider_id":2,"room_name":"Procedure Room 1","starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"}]}));
   }
 
   // @endpoint POST /api/room_booking
   if (req.method === 'POST' && pathname === '/api/room_booking') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","facility_id":1,"appointment_id":1,"provider_id":1,"room_name":"Exam Room 2","starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint GET /api/room_booking/1
   if (req.method === 'GET' && pathname === '/api/room_booking/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no room_booking with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","facility_id":1,"appointment_id":1,"provider_id":1,"room_name":"Exam Room 2","starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint PATCH /api/room_booking/1
   if (req.method === 'PATCH' && pathname === '/api/room_booking/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no room_booking with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","facility_id":1,"appointment_id":1,"provider_id":1,"room_name":"Exam Room 2","starts_at":"2026-01-15T09:00:00Z","ends_at":"2026-01-15T09:00:00Z"}));
   }
 
   // @endpoint DELETE /api/room_booking/1
   if (req.method === 'DELETE' && pathname === '/api/room_booking/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/billing
   if (req.method === 'GET' && pathname === '/api/billing') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"amount":150,"description":"Annual wellness visit"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"encounter_id":2,"provider_id":2,"amount":85.5,"description":"Follow-up consultation"}]}));
   }
 
   // @endpoint POST /api/billing
   if (req.method === 'POST' && pathname === '/api/billing') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"amount":150,"description":"Annual wellness visit"}));
   }
 
   // @endpoint GET /api/billing/1
   if (req.method === 'GET' && pathname === '/api/billing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no billing with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"amount":150,"description":"Annual wellness visit"}));
   }
 
   // @endpoint PATCH /api/billing/1
   if (req.method === 'PATCH' && pathname === '/api/billing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no billing with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"amount":150,"description":"Annual wellness visit"}));
   }
 
   // @endpoint DELETE /api/billing/1
   if (req.method === 'DELETE' && pathname === '/api/billing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/charge_capture
   if (req.method === 'GET' && pathname === '/api/charge_capture') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"cpt_code":"99213","amount":150},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"encounter_id":2,"provider_id":2,"cpt_code":"99214","amount":85.5}]}));
   }
 
   // @endpoint POST /api/charge_capture
   if (req.method === 'POST' && pathname === '/api/charge_capture') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"cpt_code":"99213","amount":150}));
   }
 
   // @endpoint GET /api/charge_capture/1
   if (req.method === 'GET' && pathname === '/api/charge_capture/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no charge_capture with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"cpt_code":"99213","amount":150}));
   }
 
   // @endpoint PATCH /api/charge_capture/1
   if (req.method === 'PATCH' && pathname === '/api/charge_capture/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no charge_capture with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"cpt_code":"99213","amount":150}));
   }
 
   // @endpoint DELETE /api/charge_capture/1
   if (req.method === 'DELETE' && pathname === '/api/charge_capture/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/coding
   if (req.method === 'GET' && pathname === '/api/coding') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":1,"icd10":"I10","cpt":"99213"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":2,"icd10":"E11.9","cpt":"99395"}]}));
   }
 
   // @endpoint POST /api/coding
   if (req.method === 'POST' && pathname === '/api/coding') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":1,"icd10":"I10","cpt":"99213"}));
   }
 
   // @endpoint GET /api/coding/1
   if (req.method === 'GET' && pathname === '/api/coding/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no coding with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":1,"icd10":"I10","cpt":"99213"}));
   }
 
   // @endpoint PATCH /api/coding/1
   if (req.method === 'PATCH' && pathname === '/api/coding/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no coding with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","encounter_id":1,"icd10":"I10","cpt":"99213"}));
   }
 
   // @endpoint DELETE /api/coding/1
   if (req.method === 'DELETE' && pathname === '/api/coding/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/claims_submission
   if (req.method === 'GET' && pathname === '/api/claims_submission') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"payer_id":1,"prescription_id":1,"lab_order_id":1,"imaging_order_id":1,"diagnosis_codes":"I10, E11.9","amount":150},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"provider_id":2,"encounter_id":2,"payer_id":2,"prescription_id":2,"lab_order_id":2,"imaging_order_id":2,"diagnosis_codes":"I10, E11.9","amount":85.5}]}));
   }
 
   // @endpoint POST /api/claims_submission
   if (req.method === 'POST' && pathname === '/api/claims_submission') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"payer_id":1,"prescription_id":1,"lab_order_id":1,"imaging_order_id":1,"diagnosis_codes":"I10, E11.9","amount":150}));
   }
 
   // @endpoint GET /api/claims_submission/1
   if (req.method === 'GET' && pathname === '/api/claims_submission/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no claims_submission with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"payer_id":1,"prescription_id":1,"lab_order_id":1,"imaging_order_id":1,"diagnosis_codes":"I10, E11.9","amount":150}));
   }
 
   // @endpoint PATCH /api/claims_submission/1
   if (req.method === 'PATCH' && pathname === '/api/claims_submission/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no claims_submission with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"payer_id":1,"prescription_id":1,"lab_order_id":1,"imaging_order_id":1,"diagnosis_codes":"I10, E11.9","amount":150}));
   }
 
   // @endpoint DELETE /api/claims_submission/1
   if (req.method === 'DELETE' && pathname === '/api/claims_submission/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/claims_adjudication
   if (req.method === 'GET' && pathname === '/api/claims_adjudication') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","claim_id":1,"decision":"approved"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","claim_id":2,"decision":"approved"}]}));
   }
 
   // @endpoint POST /api/claims_adjudication
   if (req.method === 'POST' && pathname === '/api/claims_adjudication') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","claim_id":1,"decision":"approved"}));
   }
 
   // @endpoint GET /api/claims_adjudication/1
   if (req.method === 'GET' && pathname === '/api/claims_adjudication/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no claims_adjudication with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","claim_id":1,"decision":"approved"}));
   }
 
   // @endpoint PATCH /api/claims_adjudication/1
   if (req.method === 'PATCH' && pathname === '/api/claims_adjudication/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no claims_adjudication with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","claim_id":1,"decision":"approved"}));
   }
 
   // @endpoint DELETE /api/claims_adjudication/1
   if (req.method === 'DELETE' && pathname === '/api/claims_adjudication/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/denials
   if (req.method === 'GET' && pathname === '/api/denials') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","claim_id":1,"reason":"Annual physical","reason_code":"Reason code 1"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","claim_id":2,"reason":"Follow-up visit","reason_code":"Reason code 2"}]}));
   }
 
   // @endpoint POST /api/denials
   if (req.method === 'POST' && pathname === '/api/denials') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","claim_id":1,"reason":"Annual physical","reason_code":"Reason code 1"}));
   }
 
   // @endpoint GET /api/denials/1
   if (req.method === 'GET' && pathname === '/api/denials/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no denials with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","claim_id":1,"reason":"Annual physical","reason_code":"Reason code 1"}));
   }
 
   // @endpoint PATCH /api/denials/1
   if (req.method === 'PATCH' && pathname === '/api/denials/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no denials with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","claim_id":1,"reason":"Annual physical","reason_code":"Reason code 1"}));
   }
 
   // @endpoint DELETE /api/denials/1
   if (req.method === 'DELETE' && pathname === '/api/denials/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/invoicing
   if (req.method === 'GET' && pathname === '/api/invoicing') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"claim_id":1,"amount":150,"description":"Annual wellness visit"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"encounter_id":2,"claim_id":2,"amount":85.5,"description":"Follow-up consultation"}]}));
   }
 
   // @endpoint POST /api/invoicing
   if (req.method === 'POST' && pathname === '/api/invoicing') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"claim_id":1,"amount":150,"description":"Annual wellness visit"}));
   }
 
   // @endpoint GET /api/invoicing/1
   if (req.method === 'GET' && pathname === '/api/invoicing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no invoicing with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"claim_id":1,"amount":150,"description":"Annual wellness visit"}));
   }
 
   // @endpoint PATCH /api/invoicing/1
   if (req.method === 'PATCH' && pathname === '/api/invoicing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no invoicing with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"encounter_id":1,"claim_id":1,"amount":150,"description":"Annual wellness visit"}));
   }
 
   // @endpoint DELETE /api/invoicing/1
   if (req.method === 'DELETE' && pathname === '/api/invoicing/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/payments
   if (req.method === 'GET' && pathname === '/api/payments') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"invoice_id":1,"amount":150,"method":"card"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"invoice_id":2,"amount":85.5,"method":"card"}]}));
   }
 
   // @endpoint POST /api/payments
   if (req.method === 'POST' && pathname === '/api/payments') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"invoice_id":1,"amount":150,"method":"card"}));
   }
 
   // @endpoint GET /api/payments/1
   if (req.method === 'GET' && pathname === '/api/payments/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no payments with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"invoice_id":1,"amount":150,"method":"card"}));
   }
 
   // @endpoint PATCH /api/payments/1
   if (req.method === 'PATCH' && pathname === '/api/payments/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no payments with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"invoice_id":1,"amount":150,"method":"card"}));
   }
 
   // @endpoint DELETE /api/payments/1
   if (req.method === 'DELETE' && pathname === '/api/payments/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/statements
   if (req.method === 'GET' && pathname === '/api/statements') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"invoice_id":1},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"invoice_id":2}]}));
   }
 
   // @endpoint POST /api/statements
   if (req.method === 'POST' && pathname === '/api/statements') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"invoice_id":1}));
   }
 
   // @endpoint GET /api/statements/1
   if (req.method === 'GET' && pathname === '/api/statements/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no statements with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"invoice_id":1}));
   }
 
   // @endpoint PATCH /api/statements/1
   if (req.method === 'PATCH' && pathname === '/api/statements/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no statements with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"invoice_id":1}));
   }
 
   // @endpoint DELETE /api/statements/1
   if (req.method === 'DELETE' && pathname === '/api/statements/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/collections
   if (req.method === 'GET' && pathname === '/api/collections') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"invoice_id":1,"amount":150},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"invoice_id":2,"amount":85.5}]}));
   }
 
   // @endpoint POST /api/collections
   if (req.method === 'POST' && pathname === '/api/collections') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"invoice_id":1,"amount":150}));
   }
 
   // @endpoint GET /api/collections/1
   if (req.method === 'GET' && pathname === '/api/collections/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no collections with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"invoice_id":1,"amount":150}));
   }
 
   // @endpoint PATCH /api/collections/1
   if (req.method === 'PATCH' && pathname === '/api/collections/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no collections with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"invoice_id":1,"amount":150}));
   }
 
   // @endpoint DELETE /api/collections/1
   if (req.method === 'DELETE' && pathname === '/api/collections/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/eligibility
   if (req.method === 'GET' && pathname === '/api/eligibility') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"payer_id":1},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"payer_id":2}]}));
   }
 
   // @endpoint POST /api/eligibility
   if (req.method === 'POST' && pathname === '/api/eligibility') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"payer_id":1}));
   }
 
   // @endpoint GET /api/eligibility/1
   if (req.method === 'GET' && pathname === '/api/eligibility/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no eligibility with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"payer_id":1}));
   }
 
   // @endpoint PATCH /api/eligibility/1
   if (req.method === 'PATCH' && pathname === '/api/eligibility/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no eligibility with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"payer_id":1}));
   }
 
   // @endpoint DELETE /api/eligibility/1
   if (req.method === 'DELETE' && pathname === '/api/eligibility/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/prior_auth
   if (req.method === 'GET' && pathname === '/api/prior_auth') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"payer_id":1,"service_code":"30"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"provider_id":2,"payer_id":2,"service_code":"98"}]}));
   }
 
   // @endpoint POST /api/prior_auth
   if (req.method === 'POST' && pathname === '/api/prior_auth') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"payer_id":1,"service_code":"30"}));
   }
 
   // @endpoint GET /api/prior_auth/1
   if (req.method === 'GET' && pathname === '/api/prior_auth/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no prior_auth with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"payer_id":1,"service_code":"30"}));
   }
 
   // @endpoint PATCH /api/prior_auth/1
   if (req.method === 'PATCH' && pathname === '/api/prior_auth/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no prior_auth with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"provider_id":1,"payer_id":1,"service_code":"30"}));
   }
 
   // @endpoint DELETE /api/prior_auth/1
   if (req.method === 'DELETE' && pathname === '/api/prior_auth/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/coverage_verification
   if (req.method === 'GET' && pathname === '/api/coverage_verification') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"payer_id":1},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"payer_id":2}]}));
   }
 
   // @endpoint POST /api/coverage_verification
   if (req.method === 'POST' && pathname === '/api/coverage_verification') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"payer_id":1}));
   }
 
   // @endpoint GET /api/coverage_verification/1
   if (req.method === 'GET' && pathname === '/api/coverage_verification/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no coverage_verification with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"payer_id":1}));
   }
 
   // @endpoint PATCH /api/coverage_verification/1
   if (req.method === 'PATCH' && pathname === '/api/coverage_verification/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no coverage_verification with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"payer_id":1}));
   }
 
   // @endpoint DELETE /api/coverage_verification/1
   if (req.method === 'DELETE' && pathname === '/api/coverage_verification/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/payer_directory
   if (req.method === 'GET' && pathname === '/api/payer_directory') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Aetna","phone":"555-0142","address":"100 Main St"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Blue Cross Blue Shield","phone":"555-0187","address":"42 Oak Avenue"}]}));
   }
 
   // @endpoint POST /api/payer_directory
   if (req.method === 'POST' && pathname === '/api/payer_directory') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Aetna","phone":"555-0142","address":"100 Main St"}));
   }
 
   // @endpoint GET /api/payer_directory/1
   if (req.method === 'GET' && pathname === '/api/payer_directory/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no payer_directory with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Aetna","phone":"555-0142","address":"100 Main St"}));
   }
 
   // @endpoint PATCH /api/payer_directory/1
   if (req.method === 'PATCH' && pathname === '/api/payer_directory/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no payer_directory with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","name":"Aetna","phone":"555-0142","address":"100 Main St"}));
   }
 
   // @endpoint DELETE /api/payer_directory/1
   if (req.method === 'DELETE' && pathname === '/api/payer_directory/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/payer_edi_connect
   if (req.method === 'GET' && pathname === '/api/payer_edi_connect') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","payer_id":1,"endpoint":"https://payer.example.com/edi/270"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","payer_id":2,"endpoint":"https://payer.example.com/edi/837"}]}));
   }
 
   // @endpoint POST /api/payer_edi_connect
   if (req.method === 'POST' && pathname === '/api/payer_edi_connect') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","payer_id":1,"endpoint":"https://payer.example.com/edi/270"}));
   }
 
   // @endpoint GET /api/payer_edi_connect/1
   if (req.method === 'GET' && pathname === '/api/payer_edi_connect/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no payer_edi_connect with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","payer_id":1,"endpoint":"https://payer.example.com/edi/270"}));
   }
 
   // @endpoint PATCH /api/payer_edi_connect/1
   if (req.method === 'PATCH' && pathname === '/api/payer_edi_connect/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no payer_edi_connect with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","payer_id":1,"endpoint":"https://payer.example.com/edi/270"}));
   }
 
   // @endpoint DELETE /api/payer_edi_connect/1
   if (req.method === 'DELETE' && pathname === '/api/payer_edi_connect/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/claims_status
   if (req.method === 'GET' && pathname === '/api/claims_status') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","claim_id":1},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","claim_id":2}]}));
   }
 
   // @endpoint POST /api/claims_status
   if (req.method === 'POST' && pathname === '/api/claims_status') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","claim_id":1}));
   }
 
   // @endpoint GET /api/claims_status/1
   if (req.method === 'GET' && pathname === '/api/claims_status/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no claims_status with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","claim_id":1}));
   }
 
   // @endpoint PATCH /api/claims_status/1
   if (req.method === 'PATCH' && pathname === '/api/claims_status/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no claims_status with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","claim_id":1}));
   }
 
   // @endpoint DELETE /api/claims_status/1
   if (req.method === 'DELETE' && pathname === '/api/claims_status/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/device_registry
   if (req.method === 'GET' && pathname === '/api/device_registry') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"device_type":"infusion_pump","serial_number":"SN-20481"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"device_type":"pulse_oximeter","serial_number":"SN-20482"}]}));
   }
 
   // @endpoint POST /api/device_registry
   if (req.method === 'POST' && pathname === '/api/device_registry') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"device_type":"infusion_pump","serial_number":"SN-20481"}));
   }
 
   // @endpoint GET /api/device_registry/1
   if (req.method === 'GET' && pathname === '/api/device_registry/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no device_registry with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"device_type":"infusion_pump","serial_number":"SN-20481"}));
   }
 
   // @endpoint PATCH /api/device_registry/1
   if (req.method === 'PATCH' && pathname === '/api/device_registry/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no device_registry with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"device_type":"infusion_pump","serial_number":"SN-20481"}));
   }
 
   // @endpoint DELETE /api/device_registry/1
   if (req.method === 'DELETE' && pathname === '/api/device_registry/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/device_alerts
   if (req.method === 'GET' && pathname === '/api/device_alerts') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","device_id":1,"patient_id":1,"alert_type":"Alert type 1","severity":"low"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","device_id":2,"patient_id":2,"alert_type":"Alert type 2","severity":"low"}]}));
   }
 
   // @endpoint POST /api/device_alerts
   if (req.method === 'POST' && pathname === '/api/device_alerts') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","device_id":1,"patient_id":1,"alert_type":"Alert type 1","severity":"low"}));
   }
 
   // @endpoint GET /api/device_alerts/1
   if (req.method === 'GET' && pathname === '/api/device_alerts/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no device_alerts with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","device_id":1,"patient_id":1,"alert_type":"Alert type 1","severity":"low"}));
   }
 
   // @endpoint PATCH /api/device_alerts/1
   if (req.method === 'PATCH' && pathname === '/api/device_alerts/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no device_alerts with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","device_id":1,"patient_id":1,"alert_type":"Alert type 1","severity":"low"}));
   }
 
   // @endpoint DELETE /api/device_alerts/1
   if (req.method === 'DELETE' && pathname === '/api/device_alerts/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/device_fleet
   if (req.method === 'GET' && pathname === '/api/device_fleet') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","device_id":1,"fleet_name":"ICU Pumps"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","device_id":2,"fleet_name":"Telemetry Units"}]}));
   }
 
   // @endpoint POST /api/device_fleet
   if (req.method === 'POST' && pathname === '/api/device_fleet') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","device_id":1,"fleet_name":"ICU Pumps"}));
   }
 
   // @endpoint GET /api/device_fleet/1
   if (req.method === 'GET' && pathname === '/api/device_fleet/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no device_fleet with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","device_id":1,"fleet_name":"ICU Pumps"}));
   }
 
   // @endpoint PATCH /api/device_fleet/1
   if (req.method === 'PATCH' && pathname === '/api/device_fleet/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no device_fleet with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","device_id":1,"fleet_name":"ICU Pumps"}));
   }
 
   // @endpoint DELETE /api/device_fleet/1
   if (req.method === 'DELETE' && pathname === '/api/device_fleet/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/remote_monitoring
   if (req.method === 'GET' && pathname === '/api/remote_monitoring') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"device_id":1},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"device_id":2}]}));
   }
 
   // @endpoint POST /api/remote_monitoring
   if (req.method === 'POST' && pathname === '/api/remote_monitoring') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"device_id":1}));
   }
 
   // @endpoint GET /api/remote_monitoring/1
   if (req.method === 'GET' && pathname === '/api/remote_monitoring/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no remote_monitoring with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"device_id":1}));
   }
 
   // @endpoint PATCH /api/remote_monitoring/1
   if (req.method === 'PATCH' && pathname === '/api/remote_monitoring/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no remote_monitoring with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"device_id":1}));
   }
 
   // @endpoint DELETE /api/remote_monitoring/1
   if (req.method === 'DELETE' && pathname === '/api/remote_monitoring/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/notifications
   if (req.method === 'GET' && pathname === '/api/notifications') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"channel":"email","subject":"Appointment reminder","body":"Your appointment is confirmed for tomorrow."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":2,"channel":"email","subject":"Lab results available","body":"Your lab results are ready."}]}));
   }
 
   // @endpoint POST /api/notifications
   if (req.method === 'POST' && pathname === '/api/notifications') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"channel":"email","subject":"Appointment reminder","body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint GET /api/notifications/1
   if (req.method === 'GET' && pathname === '/api/notifications/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no notifications with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"channel":"email","subject":"Appointment reminder","body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint PATCH /api/notifications/1
   if (req.method === 'PATCH' && pathname === '/api/notifications/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no notifications with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"channel":"email","subject":"Appointment reminder","body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint DELETE /api/notifications/1
   if (req.method === 'DELETE' && pathname === '/api/notifications/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/email_gateway
   if (req.method === 'GET' && pathname === '/api/email_gateway') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","to":"jane.doe@example.com","subject":"Appointment reminder","body":"Your appointment is confirmed for tomorrow."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","to":"+15550142","subject":"Lab results available","body":"Your lab results are ready."}]}));
   }
 
   // @endpoint POST /api/email_gateway
   if (req.method === 'POST' && pathname === '/api/email_gateway') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","to":"jane.doe@example.com","subject":"Appointment reminder","body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint GET /api/email_gateway/1
   if (req.method === 'GET' && pathname === '/api/email_gateway/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no email_gateway with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","to":"jane.doe@example.com","subject":"Appointment reminder","body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint PATCH /api/email_gateway/1
   if (req.method === 'PATCH' && pathname === '/api/email_gateway/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no email_gateway with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","to":"jane.doe@example.com","subject":"Appointment reminder","body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint DELETE /api/email_gateway/1
   if (req.method === 'DELETE' && pathname === '/api/email_gateway/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/push_gateway
   if (req.method === 'GET' && pathname === '/api/push_gateway') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","to":"jane.doe@example.com","body":"Your appointment is confirmed for tomorrow."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","to":"+15550142","body":"Your lab results are ready."}]}));
   }
 
   // @endpoint POST /api/push_gateway
   if (req.method === 'POST' && pathname === '/api/push_gateway') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","to":"jane.doe@example.com","body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint GET /api/push_gateway/1
   if (req.method === 'GET' && pathname === '/api/push_gateway/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no push_gateway with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","to":"jane.doe@example.com","body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint PATCH /api/push_gateway/1
   if (req.method === 'PATCH' && pathname === '/api/push_gateway/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no push_gateway with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","to":"jane.doe@example.com","body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint DELETE /api/push_gateway/1
   if (req.method === 'DELETE' && pathname === '/api/push_gateway/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/ai_agents
   if (req.method === 'GET' && pathname === '/api/ai_agents') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"triage-assistant","model":"claude-opus","description":"Annual wellness visit"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"coding-assistant","model":"claude-opus","description":"Follow-up consultation"}]}));
   }
 
   // @endpoint POST /api/ai_agents
   if (req.method === 'POST' && pathname === '/api/ai_agents') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"triage-assistant","model":"claude-opus","description":"Annual wellness visit"}));
   }
 
   // @endpoint GET /api/ai_agents/1
   if (req.method === 'GET' && pathname === '/api/ai_agents/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no ai_agents with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"triage-assistant","model":"claude-opus","description":"Annual wellness visit"}));
   }
 
   // @endpoint PATCH /api/ai_agents/1
   if (req.method === 'PATCH' && pathname === '/api/ai_agents/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no ai_agents with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","name":"triage-assistant","model":"claude-opus","description":"Annual wellness visit"}));
   }
 
   // @endpoint DELETE /api/ai_agents/1
   if (req.method === 'DELETE' && pathname === '/api/ai_agents/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/ai_invocations
   if (req.method === 'GET' && pathname === '/api/ai_invocations') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","agent_id":1,"patient_id":1,"input":"Summarize the patient's last visit."},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","agent_id":2,"patient_id":2,"input":"List open care gaps."}]}));
   }
 
   // @endpoint POST /api/ai_invocations
   if (req.method === 'POST' && pathname === '/api/ai_invocations') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","agent_id":1,"patient_id":1,"input":"Summarize the patient's last visit."}));
   }
 
   // @endpoint GET /api/ai_invocations/1
   if (req.method === 'GET' && pathname === '/api/ai_invocations/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no ai_invocations with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","agent_id":1,"patient_id":1,"input":"Summarize the patient's last visit."}));
   }
 
   // @endpoint PATCH /api/ai_invocations/1
   if (req.method === 'PATCH' && pathname === '/api/ai_invocations/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no ai_invocations with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","agent_id":1,"patient_id":1,"input":"Summarize the patient's last visit."}));
   }
 
   // @endpoint DELETE /api/ai_invocations/1
   if (req.method === 'DELETE' && pathname === '/api/ai_invocations/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/analytics_events
   if (req.method === 'GET' && pathname === '/api/analytics_events') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","event_type":"created","entity_id":"42","properties":"{\"key\":\"value\"}"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","event_type":"updated","entity_id":"43","properties":"{\"key\":\"value\"}"}]}));
   }
 
   // @endpoint POST /api/analytics_events
   if (req.method === 'POST' && pathname === '/api/analytics_events') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","event_type":"created","entity_id":"42","properties":"{\"key\":\"value\"}"}));
   }
 
   // @endpoint GET /api/analytics_events/1
   if (req.method === 'GET' && pathname === '/api/analytics_events/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no analytics_events with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","event_type":"created","entity_id":"42","properties":"{\"key\":\"value\"}"}));
   }
 
   // @endpoint PATCH /api/analytics_events/1
   if (req.method === 'PATCH' && pathname === '/api/analytics_events/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no analytics_events with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","event_type":"created","entity_id":"42","properties":"{\"key\":\"value\"}"}));
   }
 
   // @endpoint DELETE /api/analytics_events/1
   if (req.method === 'DELETE' && pathname === '/api/analytics_events/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/reporting
   if (req.method === 'GET' && pathname === '/api/reporting') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","report_type":"monthly_volume","parameters":"range=30d"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","report_type":"denial_rate","parameters":"range=90d"}]}));
   }
 
   // @endpoint POST /api/reporting
   if (req.method === 'POST' && pathname === '/api/reporting') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","report_type":"monthly_volume","parameters":"range=30d"}));
   }
 
   // @endpoint GET /api/reporting/1
   if (req.method === 'GET' && pathname === '/api/reporting/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no reporting with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","report_type":"monthly_volume","parameters":"range=30d"}));
   }
 
   // @endpoint PATCH /api/reporting/1
   if (req.method === 'PATCH' && pathname === '/api/reporting/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no reporting with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","report_type":"monthly_volume","parameters":"range=30d"}));
   }
 
   // @endpoint DELETE /api/reporting/1
   if (req.method === 'DELETE' && pathname === '/api/reporting/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/ml_models
   if (req.method === 'GET' && pathname === '/api/ml_models') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"readmission-risk","version":"1.0.0"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"no-show-predictor","version":"1.1.0"}]}));
   }
 
   // @endpoint POST /api/ml_models
   if (req.method === 'POST' && pathname === '/api/ml_models') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"readmission-risk","version":"1.0.0"}));
   }
 
   // @endpoint GET /api/ml_models/1
   if (req.method === 'GET' && pathname === '/api/ml_models/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no ml_models with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"readmission-risk","version":"1.0.0"}));
   }
 
   // @endpoint PATCH /api/ml_models/1
   if (req.method === 'PATCH' && pathname === '/api/ml_models/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no ml_models with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","name":"readmission-risk","version":"1.0.0"}));
   }
 
   // @endpoint DELETE /api/ml_models/1
   if (req.method === 'DELETE' && pathname === '/api/ml_models/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/facilities
   if (req.method === 'GET' && pathname === '/api/facilities') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Main Campus","address":"100 Main St","phone":"555-0142"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"North Clinic","address":"42 Oak Avenue","phone":"555-0187"}]}));
   }
 
   // @endpoint POST /api/facilities
   if (req.method === 'POST' && pathname === '/api/facilities') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Main Campus","address":"100 Main St","phone":"555-0142"}));
   }
 
   // @endpoint GET /api/facilities/1
   if (req.method === 'GET' && pathname === '/api/facilities/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no facilities with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Main Campus","address":"100 Main St","phone":"555-0142"}));
   }
 
   // @endpoint PATCH /api/facilities/1
   if (req.method === 'PATCH' && pathname === '/api/facilities/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no facilities with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","name":"Main Campus","address":"100 Main St","phone":"555-0142"}));
   }
 
   // @endpoint DELETE /api/facilities/1
   if (req.method === 'DELETE' && pathname === '/api/facilities/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/wards_beds
   if (req.method === 'GET' && pathname === '/api/wards_beds') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","facility_id":1,"ward_name":"Ward 3B","bed_count":24},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","facility_id":2,"ward_name":"ICU East","bed_count":12}]}));
   }
 
   // @endpoint POST /api/wards_beds
   if (req.method === 'POST' && pathname === '/api/wards_beds') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","facility_id":1,"ward_name":"Ward 3B","bed_count":24}));
   }
 
   // @endpoint GET /api/wards_beds/1
   if (req.method === 'GET' && pathname === '/api/wards_beds/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no wards_beds with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","facility_id":1,"ward_name":"Ward 3B","bed_count":24}));
   }
 
   // @endpoint PATCH /api/wards_beds/1
   if (req.method === 'PATCH' && pathname === '/api/wards_beds/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no wards_beds with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","facility_id":1,"ward_name":"Ward 3B","bed_count":24}));
   }
 
   // @endpoint DELETE /api/wards_beds/1
   if (req.method === 'DELETE' && pathname === '/api/wards_beds/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/equipment
   if (req.method === 'GET' && pathname === '/api/equipment') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"MRI Scanner 1","sku":"SKU-10442","facility_id":1},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"Ventilator V-12","sku":"SKU-10443","facility_id":2}]}));
   }
 
   // @endpoint POST /api/equipment
   if (req.method === 'POST' && pathname === '/api/equipment') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"MRI Scanner 1","sku":"SKU-10442","facility_id":1}));
   }
 
   // @endpoint GET /api/equipment/1
   if (req.method === 'GET' && pathname === '/api/equipment/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no equipment with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","name":"MRI Scanner 1","sku":"SKU-10442","facility_id":1}));
   }
 
   // @endpoint PATCH /api/equipment/1
   if (req.method === 'PATCH' && pathname === '/api/equipment/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no equipment with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","name":"MRI Scanner 1","sku":"SKU-10442","facility_id":1}));
   }
 
   // @endpoint DELETE /api/equipment/1
   if (req.method === 'DELETE' && pathname === '/api/equipment/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/sterile_supply
   if (req.method === 'GET' && pathname === '/api/sterile_supply') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","item":"Sterile gloves (M)","vendor_id":"VND-221","quantity":30},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","item":"Surgical masks","vendor_id":"VND-305","quantity":90}]}));
   }
 
   // @endpoint POST /api/sterile_supply
   if (req.method === 'POST' && pathname === '/api/sterile_supply') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","item":"Sterile gloves (M)","vendor_id":"VND-221","quantity":30}));
   }
 
   // @endpoint GET /api/sterile_supply/1
   if (req.method === 'GET' && pathname === '/api/sterile_supply/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no sterile_supply with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","item":"Sterile gloves (M)","vendor_id":"VND-221","quantity":30}));
   }
 
   // @endpoint PATCH /api/sterile_supply/1
   if (req.method === 'PATCH' && pathname === '/api/sterile_supply/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no sterile_supply with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","item":"Sterile gloves (M)","vendor_id":"VND-221","quantity":30}));
   }
 
   // @endpoint DELETE /api/sterile_supply/1
   if (req.method === 'DELETE' && pathname === '/api/sterile_supply/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/maintenance
   if (req.method === 'GET' && pathname === '/api/maintenance') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","equipment_id":1,"scheduled_at":"2026-01-15","description":"Annual wellness visit"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","equipment_id":2,"scheduled_at":"2026-01-15","description":"Follow-up consultation"}]}));
   }
 
   // @endpoint POST /api/maintenance
   if (req.method === 'POST' && pathname === '/api/maintenance') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","equipment_id":1,"scheduled_at":"2026-01-15","description":"Annual wellness visit"}));
   }
 
   // @endpoint GET /api/maintenance/1
   if (req.method === 'GET' && pathname === '/api/maintenance/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no maintenance with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","equipment_id":1,"scheduled_at":"2026-01-15","description":"Annual wellness visit"}));
   }
 
   // @endpoint PATCH /api/maintenance/1
   if (req.method === 'PATCH' && pathname === '/api/maintenance/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no maintenance with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","equipment_id":1,"scheduled_at":"2026-01-15","description":"Annual wellness visit"}));
   }
 
   // @endpoint DELETE /api/maintenance/1
   if (req.method === 'DELETE' && pathname === '/api/maintenance/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint GET /api/erp-bridge
   if (req.method === 'GET' && pathname === '/api/erp-bridge') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":2,"items":[{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","event_type":"created","payload":"{\"source\":\"portal\"}"},{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","event_type":"updated","payload":"{\"source\":\"kiosk\"}"}]}));
   }
 
   // @endpoint POST /api/erp-bridge
   if (req.method === 'POST' && pathname === '/api/erp-bridge') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","event_type":"created","payload":"{\"source\":\"portal\"}"}));
   }
 
   // @endpoint GET /api/erp-bridge/1
   if (req.method === 'GET' && pathname === '/api/erp-bridge/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no erp-bridge with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","event_type":"created","payload":"{\"source\":\"portal\"}"}));
   }
 
   // @endpoint PATCH /api/erp-bridge/1
   if (req.method === 'PATCH' && pathname === '/api/erp-bridge/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input value for enum status"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no erp-bridge with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","event_type":"created","payload":"{\"source\":\"portal\"}"}));
   }
 
   // @endpoint DELETE /api/erp-bridge/1
   if (req.method === 'DELETE' && pathname === '/api/erp-bridge/1') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"update or delete violates foreign key constraint"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"deleted":true,"id":1}));
   }
 
   // @endpoint POST /api/nylas/connect
@@ -3382,9 +12781,29 @@ const server = http.createServer((req, res) => {
 
   // @endpoint GET /api/patients/search
   if (req.method === 'GET' && pathname === '/api/patients/search') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"missing_q","message":"query parameter 'q' is required"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"count":1,"items":[{"id":4,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","first_name":"Ava","last_name":"Reyes","dob":"1990-06-21","mrn":"MRN-100238","email":"ava.reyes@example.com","phone":"555-0119"}]}));
   }
 
   // @endpoint POST /api/appointments/{{appointment_id}}/cancel
@@ -3410,114 +12829,458 @@ const server = http.createServer((req, res) => {
 
   // @endpoint POST /api/appointments/{{appointment_id}}/check-in
   if (req.method === 'POST' && /^\/api\/appointments\/([^/]+)\/check-in$/.test(pathname)) {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no appointment with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"checked-in","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"provider_id":1,"facility_id":1,"starts_at":"2026-09-30T13:00:00.000Z","duration_min":30,"reason":"Annual physical"}));
   }
 
   // @endpoint POST /api/prescriptions/{{prescription_id}}/refill
   if (req.method === 'POST' && /^\/api\/prescriptions\/([^/]+)\/refill$/.test(pathname)) {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no prescription with id 999999"}}));
+    }
+
+    // "409 Conflict" — when x-mock-response-code: 409
+    if (requestedStatusCode === '409') {
+      res.writeHead(409, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"no_refills_remaining","message":"prescription 1 has no refills remaining"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"requested","created_at":"2026-01-16T14:05:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","prescription_id":1,"requested_at":"2026-01-16T14:05:00.000Z"}));
   }
 
   // @endpoint GET /api/eligibility/1/check
   if (req.method === 'GET' && pathname === '/api/eligibility/1/check') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no eligibility record with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"payer_id":1,"member_id":"W123456789","checked_at":"2026-01-16T14:05:00.000Z","active":true,"copay":35}));
   }
 
   // @endpoint POST /api/notifications/send
   if (req.method === 'POST' && pathname === '/api/notifications/send') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"bad_channel","message":"'channel' must be one of: email, sms, push"}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "202 Accepted" — default
+    res.writeHead(202, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"queued","created_at":"2026-01-16T14:05:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","to":"jane.doe@example.com","channel":"email","subject":"Appointment reminder","body":"Your appointment is confirmed for tomorrow."}));
   }
 
   // @endpoint POST /api/invoicing/{{invoice_id}}/send
   if (req.method === 'POST' && /^\/api\/invoicing\/([^/]+)\/send$/.test(pathname)) {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no invoicing row with id 999999"}}));
+    }
+
+    // "422 Unprocessable Entity" — when x-mock-response-code: 422
+    if (requestedStatusCode === '422') {
+      res.writeHead(422, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"no_email","message":"patient has no email on file to invoice"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"sent","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"amount":150,"description":"Annual wellness visit","invoice_sent":true,"paypal_invoice":{"id":"INV2-ABCD-1234-EFGH-5678","status":"SENT","payer_view_url":"https://www.sandbox.paypal.com/invoice/p/#INV2-ABCD-1234-EFGH-5678"}}));
   }
 
   // @endpoint POST /api/patient_consent/{{patient_consent_id}}/send-for-signature
   if (req.method === 'POST' && /^\/api\/patient_consent\/([^/]+)\/send-for-signature$/.test(pathname)) {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_consent with id 999999"}}));
+    }
+
+    // "422 Unprocessable Entity" — when x-mock-response-code: 422
+    if (requestedStatusCode === '422') {
+      res.writeHead(422, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"no_email","message":"patient has no email on file to send a consent form to"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"sent","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"consent_type":"hipaa","granted":false,"envelope_sent":true,"docusign_envelope":{"envelope_id":"5b8e2c1a-7f43-4d6e-9a10-3c2f8d6e0b11","status":"sent","sent_at":"2026-01-16T14:05:00.000Z"}}));
   }
 
   // @endpoint GET /api/patient_consent/{{patient_consent_id}}/signature-status
   if (req.method === 'GET' && /^\/api\/patient_consent\/([^/]+)\/signature-status$/.test(pathname)) {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_consent with id 999999"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"signed","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"consent_type":"hipaa","granted":true,"docusign_envelope":{"envelope_id":"5b8e2c1a-7f43-4d6e-9a10-3c2f8d6e0b11","status":"completed","sent_at":"2026-01-16T14:05:00.000Z","completed_at":"2026-01-16T14:05:00.000Z"},"documents":[{"document_id":"combined","name":"Consent form + certificate of completion"}]}));
   }
 
   // @endpoint GET /api/patient_consent/{{patient_consent_id}}/signed-document
   if (req.method === 'GET' && /^\/api\/patient_consent\/([^/]+)\/signed-document$/.test(pathname)) {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no patient_consent with id 999999"}}));
+    }
+
+    // "409 Conflict" — when x-mock-response-code: 409
+    if (requestedStatusCode === '409') {
+      res.writeHead(409, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"envelope_not_completed","message":"consent envelope is 'sent', not 'completed'"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/pdf"});
+    return res.end("%PDF-1.7\n%mock signed consent (binary PDF omitted)\n%%EOF");
   }
 
   // @endpoint POST /api/appointments
   if (req.method === 'POST' && pathname === '/api/appointments') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"facility_id":1,"starts_at":"2026-01-15T09:00:00Z","duration_min":30,"reason":"Annual physical"}));
   }
 
   // @endpoint POST /api/encounters
   if (req.method === 'POST' && pathname === '/api/encounters') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_type":"visit","reason":"Annual physical","location":"Clinic A"}));
   }
 
   // @endpoint POST /api/clinical_notes
   if (req.method === 'POST' && pathname === '/api/clinical_notes') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","encounter_id":1,"author_id":1,"body":"Pt presents for annual physical. Vitals stable."}));
   }
 
   // @endpoint POST /api/lab_orders
   if (req.method === 'POST' && pathname === '/api/lab_orders') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"ordered_by":1,"encounter_id":1,"test_code":"CBC","priority":"routine"}));
   }
 
   // @endpoint POST /api/prescriptions
   if (req.method === 'POST' && pathname === '/api/prescriptions') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"drug":"Lisinopril","dose":"10mg","sig":"1 tab daily"}));
   }
 
   // @endpoint POST /api/imaging_orders
   if (req.method === 'POST' && pathname === '/api/imaging_orders') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"ordered_by":1,"encounter_id":1,"modality":"xray","body_part":"Chest","priority":"routine"}));
   }
 
   // @endpoint POST /api/charge_capture
   if (req.method === 'POST' && pathname === '/api/charge_capture') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"encounter_id":1,"provider_id":1,"cpt_code":"99213","amount":200}));
   }
 
   // @endpoint POST /api/claims_submission
   if (req.method === 'POST' && pathname === '/api/claims_submission') {
-    // Sample response as there are no examples saved on the request.
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ message: 'Hi from postman mock' }));
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "400 Bad Request" — when x-mock-response-code: 400
+    if (requestedStatusCode === '400') {
+      res.writeHead(400, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"invalid input syntax for type bigint: \"abc\""}}));
+    }
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "500 Internal Server Error" — when x-mock-response-code: 500
+    if (requestedStatusCode === '500') {
+      res.writeHead(500, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"db_error","message":"connection to the database timed out"}}));
+    }
+
+    // "201 Created" — default
+    res.writeHead(201, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","patient_id":1,"provider_id":1,"encounter_id":1,"payer_id":1,"prescription_id":1,"lab_order_id":1,"imaging_order_id":1,"diagnosis_codes":"Z00.00","amount":500}));
   }
 
   res.writeHead(404, { 'Content-Type': 'application/json' });

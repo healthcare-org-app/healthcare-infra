@@ -1,0 +1,10 @@
+version: 1
+id: 3c2d7b4f-febf-46c2-888d-b101db387468
+name: hc-ehr
+slug: hc-ehr
+protocol: http
+port: 4124
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

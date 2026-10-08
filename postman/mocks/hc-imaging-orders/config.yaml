@@ -1,0 +1,10 @@
+version: 1
+id: e97eb8b0-6a89-4958-a254-11a5f7ada63d
+name: hc-imaging-orders
+slug: hc-imaging-orders
+protocol: http
+port: 4139
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

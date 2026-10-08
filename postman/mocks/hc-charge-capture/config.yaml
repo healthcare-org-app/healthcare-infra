@@ -1,0 +1,10 @@
+version: 1
+id: fde4094a-0b00-43aa-b490-174f7fb4d281
+name: hc-charge-capture
+slug: hc-charge-capture
+protocol: http
+port: 4107
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

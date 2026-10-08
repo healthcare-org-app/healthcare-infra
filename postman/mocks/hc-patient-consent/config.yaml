@@ -1,0 +1,10 @@
+version: 1
+id: 45976137-1338-4c0d-808f-c3dc10d5b5e1
+name: hc-patient-consent
+slug: hc-patient-consent
+protocol: http
+port: 4164
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

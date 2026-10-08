@@ -1,0 +1,10 @@
+version: 1
+id: 9c784816-0bc5-457b-ac85-320fe094cf00
+name: hc-payments
+slug: hc-payments
+protocol: http
+port: 4114
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

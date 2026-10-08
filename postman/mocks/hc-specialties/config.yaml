@@ -1,0 +1,10 @@
+version: 1
+id: 3041891b-12f6-44d5-b457-de27ce2866a0
+name: hc-specialties
+slug: hc-specialties
+protocol: http
+port: 4193
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

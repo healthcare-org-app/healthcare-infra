@@ -1,0 +1,10 @@
+version: 1
+id: 02f96fe0-9b19-4d1c-a0a0-8c347d53a47d
+name: hc-provider-performance
+slug: hc-provider-performance
+protocol: http
+port: 4190
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -14,3 +14,4 @@ body:
       "description": "sample description"
     }
 order: 2000
+examples: './.resources/Create diagnosis_codes.resources/examples'

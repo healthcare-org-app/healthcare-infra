@@ -14,3 +14,4 @@ body:
       "parameters": "Sample parameters"
     }
 order: 2000
+examples: './.resources/Create reporting.resources/examples'

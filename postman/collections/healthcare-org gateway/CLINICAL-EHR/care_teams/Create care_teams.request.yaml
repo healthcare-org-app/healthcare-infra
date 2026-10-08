@@ -18,3 +18,4 @@ body:
       "role": "sample role"
     }
 order: 2000
+examples: './.resources/Create care_teams.resources/examples'

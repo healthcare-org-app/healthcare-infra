@@ -19,3 +19,4 @@ body:
       "notes": "Sample notes"
     }
 order: 2000
+examples: './.resources/Create patient_consent.resources/examples'

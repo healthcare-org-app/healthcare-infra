@@ -19,3 +19,4 @@ body:
       "findings": "Sample findings"
     }
 order: 2000
+examples: './.resources/Create pathology.resources/examples'

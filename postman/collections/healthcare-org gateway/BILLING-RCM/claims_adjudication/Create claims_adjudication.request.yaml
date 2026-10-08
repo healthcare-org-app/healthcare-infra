@@ -24,3 +24,4 @@ body:
       "decision": "approved"
     }
 order: 2000
+examples: './.resources/Create claims_adjudication.resources/examples'

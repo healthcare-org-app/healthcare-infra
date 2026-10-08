@@ -18,3 +18,4 @@ body:
       "bed_count": 0
     }
 order: 2000
+examples: './.resources/Create wards_beds.resources/examples'

@@ -18,3 +18,4 @@ body:
       "notes": "Sample notes"
     }
 order: 2000
+examples: './.resources/Create med_reconciliation.resources/examples'

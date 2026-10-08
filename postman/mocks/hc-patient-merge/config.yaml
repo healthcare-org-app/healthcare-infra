@@ -1,0 +1,10 @@
+version: 1
+id: 71264f08-7f98-452f-b496-7185359eea13
+name: hc-patient-merge
+slug: hc-patient-merge
+protocol: http
+port: 4165
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

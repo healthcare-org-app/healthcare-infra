@@ -1,0 +1,10 @@
+version: 1
+id: 6f282d12-85e1-43f9-a032-2b1618ab8459
+name: hc-claims-status
+slug: hc-claims-status
+protocol: http
+port: 4152
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

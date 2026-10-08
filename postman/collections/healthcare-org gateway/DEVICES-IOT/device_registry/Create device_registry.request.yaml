@@ -18,3 +18,4 @@ body:
       "serial_number": "sample serial_number"
     }
 order: 2000
+examples: './.resources/Create device_registry.resources/examples'

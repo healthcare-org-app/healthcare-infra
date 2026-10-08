@@ -18,3 +18,4 @@ body:
       "ends_at": "2026-01-15T09:00:00Z"
     }
 order: 2000
+examples: './.resources/Create on_call.resources/examples'

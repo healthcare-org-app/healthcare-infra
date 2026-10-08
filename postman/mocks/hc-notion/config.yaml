@@ -1,0 +1,10 @@
+version: 1
+id: 08b80f60-66c1-4f3a-8437-b72b9c0bdcfb
+name: hc-notion
+slug: hc-notion
+protocol: http
+port: 4158
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

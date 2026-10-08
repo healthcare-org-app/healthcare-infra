@@ -1,0 +1,10 @@
+version: 1
+id: 2201bac0-ebf3-4b0c-8864-85fc1edf7c64
+name: hc-coding
+slug: hc-coding
+protocol: http
+port: 4110
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -1,0 +1,10 @@
+version: 1
+id: 9a53fdf0-7ab8-41f2-ba29-f9d4adfb7747
+name: hc-notifications
+slug: hc-notifications
+protocol: http
+port: 4132
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

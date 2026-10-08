@@ -19,3 +19,4 @@ body:
       "method": "card"
     }
 order: 2000
+examples: './.resources/Create payments.resources/examples'

@@ -1,0 +1,10 @@
+version: 1
+id: f626543b-5288-49cd-bfe9-db8d2ebd0fc3
+name: hc-coverage-verification
+slug: hc-coverage-verification
+protocol: http
+port: 4153
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

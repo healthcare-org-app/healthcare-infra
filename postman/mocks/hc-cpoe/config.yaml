@@ -1,0 +1,10 @@
+version: 1
+id: c2de3447-6114-4485-83f7-eb740c532753
+name: hc-cpoe
+slug: hc-cpoe
+protocol: http
+port: 4121
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

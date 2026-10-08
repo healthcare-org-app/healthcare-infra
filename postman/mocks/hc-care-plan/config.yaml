@@ -1,0 +1,10 @@
+version: 1
+id: e53612e8-0bca-44f7-a072-6ec2d8161745
+name: hc-care-plan
+slug: hc-care-plan
+protocol: http
+port: 4117
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

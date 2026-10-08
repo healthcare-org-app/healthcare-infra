@@ -1,0 +1,10 @@
+version: 1
+id: 7c229194-affe-4c8e-8680-e6a6e6aaf9a9
+name: hc-device-fleet
+slug: hc-device-fleet
+protocol: http
+port: 4136
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

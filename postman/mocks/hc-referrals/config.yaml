@@ -1,0 +1,10 @@
+version: 1
+id: 08c74974-7fa2-4c85-a27d-bb0cb6e3a47e
+name: hc-referrals
+slug: hc-referrals
+protocol: http
+port: 4129
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

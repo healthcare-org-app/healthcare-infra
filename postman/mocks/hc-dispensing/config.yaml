@@ -1,0 +1,10 @@
+version: 1
+id: 6853766a-86a4-434d-8d53-bc08e8ed423b
+name: hc-dispensing
+slug: hc-dispensing
+protocol: http
+port: 4171
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

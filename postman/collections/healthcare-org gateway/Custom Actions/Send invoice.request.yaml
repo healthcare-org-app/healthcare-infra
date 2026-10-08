@@ -21,3 +21,4 @@ body:
       "subject": "Invoice from your care team"
     }
 order: 7000
+examples: './.resources/Send invoice.resources/examples'

@@ -25,3 +25,4 @@ body:
       "draft": false
     }
 order: 8000
+examples: './.resources/Send consent for signature.resources/examples'

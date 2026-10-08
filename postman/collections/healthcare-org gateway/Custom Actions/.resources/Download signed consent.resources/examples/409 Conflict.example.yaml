@@ -1,0 +1,21 @@
+$kind: http-example
+name: 409 Conflict
+request:
+  url: '{{baseUrl}}/api/patient_consent/{{patient_consent_id}}/signed-document?document_id=combined'
+  method: GET
+response:
+  statusCode: 409
+  statusText: Conflict
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "envelope_not_completed",
+          "message": "consent envelope is 'sent', not 'completed'"
+        }
+      }
+order: 4000

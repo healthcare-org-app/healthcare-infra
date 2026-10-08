@@ -21,3 +21,4 @@ body:
       "sig": "1 tab daily"
     }
 order: 2000
+examples: './.resources/Create prescriptions.resources/examples'

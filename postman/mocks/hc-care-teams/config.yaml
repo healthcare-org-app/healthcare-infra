@@ -1,0 +1,10 @@
+version: 1
+id: 8054e9b0-b8b0-40ec-9453-a614c6df6505
+name: hc-care-teams
+slug: hc-care-teams
+protocol: http
+port: 4118
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

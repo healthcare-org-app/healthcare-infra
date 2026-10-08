@@ -17,3 +17,4 @@ body:
       "device_id": "{{device_id}}"
     }
 order: 2000
+examples: './.resources/Create remote_monitoring.resources/examples'

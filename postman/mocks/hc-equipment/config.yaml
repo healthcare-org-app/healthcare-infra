@@ -1,0 +1,10 @@
+version: 1
+id: 0a306b7c-a950-4d11-8b3a-cd51c7c5676e
+name: hc-equipment
+slug: hc-equipment
+protocol: http
+port: 4147
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

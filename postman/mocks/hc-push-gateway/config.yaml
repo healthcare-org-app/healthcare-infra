@@ -1,0 +1,10 @@
+version: 1
+id: 6cede48f-ba0c-4859-932f-5d9518fc86ec
+name: hc-push-gateway
+slug: hc-push-gateway
+protocol: http
+port: 4133
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -1,0 +1,10 @@
+version: 1
+id: ca9eb9da-111c-465a-ac74-20c0150b55c9
+name: hc-demographics
+slug: hc-demographics
+protocol: http
+port: 4162
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true
