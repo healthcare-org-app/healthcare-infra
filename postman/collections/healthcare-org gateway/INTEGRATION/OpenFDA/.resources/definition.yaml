@@ -1,0 +1,6 @@
+$kind: collection
+description: >-
+  openFDA — searches FDA structured product labels by brand or generic name
+  and returns active/inactive ingredients. Public US drug label data only;
+  no patient data crosses this integration.
+order: 4000

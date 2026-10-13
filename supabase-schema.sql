@@ -939,6 +939,29 @@ create policy authenticated_all on public.care_teams
   to authenticated
   using (true)
   with check (true);
+-- case-management-service → /rest/v1/case_management
+create table if not exists public.case_management (
+  id           bigserial primary key,
+  data         jsonb not null default '{}'::jsonb,
+  status       text not null default 'active',
+  created_at   timestamptz not null default now(),
+  updated_at   timestamptz not null default now()
+);
+create index if not exists case_management_data_gin on public.case_management using gin (data);
+create index if not exists case_management_status_idx on public.case_management (status);
+
+drop trigger if exists case_management_set_updated_at on public.case_management;
+create trigger case_management_set_updated_at before update on public.case_management
+  for each row execute function public.set_updated_at();
+
+alter table public.case_management enable row level security;
+drop policy if exists anon_all on public.case_management;
+drop policy if exists authenticated_all on public.case_management;
+create policy authenticated_all on public.case_management
+  for all
+  to authenticated
+  using (true)
+  with check (true);
 -- lab-orders-service → /rest/v1/lab_orders
 create table if not exists public.lab_orders (
   id           bigserial primary key,

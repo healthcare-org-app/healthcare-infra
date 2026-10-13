@@ -109,7 +109,7 @@ The **Postman collection** in this repo (`postman/collections/healthcare-org gat
   │   ├── main.tsx             #   entrypoint
   │   ├── api.ts               #   thin supabase-js wrapper preserving the CRUD interface
   │   ├── supabase.ts          #   createClient using VITE_* env vars
-  │   ├── services.ts          #   registry of all 101 services + FK map + label formatters
+  │   ├── services.ts          #   registry of all 102 services + FK map + label formatters
   │   ├── domain-icons.ts      #   lucide icons per domain
   │   ├── components/          #   Sidebar, TopBar, ResourceTable, ResourceForm, KpiTile, ...
   │   └── pages/               #   Dashboard, DomainLanding, ServicePage, RecordDetail, ...

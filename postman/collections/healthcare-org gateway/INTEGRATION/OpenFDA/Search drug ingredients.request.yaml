@@ -1,0 +1,30 @@
+$kind: http-request
+description: >-
+  Searches FDA structured product labels by brand or generic name (`q`,
+  required) and returns each match's active/inactive ingredients. `limit`
+  is 1–50, default 10. No match is a 200 with an empty `results` array, not
+  a 404.
+url: '{{baseUrl}}/api/drugs/search?q={{drug_name}}&limit=5'
+method: GET
+headers:
+  - key: Authorization
+    value: Bearer {{apiKey}}
+queryParams:
+  - key: q
+    value: '{{drug_name}}'
+  - key: limit
+    value: '5'
+examples: './.resources/Search drug ingredients.resources/examples'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("returns ingredient results for the query", function () {
+        const body = pm.response.json();
+        pm.expect(body.results).to.be.an("array");
+        pm.expect(body.count).to.eql(body.results.length);
+      });
+order: 1000

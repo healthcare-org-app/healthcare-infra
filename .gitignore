@@ -28,3 +28,5 @@ frontend/api/**/*.js
 # Editor / OS noise
 .DS_Store
 .mcp.json
+.vercel
+.env*

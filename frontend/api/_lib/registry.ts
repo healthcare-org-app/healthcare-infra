@@ -4,7 +4,7 @@ export type ResourceDef = {
   domain: string;
 };
 
-// URL segment → Postgres table. 94 entries (101 services in frontend/src/services.ts
+// URL segment → Postgres table. 95 entries (102 services in frontend/src/services.ts
 // minus 7 with hasCrud:false: api-gateway, service-registry, patient-portal-api,
 // provider-portal-api, device-telemetry-service, sms-gateway-service,
 // secure-messaging-service). Two URL/table quirks match services.ts PREFIX_OVERRIDES:
@@ -55,6 +55,7 @@ export const RESOURCES: ResourceDef[] = [
   { url: "clinical_decision_support", table: "clinical_decision_support", domain: "CLINICAL/EHR" },
   { url: "diagnosis_codes", table: "diagnosis_codes", domain: "CLINICAL/EHR" },
   { url: "care_teams", table: "care_teams", domain: "CLINICAL/EHR" },
+  { url: "case_management", table: "case_management", domain: "CLINICAL/EHR" },
   // Diagnostics
   { url: "lab_orders", table: "lab_orders", domain: "DIAGNOSTICS" },
   { url: "lab_results", table: "lab_results", domain: "DIAGNOSTICS" },
