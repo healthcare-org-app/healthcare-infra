@@ -20,3 +20,4 @@ body:
       "amount": 0
     }
 order: 2000
+examples: './.resources/Create charge_capture.resources/examples'

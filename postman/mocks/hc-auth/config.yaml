@@ -1,0 +1,10 @@
+version: 1
+id: 67cdb105-978c-480e-8aa0-f131c2e5d361
+name: hc-auth
+slug: hc-auth
+protocol: http
+port: 4179
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

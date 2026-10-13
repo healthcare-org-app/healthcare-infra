@@ -1,0 +1,10 @@
+version: 1
+id: 2b45031e-e6b9-48fd-9cd3-231b0649ee5b
+name: hc-lab-orders
+slug: hc-lab-orders
+protocol: http
+port: 4141
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

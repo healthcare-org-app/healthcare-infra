@@ -1,0 +1,10 @@
+version: 1
+id: 03b114ad-ad2c-436f-9269-b9efac68037b
+name: hc-diagnosis-codes
+slug: hc-diagnosis-codes
+protocol: http
+port: 4122
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

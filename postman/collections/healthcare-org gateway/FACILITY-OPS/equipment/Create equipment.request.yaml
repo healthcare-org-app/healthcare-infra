@@ -18,3 +18,4 @@ body:
       "facility_id": "{{facility_id}}"
     }
 order: 2000
+examples: './.resources/Create equipment.resources/examples'

@@ -1,0 +1,36 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/patient_consent/{{patient_consent_id}}/signature-status?include_documents=true&include_disclosure=false'
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "status": "signed",
+        "created_at": "2026-01-15T09:30:00.000Z",
+        "updated_at": "2026-01-16T14:05:00.000Z",
+        "patient_id": 1,
+        "consent_type": "hipaa",
+        "granted": true,
+        "docusign_envelope": {
+          "envelope_id": "5b8e2c1a-7f43-4d6e-9a10-3c2f8d6e0b11",
+          "status": "completed",
+          "sent_at": "2026-01-16T14:05:00.000Z",
+          "completed_at": "2026-01-16T14:05:00.000Z"
+        },
+        "documents": [
+          {
+            "document_id": "combined",
+            "name": "Consent form + certificate of completion"
+          }
+        ]
+      }
+order: 1000

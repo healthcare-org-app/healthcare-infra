@@ -1,0 +1,10 @@
+version: 1
+id: 79e8c71a-310c-455f-b152-d14cfb9bb216
+name: hc-pathology
+slug: hc-pathology
+protocol: http
+port: 4143
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

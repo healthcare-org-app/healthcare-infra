@@ -1,0 +1,21 @@
+$kind: http-example
+name: 400 Bad Request
+request:
+  url: '{{baseUrl}}/api/payer_directory/1'
+  method: DELETE
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "db_error",
+          "message": "update or delete violates foreign key constraint"
+        }
+      }
+order: 2000

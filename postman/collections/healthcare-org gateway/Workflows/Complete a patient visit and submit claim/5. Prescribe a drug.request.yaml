@@ -18,3 +18,4 @@ body:
       "sig": "1 tab daily"
     }
 order: 5000
+examples: './.resources/5. Prescribe a drug.resources/examples'

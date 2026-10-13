@@ -1,0 +1,21 @@
+$kind: http-example
+name: 409 Conflict
+request:
+  url: '{{baseUrl}}/api/prescriptions/{{prescription_id}}/refill'
+  method: POST
+response:
+  statusCode: 409
+  statusText: Conflict
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "no_refills_remaining",
+          "message": "prescription 1 has no refills remaining"
+        }
+      }
+order: 4000

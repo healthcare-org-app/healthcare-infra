@@ -1,0 +1,10 @@
+version: 1
+id: 06351396-94e2-4d36-a244-2c27e4479e89
+name: hc-refills
+slug: hc-refills
+protocol: http
+port: 4177
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

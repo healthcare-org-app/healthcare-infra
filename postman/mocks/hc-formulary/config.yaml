@@ -1,0 +1,10 @@
+version: 1
+id: 927608d3-93a1-4c24-8899-18a71a0076f7
+name: hc-formulary
+slug: hc-formulary
+protocol: http
+port: 4173
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

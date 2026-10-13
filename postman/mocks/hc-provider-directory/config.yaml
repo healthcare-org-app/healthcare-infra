@@ -1,0 +1,10 @@
+version: 1
+id: bf55c6d1-8b0a-41b7-8ad4-f2fac274b7c5
+name: hc-provider-directory
+slug: hc-provider-directory
+protocol: http
+port: 4189
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

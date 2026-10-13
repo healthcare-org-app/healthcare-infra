@@ -1,0 +1,21 @@
+$kind: http-example
+name: 401 Unauthorized
+request:
+  url: '{{baseUrl}}/api/dispensing?limit=10'
+  method: GET
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "unauthorized",
+          "message": "missing bearer token"
+        }
+      }
+order: 2000

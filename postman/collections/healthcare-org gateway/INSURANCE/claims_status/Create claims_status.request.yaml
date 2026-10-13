@@ -16,3 +16,4 @@ body:
       "claim_id": "{{claim_id}}"
     }
 order: 2000
+examples: './.resources/Create claims_status.resources/examples'

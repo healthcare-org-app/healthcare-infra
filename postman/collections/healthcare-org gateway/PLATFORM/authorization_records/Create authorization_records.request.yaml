@@ -15,3 +15,4 @@ body:
       "grant_type": "read"
     }
 order: 2000
+examples: './.resources/Create authorization_records.resources/examples'

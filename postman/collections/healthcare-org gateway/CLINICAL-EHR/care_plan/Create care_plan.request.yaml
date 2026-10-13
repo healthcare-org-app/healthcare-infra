@@ -19,3 +19,4 @@ body:
       "goals": "Sample goals"
     }
 order: 2000
+examples: './.resources/Create care_plan.resources/examples'

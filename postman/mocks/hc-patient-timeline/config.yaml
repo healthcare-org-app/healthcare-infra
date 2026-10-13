@@ -1,0 +1,10 @@
+version: 1
+id: 9fe61740-ebbb-4cae-813b-6b019ebfb427
+name: hc-patient-timeline
+slug: hc-patient-timeline
+protocol: http
+port: 4169
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

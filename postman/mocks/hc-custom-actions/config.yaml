@@ -1,0 +1,10 @@
+version: 1
+id: 57aa6332-c88d-4a02-9af5-704887cb9c9e
+name: hc-custom-actions
+slug: hc-custom-actions
+protocol: http
+port: 4134
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

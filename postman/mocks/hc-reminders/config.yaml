@@ -1,0 +1,10 @@
+version: 1
+id: d1280531-9d0e-4261-afeb-96ee4f11fb62
+name: hc-reminders
+slug: hc-reminders
+protocol: http
+port: 4196
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

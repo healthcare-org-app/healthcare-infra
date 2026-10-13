@@ -1,0 +1,10 @@
+version: 1
+id: 5f55b2a3-4f4f-4904-9026-bc6be3d5e102
+name: hc-appointment-slots
+slug: hc-appointment-slots
+protocol: http
+port: 4194
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

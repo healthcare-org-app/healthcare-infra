@@ -1,0 +1,10 @@
+version: 1
+id: 9adb0807-80eb-495a-a8ec-b205091dcd22
+name: hc-pharmacy
+slug: hc-pharmacy
+protocol: http
+port: 4174
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -19,3 +19,4 @@ body:
       "findings": "Sample findings"
     }
 order: 2000
+examples: './.resources/Create imaging_results.resources/examples'

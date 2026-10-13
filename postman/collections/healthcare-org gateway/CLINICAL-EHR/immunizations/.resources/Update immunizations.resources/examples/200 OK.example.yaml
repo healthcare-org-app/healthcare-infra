@@ -1,0 +1,27 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/immunizations/1'
+  method: PATCH
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "status": "active",
+        "created_at": "2026-01-15T09:30:00.000Z",
+        "updated_at": "2026-01-16T14:05:00.000Z",
+        "patient_id": 1,
+        "administered_by": 1,
+        "encounter_id": 1,
+        "vaccine": "Influenza",
+        "administered_at": "2026-01-15",
+        "lot_number": "LOT-77231"
+      }
+order: 1000

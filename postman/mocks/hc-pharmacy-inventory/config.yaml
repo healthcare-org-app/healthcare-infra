@@ -1,0 +1,10 @@
+version: 1
+id: 3f2ef2a4-9e92-4ea7-8404-270c6c70dd0f
+name: hc-pharmacy-inventory
+slug: hc-pharmacy-inventory
+protocol: http
+port: 4175
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

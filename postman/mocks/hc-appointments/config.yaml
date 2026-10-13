@@ -1,0 +1,10 @@
+version: 1
+id: 4177dcbc-0bdc-4192-99af-e218b02b2aab
+name: hc-appointments
+slug: hc-appointments
+protocol: http
+port: 4195
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

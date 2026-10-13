@@ -1,0 +1,10 @@
+version: 1
+id: e6dd4f1d-0fa9-47ef-b226-263082b0b6d9
+name: hc-billing
+slug: hc-billing
+protocol: http
+port: 4106
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -20,3 +20,4 @@ body:
       "result": "sample result"
     }
 order: 2000
+examples: './.resources/Create lab_results.resources/examples'

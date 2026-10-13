@@ -1,0 +1,10 @@
+version: 1
+id: 934503c0-a7e1-437a-a1d4-1110e2065c0d
+name: hc-collections
+slug: hc-collections
+protocol: http
+port: 4111
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

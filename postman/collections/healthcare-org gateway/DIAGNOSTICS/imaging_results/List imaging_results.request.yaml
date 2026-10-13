@@ -8,3 +8,4 @@ headers:
 queryParams:
   limit: "10"
 order: 1000
+examples: './.resources/List imaging_results.resources/examples'

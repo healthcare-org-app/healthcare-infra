@@ -19,3 +19,4 @@ body:
       "service_code": "sample service_code"
     }
 order: 2000
+examples: './.resources/Create prior_auth.resources/examples'

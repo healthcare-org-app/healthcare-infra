@@ -1,0 +1,10 @@
+version: 1
+id: 0f360096-3611-47dd-8070-5bfc13566009
+name: hc-room-booking
+slug: hc-room-booking
+protocol: http
+port: 4197
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

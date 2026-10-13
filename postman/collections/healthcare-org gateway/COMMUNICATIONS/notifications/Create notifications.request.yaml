@@ -19,3 +19,4 @@ body:
       "body": "Sample body"
     }
 order: 2000
+examples: './.resources/Create notifications.resources/examples'

@@ -1,0 +1,10 @@
+version: 1
+id: 038c9d7a-8957-4aa7-a72b-a1f18292d44d
+name: hc-clinical-decision-support
+slug: hc-clinical-decision-support
+protocol: http
+port: 4119
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

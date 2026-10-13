@@ -1,0 +1,10 @@
+version: 1
+id: c99b7fc1-2c92-41cb-9c6d-e771a5b05da5
+name: hc-discharge-summary
+slug: hc-discharge-summary
+protocol: http
+port: 4123
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

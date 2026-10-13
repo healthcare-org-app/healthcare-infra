@@ -1,0 +1,21 @@
+$kind: http-example
+name: 401 Unauthorized
+request:
+  url: '{{baseUrl}}/api/push_gateway'
+  method: POST
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "unauthorized",
+          "message": "missing bearer token"
+        }
+      }
+order: 3000

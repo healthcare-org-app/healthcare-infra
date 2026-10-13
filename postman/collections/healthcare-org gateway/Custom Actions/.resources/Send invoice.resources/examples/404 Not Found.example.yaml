@@ -1,0 +1,21 @@
+$kind: http-example
+name: 404 Not Found
+request:
+  url: '{{baseUrl}}/api/invoicing/{{invoice_id}}/send'
+  method: POST
+response:
+  statusCode: 404
+  statusText: Not Found
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "not_found",
+          "message": "no invoicing row with id 999999"
+        }
+      }
+order: 3000

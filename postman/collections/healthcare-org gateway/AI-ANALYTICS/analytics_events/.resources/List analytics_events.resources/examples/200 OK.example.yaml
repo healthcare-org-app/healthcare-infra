@@ -1,0 +1,38 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/analytics_events?limit=10'
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "count": 2,
+        "items": [
+          {
+            "id": 1,
+            "status": "active",
+            "created_at": "2026-01-15T09:30:00.000Z",
+            "updated_at": "2026-01-15T09:30:00.000Z",
+            "event_type": "created",
+            "entity_id": "42",
+            "properties": "{\"key\":\"value\"}"
+          },
+          {
+            "id": 2,
+            "status": "active",
+            "created_at": "2026-01-15T09:30:00.000Z",
+            "updated_at": "2026-01-15T09:30:00.000Z",
+            "event_type": "updated",
+            "entity_id": "43",
+            "properties": "{\"key\":\"value\"}"
+          }
+        ]
+      }
+order: 1000

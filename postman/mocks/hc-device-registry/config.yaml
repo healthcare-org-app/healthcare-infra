@@ -1,0 +1,10 @@
+version: 1
+id: 2cb27ae8-9756-475a-820b-eaf6ff157f99
+name: hc-device-registry
+slug: hc-device-registry
+protocol: http
+port: 4137
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

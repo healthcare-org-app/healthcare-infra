@@ -16,3 +16,4 @@ body:
       "notes": "Sample notes"
     }
 order: 2000
+examples: './.resources/Create audit_log.resources/examples'

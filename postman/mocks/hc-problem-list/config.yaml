@@ -1,0 +1,10 @@
+version: 1
+id: 996108c1-96ee-4101-bba1-f4379b4b0e08
+name: hc-problem-list
+slug: hc-problem-list
+protocol: http
+port: 4128
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

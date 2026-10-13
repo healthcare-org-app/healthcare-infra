@@ -15,3 +15,4 @@ body:
       "role": "patient"
     }
 order: 2000
+examples: './.resources/Create identity.resources/examples'

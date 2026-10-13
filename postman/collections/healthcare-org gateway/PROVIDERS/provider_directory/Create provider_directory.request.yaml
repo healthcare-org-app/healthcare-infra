@@ -18,3 +18,4 @@ body:
       "phone": "sample phone"
     }
 order: 2000
+examples: './.resources/Create provider_directory.resources/examples'

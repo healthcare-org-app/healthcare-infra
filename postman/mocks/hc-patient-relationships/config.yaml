@@ -1,0 +1,10 @@
+version: 1
+id: 9c23210d-fa43-4cc7-897b-93fb4b2d5768
+name: hc-patient-relationships
+slug: hc-patient-relationships
+protocol: http
+port: 4167
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

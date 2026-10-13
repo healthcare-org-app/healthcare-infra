@@ -17,3 +17,4 @@ body:
       "location": "Clinic A"
     }
 order: 2000
+examples: './.resources/2. Create encounter.resources/examples'

@@ -1,0 +1,10 @@
+version: 1
+id: f0fd4a51-1943-421e-abfe-6b6235eb0835
+name: hc-allergies
+slug: hc-allergies
+protocol: http
+port: 4116
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

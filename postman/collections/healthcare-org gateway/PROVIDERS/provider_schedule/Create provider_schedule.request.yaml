@@ -19,3 +19,4 @@ body:
       "end_time": "17:00"
     }
 order: 2000
+examples: './.resources/Create provider_schedule.resources/examples'

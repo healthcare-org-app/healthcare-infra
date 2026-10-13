@@ -14,3 +14,4 @@ body:
       }
     }
 order: 4000
+examples: './.resources/Update vitals.resources/examples'

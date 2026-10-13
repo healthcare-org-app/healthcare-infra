@@ -1,0 +1,10 @@
+version: 1
+id: 3c92d883-8cd9-44bc-94df-7b3494dfd2c0
+name: hc-device-alerts
+slug: hc-device-alerts
+protocol: http
+port: 4135
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

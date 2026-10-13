@@ -1,0 +1,24 @@
+$kind: http-example
+name: 201 Created
+request:
+  url: '{{baseUrl}}/api/device_registry'
+  method: POST
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "status": "active",
+        "created_at": "2026-01-15T09:30:00.000Z",
+        "updated_at": "2026-01-15T09:30:00.000Z",
+        "patient_id": 1,
+        "device_type": "infusion_pump",
+        "serial_number": "SN-20481"
+      }
+order: 1000

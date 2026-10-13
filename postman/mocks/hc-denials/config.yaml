@@ -1,0 +1,10 @@
+version: 1
+id: af562613-db94-4873-a255-b865e302f5df
+name: hc-denials
+slug: hc-denials
+protocol: http
+port: 4112
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

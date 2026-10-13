@@ -1,0 +1,10 @@
+version: 1
+id: f35df550-6df4-47a8-b48f-bb5aaa24e08a
+name: hc-tenancy
+slug: hc-tenancy
+protocol: http
+port: 4185
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

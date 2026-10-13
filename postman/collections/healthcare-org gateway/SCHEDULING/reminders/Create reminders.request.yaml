@@ -18,3 +18,4 @@ body:
       "channel": "email"
     }
 order: 2000
+examples: './.resources/Create reminders.resources/examples'

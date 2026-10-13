@@ -1,0 +1,10 @@
+version: 1
+id: 6941e015-6f31-438c-a0ce-8dbbbbbae3dc
+name: hc-prior-auth
+slug: hc-prior-auth
+protocol: http
+port: 4157
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

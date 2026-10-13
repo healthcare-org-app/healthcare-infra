@@ -1,0 +1,10 @@
+version: 1
+id: 99c4299b-fa85-4cf6-bca8-34b7ec034756
+name: hc-provider-schedule
+slug: hc-provider-schedule
+protocol: http
+port: 4191
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

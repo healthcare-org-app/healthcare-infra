@@ -1,0 +1,10 @@
+version: 1
+id: b835999e-349a-48ba-bdc9-d956f65e9988
+name: hc-email-gateway
+slug: hc-email-gateway
+protocol: http
+port: 4131
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

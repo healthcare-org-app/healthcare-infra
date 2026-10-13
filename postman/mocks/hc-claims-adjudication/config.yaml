@@ -1,0 +1,10 @@
+version: 1
+id: b553ce71-7524-42cf-928e-3d7469831e43
+name: hc-claims-adjudication
+slug: hc-claims-adjudication
+protocol: http
+port: 4108
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

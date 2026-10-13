@@ -1,0 +1,10 @@
+version: 1
+id: b0aea6d9-a99e-479b-8943-17456485b14f
+name: hc-wards-beds
+slug: hc-wards-beds
+protocol: http
+port: 4151
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

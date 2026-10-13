@@ -1,0 +1,21 @@
+$kind: http-example
+name: 422 Unprocessable Entity
+request:
+  url: '{{baseUrl}}/api/invoicing/{{invoice_id}}/send'
+  method: POST
+response:
+  statusCode: 422
+  statusText: Unprocessable Entity
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "no_email",
+          "message": "patient has no email on file to invoice"
+        }
+      }
+order: 4000

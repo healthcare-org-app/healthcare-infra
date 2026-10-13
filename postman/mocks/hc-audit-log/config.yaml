@@ -1,0 +1,10 @@
+version: 1
+id: 58a944e5-105a-4c3d-8738-57bed5be121d
+name: hc-audit-log
+slug: hc-audit-log
+protocol: http
+port: 4178
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

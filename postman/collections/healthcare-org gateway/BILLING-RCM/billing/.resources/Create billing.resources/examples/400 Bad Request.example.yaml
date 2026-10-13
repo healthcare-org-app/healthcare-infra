@@ -1,0 +1,21 @@
+$kind: http-example
+name: 400 Bad Request
+request:
+  url: '{{baseUrl}}/api/billing'
+  method: POST
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "db_error",
+          "message": "invalid input syntax for type bigint: \"abc\""
+        }
+      }
+order: 2000

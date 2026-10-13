@@ -19,3 +19,4 @@ body:
       "summary": "Sample summary"
     }
 order: 2000
+examples: './.resources/Create discharge_summary.resources/examples'

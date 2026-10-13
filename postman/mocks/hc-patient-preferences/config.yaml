@@ -1,0 +1,10 @@
+version: 1
+id: 6bf0f925-a60d-41f6-83bb-a73123df2d30
+name: hc-patient-preferences
+slug: hc-patient-preferences
+protocol: http
+port: 4166
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

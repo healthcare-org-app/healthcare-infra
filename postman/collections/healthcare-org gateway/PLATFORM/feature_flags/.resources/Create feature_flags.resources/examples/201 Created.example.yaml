@@ -1,0 +1,24 @@
+$kind: http-example
+name: 201 Created
+request:
+  url: '{{baseUrl}}/api/feature_flags'
+  method: POST
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "status": "active",
+        "created_at": "2026-01-15T09:30:00.000Z",
+        "updated_at": "2026-01-15T09:30:00.000Z",
+        "name": "new_scheduler",
+        "enabled": true,
+        "description": "Annual wellness visit"
+      }
+order: 1000

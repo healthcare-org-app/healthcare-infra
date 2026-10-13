@@ -18,3 +18,4 @@ body:
       "input": "Sample input"
     }
 order: 2000
+examples: './.resources/Create ai_invocations.resources/examples'

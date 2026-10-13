@@ -1,0 +1,10 @@
+version: 1
+id: ea1236ab-75d8-4af1-b752-203ce35a23a6
+name: hc-feature-flags
+slug: hc-feature-flags
+protocol: http
+port: 4182
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

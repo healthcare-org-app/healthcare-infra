@@ -1,0 +1,10 @@
+version: 1
+id: 3493e818-32cb-4aaf-b568-0c9e5465693b
+name: hc-radiology-worklist
+slug: hc-radiology-worklist
+protocol: http
+port: 4144
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

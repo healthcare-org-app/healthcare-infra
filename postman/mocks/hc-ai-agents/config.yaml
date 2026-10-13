@@ -1,0 +1,10 @@
+version: 1
+id: 943427cc-f11d-41bb-b147-5d355458b5db
+name: hc-ai-agents
+slug: hc-ai-agents
+protocol: http
+port: 4101
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -1,0 +1,21 @@
+$kind: http-example
+name: 404 Not Found
+request:
+  url: '{{baseUrl}}/api/statements/1'
+  method: PATCH
+response:
+  statusCode: 404
+  statusText: Not Found
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "not_found",
+          "message": "no statements with id 999999"
+        }
+      }
+order: 4000

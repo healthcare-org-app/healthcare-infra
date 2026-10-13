@@ -1,0 +1,10 @@
+version: 1
+id: 5b39e5f8-3f63-403e-b1f6-5888656debc7
+name: hc-prescriptions
+slug: hc-prescriptions
+protocol: http
+port: 4176
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

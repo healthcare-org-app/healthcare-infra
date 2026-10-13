@@ -17,3 +17,4 @@ body:
       "priority": "routine"
     }
 order: 4000
+examples: './.resources/4. Order lab.resources/examples'

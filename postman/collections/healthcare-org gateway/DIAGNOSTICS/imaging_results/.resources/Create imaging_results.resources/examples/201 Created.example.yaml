@@ -1,0 +1,25 @@
+$kind: http-example
+name: 201 Created
+request:
+  url: '{{baseUrl}}/api/imaging_results'
+  method: POST
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "status": "active",
+        "created_at": "2026-01-15T09:30:00.000Z",
+        "updated_at": "2026-01-15T09:30:00.000Z",
+        "patient_id": 1,
+        "imaging_order_id": 1,
+        "author_id": 1,
+        "findings": "No acute findings."
+      }
+order: 1000

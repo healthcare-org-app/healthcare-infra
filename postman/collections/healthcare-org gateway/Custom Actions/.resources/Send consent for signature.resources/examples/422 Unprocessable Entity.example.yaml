@@ -1,0 +1,21 @@
+$kind: http-example
+name: 422 Unprocessable Entity
+request:
+  url: '{{baseUrl}}/api/patient_consent/{{patient_consent_id}}/send-for-signature'
+  method: POST
+response:
+  statusCode: 422
+  statusText: Unprocessable Entity
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "no_email",
+          "message": "patient has no email on file to send a consent form to"
+        }
+      }
+order: 4000

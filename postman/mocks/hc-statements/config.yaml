@@ -1,0 +1,10 @@
+version: 1
+id: 96d410a6-a8e9-48b3-ac94-aff598361ea6
+name: hc-statements
+slug: hc-statements
+protocol: http
+port: 4115
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

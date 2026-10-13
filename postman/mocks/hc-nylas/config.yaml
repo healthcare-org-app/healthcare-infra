@@ -1,0 +1,10 @@
+version: 1
+id: dd5b61f6-6c5e-4acd-bc13-931d5a22a12e
+name: hc-nylas
+slug: hc-nylas
+protocol: http
+port: 4159
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

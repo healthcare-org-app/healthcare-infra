@@ -1,0 +1,25 @@
+$kind: http-example
+name: 201 Created
+request:
+  url: '{{baseUrl}}/api/provider_schedule'
+  method: POST
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "status": "active",
+        "created_at": "2026-01-15T09:30:00.000Z",
+        "updated_at": "2026-01-15T09:30:00.000Z",
+        "provider_id": 1,
+        "day_of_week": "mon",
+        "start_time": "09:00",
+        "end_time": "17:00"
+      }
+order: 1000

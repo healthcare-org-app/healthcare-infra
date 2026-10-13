@@ -18,3 +18,4 @@ body:
       "value": "sample value"
     }
 order: 2000
+examples: './.resources/Create patient_preferences.resources/examples'

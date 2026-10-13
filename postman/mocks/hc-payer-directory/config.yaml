@@ -1,0 +1,10 @@
+version: 1
+id: cef83c67-fe5e-46d6-ae85-692e221a07b3
+name: hc-payer-directory
+slug: hc-payer-directory
+protocol: http
+port: 4155
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

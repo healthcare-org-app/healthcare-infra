@@ -1,0 +1,10 @@
+version: 1
+id: 600e8003-0558-4706-a4a6-deff270ab513
+name: hc-eligibility
+slug: hc-eligibility
+protocol: http
+port: 4154
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

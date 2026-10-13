@@ -21,3 +21,4 @@ body:
       "spo2": 0
     }
 order: 2000
+examples: './.resources/Create vitals.resources/examples'

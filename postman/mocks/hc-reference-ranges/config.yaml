@@ -1,0 +1,10 @@
+version: 1
+id: efda4b27-51de-4ee1-bfb4-f442b5c72977
+name: hc-reference-ranges
+slug: hc-reference-ranges
+protocol: http
+port: 4145
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

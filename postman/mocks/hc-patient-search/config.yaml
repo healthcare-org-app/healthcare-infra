@@ -1,0 +1,10 @@
+version: 1
+id: ff5eb84e-80ff-4289-b8e6-2d49e0010a46
+name: hc-patient-search
+slug: hc-patient-search
+protocol: http
+port: 4168
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

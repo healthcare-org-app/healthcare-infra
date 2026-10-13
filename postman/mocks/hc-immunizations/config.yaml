@@ -1,0 +1,10 @@
+version: 1
+id: 369a01b9-2872-4bb1-a2d4-5d491b99101d
+name: hc-immunizations
+slug: hc-immunizations
+protocol: http
+port: 4126
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

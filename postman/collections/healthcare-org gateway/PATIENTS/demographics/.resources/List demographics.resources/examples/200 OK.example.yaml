@@ -1,0 +1,42 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/demographics?limit=10'
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "count": 2,
+        "items": [
+          {
+            "id": 1,
+            "status": "active",
+            "created_at": "2026-01-15T09:30:00.000Z",
+            "updated_at": "2026-01-15T09:30:00.000Z",
+            "patient_id": 1,
+            "address": "100 Main St",
+            "city": "Springfield",
+            "state": "IL",
+            "zip": "62701"
+          },
+          {
+            "id": 2,
+            "status": "active",
+            "created_at": "2026-01-15T09:30:00.000Z",
+            "updated_at": "2026-01-15T09:30:00.000Z",
+            "patient_id": 2,
+            "address": "42 Oak Avenue",
+            "city": "Riverton",
+            "state": "CO",
+            "zip": "80123"
+          }
+        ]
+      }
+order: 1000

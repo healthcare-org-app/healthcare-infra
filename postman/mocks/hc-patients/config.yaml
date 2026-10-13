@@ -1,0 +1,10 @@
+version: 1
+id: 1a90c47f-bcce-4a00-ab9c-eecb7250a7cc
+name: hc-patients
+slug: hc-patients
+protocol: http
+port: 4170
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true
