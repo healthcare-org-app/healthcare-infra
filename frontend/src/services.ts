@@ -373,6 +373,7 @@ const PAYMENT_METHOD: FieldHint["options"] = [
   { value: "ach", label: "ACH" },
   { value: "cash", label: "Cash" },
   { value: "insurance", label: "Insurance" },
+  { value: "paypal", label: "PayPal" },
 ];
 const RELATIONSHIP: FieldHint["options"] = [
   { value: "spouse", label: "Spouse" },

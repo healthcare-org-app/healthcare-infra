@@ -1,0 +1,15 @@
+$kind: http-request
+description: >-
+  Polls the PayPal invoice behind an invoicing row (one already sent via
+  Send invoice) and mirrors the outcome locally. `PAID` and `MARKED_AS_PAID`
+  set the row's status to `paid`; `PARTIALLY_PAID`, `CANCELLED` and `REFUNDED`
+  map likewise. Each PayPal payment becomes one `payments` row, recorded once
+  however often this is polled, so a part-paid invoice yields one row per
+  instalment. A poll that changes nothing writes nothing. 409 `not_sent` means
+  the row has no PayPal invoice yet.
+url: "{{baseUrl}}/api/invoicing/{{invoice_id}}/payment-status"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+order: 7100
+examples: './.resources/Check invoice payment status.resources/examples'

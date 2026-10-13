@@ -147,6 +147,14 @@ curl -s -X PATCH -H "Authorization: Bearer $API" -H 'Content-Type: application/j
 curl -s -X POST -H "Authorization: Bearer $API" \
   https://myhealthcare.dev/api/invoicing/1/send \
   | jq '{invoice_sent, paypal_invoice_id, paypal_payer_view_url}'
+
+# PayPal — pull the payment outcome back. Poll after the patient pays: a paid
+# invoice sets the row to `paid` and records one `payments` row per PayPal
+# transaction (idempotent — repeat polls record nothing new). 409 `not_sent`
+# if the row was never sent.
+curl -s -H "Authorization: Bearer $API" \
+  https://myhealthcare.dev/api/invoicing/1/payment-status \
+  | jq '{status, paypal_invoice_status, paid_amount, complete, payments_recorded}'
 ```
 
 ### Postman

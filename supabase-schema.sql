@@ -1593,6 +1593,11 @@ create table if not exists public.payments (
 );
 create index if not exists payments_data_gin on public.payments using gin (data);
 create index if not exists payments_status_idx on public.payments (status);
+-- One row per PayPal transaction: backs the idempotent insert in
+-- /api/invoicing/:id/payment-status when two polls race.
+create unique index if not exists payments_paypal_payment_id_key
+  on public.payments ((data->>'paypal_payment_id'))
+  where data ? 'paypal_payment_id';
 
 drop trigger if exists payments_set_updated_at on public.payments;
 create trigger payments_set_updated_at before update on public.payments

@@ -1,0 +1,21 @@
+$kind: http-example
+name: 409 Conflict
+request:
+  url: '{{baseUrl}}/api/invoicing/{{invoice_id}}/payment-status'
+  method: GET
+response:
+  statusCode: 409
+  statusText: Conflict
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "not_sent",
+          "message": "invoicing row 1 has not been sent via PayPal yet"
+        }
+      }
+order: 4000

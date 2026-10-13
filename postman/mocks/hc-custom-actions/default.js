@@ -203,6 +203,33 @@ const server = http.createServer((req, res) => {
     return res.end(JSON.stringify({"id":1,"status":"sent","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-16T14:05:00.000Z","patient_id":1,"amount":150,"description":"Annual wellness visit","invoice_sent":true,"paypal_invoice":{"id":"INV2-ABCD-1234-EFGH-5678","status":"SENT","payer_view_url":"https://www.sandbox.paypal.com/invoice/p/#INV2-ABCD-1234-EFGH-5678"}}));
   }
 
+  // @endpoint GET /api/invoicing/{{invoice_id}}/payment-status
+  if (req.method === 'GET' && /^\/api\/invoicing\/([^/]+)\/payment-status$/.test(pathname)) {
+    const requestedStatusCode = req.headers['x-mock-response-code'];
+
+    // "401 Unauthorized" — when x-mock-response-code: 401
+    if (requestedStatusCode === '401') {
+      res.writeHead(401, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"unauthorized","message":"missing bearer token"}}));
+    }
+
+    // "404 Not Found" — when x-mock-response-code: 404
+    if (requestedStatusCode === '404') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_found","message":"no invoicing row with id 999999"}}));
+    }
+
+    // "409 Conflict" — when x-mock-response-code: 409
+    if (requestedStatusCode === '409') {
+      res.writeHead(409, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":{"code":"not_sent","message":"invoicing row 1 has not been sent via PayPal yet"}}));
+    }
+
+    // "200 OK" — default
+    res.writeHead(200, {"Content-Type":"application/json"});
+    return res.end(JSON.stringify({"id":1,"status":"paid","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-18T10:12:00.000Z","patient_id":1,"amount":150,"description":"Annual wellness visit","paypal_invoice_id":"INV2-ABCD-1234-EFGH-5678","paypal_invoice_status":"PAID","paid_amount":150,"paid_at":"2026-01-18T10:11:42.000Z","paypal_invoice":{"id":"INV2-ABCD-1234-EFGH-5678","status":"PAID","invoice_number":"HCO-1","currency_code":"USD","amount":"150.00","paid_amount":"150.00","payer_view_url":"https://www.sandbox.paypal.com/invoice/p/#INV2-ABCD-1234-EFGH-5678"},"complete":true,"payments_recorded":1}));
+  }
+
   // @endpoint POST /api/patient_consent/{{patient_consent_id}}/send-for-signature
   if (req.method === 'POST' && /^\/api\/patient_consent\/([^/]+)\/send-for-signature$/.test(pathname)) {
     const requestedStatusCode = req.headers['x-mock-response-code'];

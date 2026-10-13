@@ -1,0 +1,39 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/invoicing/{{invoice_id}}/payment-status'
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": 1,
+        "status": "paid",
+        "created_at": "2026-01-15T09:30:00.000Z",
+        "updated_at": "2026-01-18T10:12:00.000Z",
+        "patient_id": 1,
+        "amount": 150.0,
+        "description": "Annual wellness visit",
+        "paypal_invoice_id": "INV2-ABCD-1234-EFGH-5678",
+        "paypal_invoice_status": "PAID",
+        "paid_amount": 150,
+        "paid_at": "2026-01-18T10:11:42.000Z",
+        "paypal_invoice": {
+          "id": "INV2-ABCD-1234-EFGH-5678",
+          "status": "PAID",
+          "invoice_number": "HCO-1",
+          "currency_code": "USD",
+          "amount": "150.00",
+          "paid_amount": "150.00",
+          "payer_view_url": "https://www.sandbox.paypal.com/invoice/p/#INV2-ABCD-1234-EFGH-5678"
+        },
+        "complete": true,
+        "payments_recorded": 1
+      }
+order: 1000

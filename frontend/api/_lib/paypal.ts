@@ -388,3 +388,56 @@ export async function getInvoice(invoiceId: string): Promise<PayPalInvoice> {
   );
   return asInvoice(parsed);
 }
+
+export type PayPalPayment = {
+  payment_id: string;
+  method: string | null;
+  amount: string | null;
+  currency_code: string | null;
+  paid_at: string | null;
+};
+
+export type PayPalInvoicePayments = {
+  invoice: PayPalInvoice;
+  paid_amount: string | null;
+  payments: PayPalPayment[];
+};
+
+/**
+ * Reads an invoice together with the payments applied to it.
+ *
+ * Kept separate from getInvoice() so the shape that /send echoes back to
+ * callers does not grow. PayPal reports one entry per transaction under
+ * `payments.transactions`, so a part-paid invoice has an entry per instalment.
+ * An entry without a `payment_id` is skipped: without a stable id it cannot
+ * be recorded idempotently.
+ */
+export async function getInvoiceWithPayments(
+  invoiceId: string,
+): Promise<PayPalInvoicePayments> {
+  const parsed = await request(
+    "GET",
+    `/v2/invoicing/invoices/${encodeURIComponent(invoiceId)}`,
+  );
+  const payments = (parsed.payments ?? {}) as Record<string, unknown>;
+  const paid = (payments.paid_amount ?? {}) as Record<string, unknown>;
+  const transactions = Array.isArray(payments.transactions)
+    ? (payments.transactions as Record<string, unknown>[])
+    : [];
+  return {
+    invoice: asInvoice(parsed),
+    paid_amount: str(paid.value),
+    payments: transactions
+      .filter((t) => str(t.payment_id) !== null)
+      .map((t) => {
+        const amount = (t.amount ?? {}) as Record<string, unknown>;
+        return {
+          payment_id: String(t.payment_id),
+          method: str(t.method),
+          amount: str(amount.value),
+          currency_code: str(amount.currency_code),
+          paid_at: str(t.payment_date),
+        };
+      }),
+  };
+}
