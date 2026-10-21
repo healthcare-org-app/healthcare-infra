@@ -107,3 +107,6 @@ localResources:
     - ../postman/collections/healthcare-org gateway
 workspace:
   id: 223ddc97-32f2-46ba-b33f-307b4d0444b0
+
+owner:
+  name: Postman DevRel
