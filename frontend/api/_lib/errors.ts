@@ -1,4 +1,5 @@
 import type { VercelResponse } from "@vercel/node";
+import { annotateActiveSpan } from "./telemetry.js";
 
 export class HttpError extends Error {
   code: string;
@@ -16,6 +17,10 @@ export class HttpError extends Error {
 }
 
 export function sendError(res: VercelResponse, err: unknown): void {
+  annotateActiveSpan({
+    "app.error.code": err instanceof HttpError ? err.code : "internal",
+    ...(err instanceof Error ? { "error.type": err.name } : {}),
+  });
   if (err instanceof HttpError) {
     res.status(err.status).json({
       error: {

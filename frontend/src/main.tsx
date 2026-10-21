@@ -5,6 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./auth";
 import App from "./App";
 import "./index.css";
+import { initBrowserTelemetry } from "./telemetry";
+
+initBrowserTelemetry();
 
 const qc = new QueryClient({
   defaultOptions: {

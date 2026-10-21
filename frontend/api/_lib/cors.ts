@@ -1,8 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { withTelemetry } from "./telemetry.js";
 
 export type Handler = (req: VercelRequest, res: VercelResponse) => Promise<void> | void;
 
 export function withCors(handler: Handler): Handler {
+  const instrumented = withTelemetry(handler);
   return async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
@@ -12,6 +14,6 @@ export function withCors(handler: Handler): Handler {
       res.status(204).end();
       return;
     }
-    await handler(req, res);
+    await instrumented(req, res);
   };
 }
