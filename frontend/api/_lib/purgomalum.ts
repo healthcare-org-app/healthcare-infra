@@ -3,7 +3,11 @@ import { HttpError } from "./errors.js";
 // PurgoMalum. Public, unauthenticated, no API key or documented rate
 // limit. Filters/replaces profanity server-side; the caller supplies the
 // replacement style (fill_text/fill_char) rather than us picking one.
-const BASE_URL = "https://www.purgomalum.com/service/json";
+const DEFAULT_BASE_URL = "https://www.purgomalum.com/service/json";
+
+function baseUrl(): string {
+  return (process.env.PURGOMALUM_BASE_URL ?? DEFAULT_BASE_URL).replace(/\/+$/, "");
+}
 
 export type FilterOptions = {
   add?: string;
@@ -16,7 +20,7 @@ async function request(params: Record<string, string>): Promise<Record<string, u
 
   let resp: Response;
   try {
-    resp = await fetch(`${BASE_URL}?${query.toString()}`);
+    resp = await fetch(`${baseUrl()}?${query.toString()}`);
   } catch (err) {
     throw new HttpError(502, "provider_unreachable", err instanceof Error ? err.message : String(err));
   }
