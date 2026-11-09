@@ -1,6 +1,15 @@
 cloudResources:
   collections:
-    ../postman/collections/healthcare-org gateway: healthcare-gateway-collection
+    ../postman/collections/Insurance claims: 48916573-94d3ac5d-0a55-4e98-81bb-42113bee7891
+    ../postman/collections/Insurance claims outage: 48916573-4e8cf41f-7037-42e5-9090-9f121a1736a5
+    ../postman/collections/PayPal invoicing perf: 48916573-a8f02c5a-681d-40b1-9c35-70d609bc550b
+    ../postman/collections/healthcare-org gateway: 48916573-400d1215-edc4-4e63-8f8d-252c2782f6f9
+    ../postman/collections/Patient contact updates: 48916573-5ac0334f-fc4c-46d3-9cd1-f8ace6e98840
+    ../postman/collections/Patient contact updates outage: 48916573-14e83f5d-de53-4b21-998d-dc9a6b21a3f5
+  environments:
+    ../postman/environments/healthcare-org gateway — prod.environment.yaml: 48916573-550e393b-3669-4b36-9c68-499fa1252a5b
+  globals:
+    ../postman/globals/workspace.globals.yaml: 846c1a73-728b-42a1-8864-54d1d8ff5baf
   mocks:
     ../postman/mocks/hc-ai-agents/config.yaml: 943427cc-f11d-41bb-b147-5d355458b5db
     ../postman/mocks/hc-ai-invocations/config.yaml: a8871f8e-f97b-4017-b2e4-38c68e4f3a8d
@@ -101,12 +110,19 @@ cloudResources:
     ../postman/mocks/hc-vitals/config.yaml: 4c232ae5-d150-4f48-a016-52e861d27a87
     ../postman/mocks/hc-waitlist/config.yaml: 6687624b-549c-4a56-ba8d-4e9bad4c4aae
     ../postman/mocks/hc-wards-beds/config.yaml: b0aea6d9-a99e-479b-8943-17456485b14f
+    ../postman/mocks/healthcare-org-gateway/config.yaml: a9bc212f-e982-4d6c-8fcf-159c47e121b5
+    ../postman/mocks/hc-notifications-stateful/config.yaml: 65f310b1-af83-4d78-9ffa-a5ea79d3c408
+    ../postman/mocks/hc-patients-stateful/config.yaml: 10d6e87a-e948-4b57-9e69-f7a6c8c8bf8f
+  simulations:
+    ../postman/simulations/insurance-dev-outage.sim.yaml: 01a1650f-ac0e-73b8-90d7-d04379ddc66d
+    ../postman/simulations/insurance-dev.sim.yaml: 01a1650f-ac06-759b-934a-d68fcdc0668a
+    ../postman/simulations/patient-contact-dev-outage.sim.yaml: 01a1c17e-030b-715f-b9d6-5473d4149d44
+    ../postman/simulations/patient-contact-dev.sim.yaml: 01a1c17e-0304-721a-81ce-041411772df0
 localResources:
   collections:
     - ../postman/collections/Orbit
     - ../postman/collections/healthcare-org gateway
-workspace:
-  id: 223ddc97-32f2-46ba-b33f-307b4d0444b0
-
 owner:
   name: Postman DevRel
+workspace:
+  id: 223ddc97-32f2-46ba-b33f-307b4d0444b0

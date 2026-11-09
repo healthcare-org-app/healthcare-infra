@@ -1,0 +1,20 @@
+$kind: http-request
+name: 'Arm failures for every attempt'
+description: 'Three rejections: all of the service''s attempts fail, then the stand-in recovers.'
+method: POST
+url: '{{simUrl}}/notifications/__fail'
+order: 4000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {"remaining": 3, "status": 503}
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('armed', () => pm.expect(pm.response.json()).to.eql({ remaining: 3, status: 503 }));

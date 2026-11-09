@@ -1,0 +1,13 @@
+$kind: http-request
+description: A malformed id is rejected before any upstream call.
+method: GET
+url: '{{baseUrl}}/api/insurance/claims/abc'
+order: 4000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('400 bad_id in the standard error shape', () => {
+        pm.response.to.have.status(400);
+        pm.expect(pm.response.json().error.code).to.eql('bad_id');
+      });

@@ -1,0 +1,20 @@
+$kind: http-request
+description: >-
+  Graph: GET /api/invoicing is one of the four endpoints a client uses to
+  check invoice state. Limited to 5 rows so list cost stays flat as load
+  runs add and remove rows.
+url: "{{baseUrl}}/api/invoicing?limit=5"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+queryParams:
+  limit: "5"
+order: 8000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("invoicing list ok (200)", function () {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().items).to.be.an("array");
+      });

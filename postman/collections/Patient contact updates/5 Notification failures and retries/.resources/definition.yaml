@@ -1,0 +1,4 @@
+$kind: collection
+name: '5 Notification failures and retries'
+description: 'Failures are armed on the notifications stand-in with POST /__fail {remaining, status}.'
+order: 6000

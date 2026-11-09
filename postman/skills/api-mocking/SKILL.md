@@ -1,141 +1,125 @@
 ---
 name: api-mocking
-description: Stands up a fake backend that behaves like a real API — from a collection or an OpenAPI spec, running locally or pushed to Postman's cloud for a durable URL — plus request-time scenario and status-code overrides for testing failure paths. Use when the user asks to "mock this API," "create a mock server," "fake the backend," "run tests without hitting the real API," or "simulate an error/out-of-stock response." Covers `postman mock`. Depends on bootstrap for the workspace id only once a mock is pushed to the cloud (`-w`, or the workspace linked in `.postman/resources.yaml`) — generating and running a mock locally needs nothing from bootstrap.
+description: Finds, builds, runs and publishes a stand-in for one API — the owning team's published mock when there is one, otherwise one built from its spec or collection that behaves like the real API, stateful when callers write then read. Use when something needs an API that isn't built or reachable yet (a frontend, client or demo), when other teams should build against your API before it ships, or when asked to mock an API or fake a backend. To run and test your own code against the services it calls, use api-simulation. Covers `postman mock` and `postman dependency add mock`.
 ---
 
 # API Mocking
 
-## Overview
+A mock is a folder, `config.yaml` plus a handler such as `default.js`, that
+answers like an API. The handler is a Node HTTP server that calls
+`listen(process.env.PORT)`. It loads as CommonJS even in an ESM project, so
+`import` fails: use `require`. The same mock lives in your repo
+(`postman/mocks/<name>/`, run with `postman mock run`, no sign-in needed),
+in a Postman workspace after `postman mock push`, where other teams pull it
+from, and on a mock server after `postman mock deploy`, for callers that
+can't run it themselves.
 
-This skill covers the Postman CLI (`postman mock`) for **Code Mocks** — the
-code-based mock product. It is not the postman-app UI (Local Mode sidebar,
-Agent Mode tools, Simulations), nor the older classic/collection mocks that
-serve saved collection examples from a `*.mock.pstmn.io` URL — that's a
-different product (the MCP `createMock` flow), not this skill.
+Several APIs at once, for a service, a frontend or a test suite? Use
+`api-simulation`, which gets each member's mock here.
 
-A **local** mock is two files on disk: `config.yaml` (name, port, scenarios) and
-`default.js` — a plain Node HTTP server, and the mock itself, not a wrapper
-around one. Generating, inspecting, running, and calling a local mock work for
-a logged-out guest. Only sharing it — pushing to the cloud and deploying a
-durable URL — needs `postman login`. The progression is one model in three
-places: local folder ──`push`──▶ Code Mock (cloud definition) ──`deploy`──▶
-Mock Server (the reachable URL).
+## Use the owner's mock first
 
-Default path: write a local folder, then `mock push` later if something other
-than you needs to hit it over the network (a teammate, CI elsewhere, a webhook
-sender). A purely local mock answering a `postman request` on your machine
-never needs cloud. The exception is `generate -w`, which creates the mock in a
-workspace only and writes no local files — use that only when you intentionally
-skip the repo copy.
+When the API belongs to another team, look for their published mock before
+writing one: theirs encodes their contract and their service's state; yours
+encodes a guess.
 
-## Process
+Every step below needs a signed-in CLI. Check `postman status` first; signed
+out, skip to building one and say the owner search was skipped.
 
-1. **Generate.** `postman mock generate -n NAME` with no source scaffolds a
-   sample shopping-cart mock (`POST /cart/items`, `GET /cart`, `POST /checkout`)
-   — the fastest way to a server that already answers, useful whenever the
-   point is exercising mock *behavior* rather than a specific API's shape. Pass
-   a real source — `postman mock generate SOURCE -n NAME`, where `SOURCE` is a
-   collection file/directory or an `openapi.yaml` — when the endpoints need to
-   mirror an actual API. Either form writes `config.yaml` + `default.js` into
-   `postman/mocks/NAME/` (default port 4500).
-   - `postman mock generate SOURCE --update ./postman/mocks/NAME` regenerates
-     the default handler from the source in place, keeping the existing name,
-     port, and scenarios. `--update` still needs the `SOURCE`; it cannot be
-     combined with `--output`.
-   - `-w <workspaceId>` saves the mock to a cloud workspace *instead of* the
-     repository — it writes no local files and requires being logged in. Cannot
-     be combined with `--output`, `--force`, or `--update`. Prefer local
-     generate + later `push` when you still need `mock run` from a folder.
-2. **Run it.** `postman mock run ./postman/mocks/NAME` starts the server and
-   prints the bound URL (`... at http://localhost:PORT`). If the port in
-   `config.yaml` is taken and `--port` wasn't passed explicitly, it falls back
-   to a free OS-assigned port instead of erroring — read the real port off that
-   line rather than assuming the configured one. Naming `--port N` explicitly
-   makes a taken port a hard error; `--port auto` always picks a free one.
-3. **Call it.** Plain `postman request localhost:PORT/route` returns the
-   default scenario's response. Two headers can change that per-request, with no
-   restart: `x-mock-scenario: <name>` selects a scenario the mock defines
-   (valid names live in `config.yaml`); a name the mock doesn't define is not an
-   error — it falls back to the default scenario. `x-mock-response-code: <code>`
-   filters an endpoint's saved example responses to the one with that status, so
-   it only changes anything when that endpoint actually has an example for that
-   code — mocks generated from a collection/spec with multiple example statuses
-   honor it; the built-in sample mock has one response per route and ignores it.
-   A wrong route comes back as `Endpoint not defined`. There's no hot reload: a
-   `default.js` edit does nothing until you Ctrl+C the running server and
-   `mock run` it again.
-4. **Push it, if it needs to leave your machine.**
-   `postman mock push ./postman/mocks/NAME` is safe to re-run — `Created` the
-   first time, `Updated` after — and records the cloud mapping in
-   `.postman/resources.yaml`; commit that change. If a mock server is already
-   live for this mock, the push updates what it serves.
-5. **Deploy it, for a URL that outlives your terminal.**
-   `postman mock deploy CLOUD_ID -s SLUG -y` prints
-   `https://SLUG.mock.<team-domain>.postman.dev`. Deployed private by default —
-   callers need a Postman API key (`x-api-key`) — add `--public` only when the
-   mock should be reachable by anyone with the URL. `--auto-deploy` re-publishes
-   the live server automatically whenever the mock changes; even without it, a
-   later `push` already updates a live server, so you only re-`deploy` for the
-   first URL or after taking the server down.
-6. **See who's calling it.** `postman mock get CLOUD_ID` (table or `--json`)
-   returns `mockServerId`; feed that into `postman mock log MOCK_SERVER_ID` for
-   call entries (filter with `--method` / `--status` / `--path` / `--since` /
-   `--until` / `--limit`, or `--json`). An empty log means the URL genuinely
-   hasn't been hit — a rejected caller still shows up, recorded with its failing
-   status code.
-7. **Tear down.**
-   - Local: `postman mock delete ./path --yes` — refuses while that mock is
-     **running** locally; stop `mock run` first.
-   - Cloud: `postman mock delete CLOUD_ID --yes` — refuses while the mock is
-     **running locally** *or* **deployed**; stop the local run and take the
-     mock server down first.
-   Cloud delete doesn't touch `.postman/resources.yaml`; drop that line by hand
-   afterward or the repo keeps claiming a mock that's gone.
+1. Find the owner's workspace with `postman search workspaces "<service>" -o json`.
+   Name the service plainly, as your code does, not by what it returns: a
+   description matches lookalike services. Prefer a Git-connected workspace
+   (`isGitConnected`) named for that service.
+2. List its mocks with `postman mock list -w <workspaceId> --json`.
+   `postman search mocks` misses some, and its `classicMock` results only
+   replay a collection's saved examples: `postman mock` can't pull or run
+   them, so call one at `https://<mockId>.mock.pstmn.io` with
+   `postman request`, or generate a code mock from its collection. A
+   same-named mock in another workspace isn't the owner's.
+3. Pull it with `postman dependency add mock <mockId>` and use it as it is.
+   Never edit `postman/.dependencies/`: `dependency update` overwrites it,
+   so copy a mock to `postman/mocks/` to change it. A pulled copy loses
+   `interceptRequests`, so fork one whose handler reads `req.body` or relies
+   on sessions. A mock is code that runs as you; pull only from workspaces
+   you trust.
 
-To point real request/assertion runs at a mock instead of hand-editing
-base-URL variables, see the `api-testing` skill's `--use-mock`/`--mock` flags
-on `collection run`.
+## Or build one that behaves like the real API
 
-## The two ids that matter
+Callers shouldn't be able to tell the difference on the paths they use. A
+mock that returns invented JSON passes your tests and fails against the
+real service.
 
-- **Code-mock id** — the `id` in `config.yaml`, and the id that `push` and
-  `generate -w` print (often the same value). Use it for `get`, `deploy`,
-  `delete`, and `run` by cloud id.
-- **`mockServerId`** — a different value from `mock get CLOUD_ID` (table or
-  `--json`). Use it for `mock log`, and nothing else.
+- **Start from the contract.** `postman mock generate <spec or collection>`
+  writes each documented response. It's a replay: a `POST` and a later
+  `GET` share nothing, and it accepts any request, so a call that breaks the
+  contract still gets its answer. `x-mock-response-code` picks only a
+  documented status; any other code gets the default 200, so put the errors
+  callers handle (the unknown-id 404, the conflict 409, the bad-input 400) in
+  the contract. From a spec
+  it serves the server URL's base path (`/v2/...`); from a collection,
+  routes start after the base-URL variable. `--update` regenerates the
+  handler and overwrites your edits. With no contract, write it from how
+  your code calls the API and say what you assumed.
+- **Set `interceptRequests: true` in `config.yaml`.** Without it `req.body`
+  and `req.query` are undefined, `x-mock-session` is ignored, and a throw in
+  an async handler kills the mock instead of returning a `500`.
+- **Make it stateful when callers write then read.** Keep records in
+  `pm.state`, seed them on first use, add a reset route so a test can start
+  clean, and answer an unknown id with the real 404. Every `mock run` starts
+  empty.
+- **Know who shares state.** Locally, all callers share one state unless
+  each sends `x-mock-session: <id>`. A mock server deployed from the CLI
+  isolates each caller: one that keeps neither the same `x-mock-session` nor
+  the `pm_mock_session` cookie starts from the seed on every request, so its
+  `POST` and later `GET` never meet.
+- **Scenarios** are named handlers in `config.yaml`'s `scenarios` list, picked
+  per request with `x-mock-scenario: <name>`. An unknown name falls back to
+  the default locally but is a `404` on a mock server.
 
-## Critical Rules
+## Check it against the contract
 
-1. **When you're not signed in, every gated cloud command fails closed:**
-   `Authentication required. Run postman login or provide --api-key`, exit 1,
-   nothing half-done. (Signed in but lacking access fails differently — a
-   permission or missing-workspace error.) Whether a command is gated is decided
-   by what you pass it, not the verb — `mock get`/`mock run` take either a local
-   path (ungated) or a cloud ID (gated); `mock list` is gated only when called
-   with no path.
-2. **`push` is what moves an existing local mock to the cloud — `-w` at
-   `generate` time is optional, not a fork you must choose up front.** A mock
-   built as a guest can be pushed and deployed later with no rework. Do not
-   assume `generate -w` left a `postman/mocks/NAME/` folder to `run`.
-3. **`--public` on `deploy` is the one action here with real exposure** — it
-   stands up a server anyone with the URL can hit, with no API key. The default
-   (private) is the safe one; confirm intent before adding it.
-4. **To change a mock:** refresh it from a source with
-   `postman mock generate SOURCE --update PATH`, or edit `default.js` by hand
-   and restart `mock run`. Never pass a code-mock id to `mock log` — that
-   command takes a `mockServerId`.
-5. **`-w`/`--workspace` only exists on `generate`, `list`, `push`, and
-   `deploy`.** `get`, `run`, `log`, and `delete` already take a path or an id
-   that says where the mock is — there's nothing left for `-w` to resolve on
-   those.
+`postman mock run` prints the URL it bound; a busy configured port moves
+unless you pass `--port`, so take the URL from that line. Nothing reloads:
+restart it after an edit.
 
-## Verification
+A mock checked against the handler you just wrote proves nothing, so call
+it with requests from the contract: `postman request`, or the API's
+collection with
+`postman collection run <collection> --use-mock "{{baseUrl}} mock:postman/mocks/<name>"`
+(`--mock` alone only starts it). That form replaces the variable's whole
+value, base path included, so a mock generated from a spec that serves
+`/v2/...` answers `404`; start that one with `--mock <path> --port <n>` and
+pass `--env-var "baseUrl=http://localhost:<n>/v2"`. To check your own calls
+against a contract, compare each one, from the code or a simulation log,
+with the spec; the mock won't reject a wrong one.
 
-A mock isn't done because `generate` or `run` exited 0 — hit it with
-`postman request` and check the actual status/body, or `mock get CLOUD_ID
---json` for a cloud one, then state whether it ended up local or cloud, and
-(if deployed) private or public. For a scenario check, confirm a *valid* name
-from `config.yaml` actually changed the response — a typo'd name falls back to
-the default, so a 200 alone proves nothing. For a status-code check, use an
-endpoint that has an example for that code (not the sample mock). A passing
-exit code from `request` is not enough.
+## Publish it for other teams
+
+- **Push it to the service's own workspace,** the one this repo is linked
+  to or the one the user names, never one chosen by name match: other
+  teams' simulations look there. Signed out, the push fails but the local
+  mock still works; build it, say so and ask the user to sign in. Keep it
+  honest: change the mock in the same PR as the API and run the API's
+  collection against it.
+- **Deploy only when a caller needs a URL.** The server takes a slug of 3–32
+  lowercase letters, digits and single hyphens, starting and ending with a
+  letter or digit; the CLI accepts more, and its default can be too long.
+  It's private: callers send an API key as `x-api-key`, or, if they can
+  view the workspace, an access token as `x-access-token`. Deploying needs a paid plan; a team's first
+  server can take minutes to answer, and teams that review deploys hold them
+  for approval. Each later `push` changes what every caller of the server
+  gets, so treat it as a release, not a backup.
+- **Write it for where it runs.** A mock server runs each scenario as one
+  file with Node's built-ins, not `fs` or `child_process`: no local
+  `require`s, no `pm.mock` examples, no environment, no console output, and
+  no caller `authorization`, `cookie` or `x-api-key` headers. A mock that
+  relies on any of these works locally and breaks once deployed.
+- **Ask before `--public`.** It serves the mock and its data to anyone with
+  the URL, and a scripted redeploy can't make it private again.
+
+## Before you say it's done
+
+A mock isn't done because it started. Call it: a documented error comes
+back, a valid scenario changes the response, a `POST` then `GET` shows state
+if it should. Say where it runs and who can call it, where it lives, and
+what you assumed.

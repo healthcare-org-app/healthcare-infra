@@ -1,0 +1,19 @@
+$kind: http-request
+name: 'Rejected requests wrote nothing'
+description: 'Of ten rejected requests only the unknown-patient one reached patients-service, and only to read.'
+method: GET
+url: '{{simUrl}}/patients/__calls'
+order: 4000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const calls = pm.response.json().calls;
+      const before = Number(pm.collectionVariables.get('callsBefore'));
+      const patchesBefore = Number(pm.collectionVariables.get('patchesBefore'));
+      pm.test('no PATCH since the snapshot', () => pm.expect(calls.filter((c) => c.method === 'PATCH')).to.have.length(patchesBefore));
+      pm.test('exactly one call since the snapshot: the read for patient 999', () => {
+        pm.expect(calls.slice(before)).to.eql([{ method: 'GET', path: '/api/patients/999' }]);
+      });

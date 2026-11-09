@@ -1,0 +1,17 @@
+$kind: http-request
+description: >-
+  Cleanup, children first: statements and payments reference the invoice, so
+  they go before the invoicing row.
+url: "{{baseUrl}}/api/statements/{{perf_statement_id}}"
+method: DELETE
+headers:
+  Authorization: Bearer {{apiKey}}
+order: 10000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("statement deleted (200)", function () {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().deleted).to.eql(true);
+      });

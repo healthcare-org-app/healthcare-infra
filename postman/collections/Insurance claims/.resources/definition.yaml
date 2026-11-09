@@ -1,0 +1,31 @@
+$kind: collection
+name: Insurance claims
+description: |-
+  GET /api/insurance/claims/{id} for a claims reviewer: insurance_id, patient_name, amount, status.
+
+  The service reads the claim (id, patient_id, amount, status) from claims-submission-service and the
+  patient's first_name/last_name from patients-service. `insurance_id` is the claim's own id.
+
+  Run against the local service and the insurance-dev simulation (no other setup):
+
+      scripts/dev-insurance.sh start
+      postman collection run "postman/collections/Insurance claims" \
+        --simulation postman/simulations/insurance-dev.sim.yaml --port 4300
+
+  Dependency-failure (502) checks live in the separate "Insurance claims outage" collection.
+variables:
+  - key: baseUrl
+    value: 'http://localhost:4400'
+    description: Local insurance service (scripts/dev-insurance.sh).
+  - key: apiKey
+    value: demo-key
+    description: Local dev key only (scripts/dev-insurance.sh default GATEWAY_API_KEY). Not a real credential.
+  - key: claim_id
+    value: '1'
+  - key: unknown_claim_id
+    value: '999'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{apiKey}}'

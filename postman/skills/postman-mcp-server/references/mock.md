@@ -1,6 +1,5 @@
 ---
 description: Create Postman mock servers for frontend development. Generates missing examples, provides integration config.
-allowed-tools: Bash, Read, Write, Glob, Grep, mcp__postman__getWorkspaces, mcp__postman__getCollections, mcp__postman__getCollection, mcp__postman__getCollectionRequest, mcp__postman__createCollectionResponse, mcp__postman__createSpec, mcp__postman__generateCollection, mcp__postman__getGeneratedCollectionSpecs, mcp__postman__getSpecCollections, mcp__postman__getAsyncSpecTaskStatus, mcp__postman__getMocks, mcp__postman__getMock, mcp__postman__createMock, mcp__postman__publishMock, mcp__postman__unpublishMock
 ---
 
 # Create Mock Servers
@@ -9,7 +8,7 @@ Spin up a Postman mock server from a collection or spec. Get a working mock URL 
 
 ## Prerequisites
 
-The Postman MCP Server must be connected. If MCP tools aren't available, tell the user: "Run `/postman:setup` to configure the Postman MCP Server."
+The Postman MCP Server must be connected. If MCP tools aren't available, follow `references/setup.md` to connect it.
 
 ## Workflow
 
@@ -94,8 +93,8 @@ If the user wants the mock publicly accessible:
 
 ## Error Handling
 
-- **MCP not configured:** "Run `/postman:setup` to configure the Postman MCP Server."
+- **MCP not configured:** Follow `references/setup.md` to connect the Postman MCP Server.
 - **No examples in collection:** Auto-generate from schemas (Step 2). If no schemas either, ask the user to provide sample responses.
-- **401 Unauthorized:** "Your Postman API key was rejected. Generate a new one at https://go.postman.co/settings/me/api-keys and run `/postman:setup`."
+- **401 Unauthorized:** "Your Postman API key was rejected. Generate a new one at https://go.postman.co/settings/me/api-keys." Then re-authenticate with `references/setup.md`.
 - **MCP timeout:** Retry once. If it still fails, check https://status.postman.com for outages.
 - **Plan limitations:** "Mock server creation may require a Postman Basic plan or higher for increased usage limits."

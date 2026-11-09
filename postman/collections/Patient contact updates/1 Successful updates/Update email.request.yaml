@@ -1,0 +1,28 @@
+$kind: http-request
+name: 'Update email'
+description: 'Email is trimmed and lower-cased, saved, and confirmed once to the new address.'
+method: PATCH
+url: '{{baseUrl}}/api/patients/1/contact'
+order: 1000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    { "email": "  Jane.New@Example.com " }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const r = pm.response.json();
+      pm.test('200 changed=[email], confirmation sent on the first attempt', () => {
+        pm.response.to.have.status(200);
+        pm.expect(r.changed).to.eql(['email']);
+        pm.expect(r.notifications).to.eql([{ channel: 'email', to: 'j***@example.com', status: 'sent', attempts: 1 }]);
+        pm.expect(r.warnings).to.be.undefined;
+      });
+      pm.test('response carries the normalised email and the untouched phone', () => {
+        pm.expect(r.patient.email).to.eql('jane.new@example.com');
+        pm.expect(r.patient.phone).to.eql('555-0142');
+      });

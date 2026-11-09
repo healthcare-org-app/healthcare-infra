@@ -1,0 +1,23 @@
+$kind: http-request
+name: 'Update email, first send fails then succeeds'
+description: 'The service retries inside the request: attempt 2 succeeds.'
+method: PATCH
+url: '{{baseUrl}}/api/patients/1/contact'
+order: 2000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    { "email": "retry@example.com" }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const r = pm.response.json();
+      pm.test('200, sent on the second attempt, no warning', () => {
+        pm.response.to.have.status(200);
+        pm.expect(r.notifications).to.eql([{ channel: 'email', to: 'r***@example.com', status: 'sent', attempts: 2 }]);
+        pm.expect(r.warnings).to.be.undefined;
+      });

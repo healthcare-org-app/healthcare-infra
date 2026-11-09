@@ -1,0 +1,35 @@
+$kind: http-request
+description: >-
+  Graph: POST /api/payments (CALLS GET /api/invoicing/:record_id) is how a
+  payment is written after an invoice is sent. Method "paypal" matches the
+  gateway's payment-method options. (The graph's POST /api/payments/pay,
+  "Record a payment and publish invoice.paid", is exposed by payments-service
+  but not by healthcare-infra, so it is not part of this flow.)
+url: "{{baseUrl}}/api/payments"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "invoice_id": "{{perf_invoice_id}}",
+      "amount": {{perf_amount}},
+      "method": "paypal"
+    }
+order: 5000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("payment created (201)", function () {
+        pm.response.to.have.status(201);
+      });
+      pm.test("payment has an id", function () {
+        const id = pm.response.json().id;
+        pm.expect(id).to.exist;
+        pm.collectionVariables.set("perf_payment_id", String(id));
+      });

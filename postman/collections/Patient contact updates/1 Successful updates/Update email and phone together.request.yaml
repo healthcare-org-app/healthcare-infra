@@ -1,0 +1,25 @@
+$kind: http-request
+name: 'Update email and phone together'
+description: 'Both channels change in one request: one write sequence, one confirmation per channel.'
+method: PATCH
+url: '{{baseUrl}}/api/patients/1/contact'
+order: 6000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    { "email": "jane.final@example.com", "phone": "+44 20 7946 0958" }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const r = pm.response.json();
+      pm.test('200 changed=[email, phone], two confirmations sent', () => {
+        pm.response.to.have.status(200);
+        pm.expect(r.changed).to.have.members(['email', 'phone']);
+        pm.expect(r.notifications.map((n) => n.channel)).to.have.members(['email', 'phone']);
+        pm.expect(r.notifications.every((n) => n.status === 'sent' && n.attempts === 1)).to.be.true;
+      });
+      pm.test('international number kept as E.164', () => pm.expect(r.patient.phone).to.eql('+442079460958'));

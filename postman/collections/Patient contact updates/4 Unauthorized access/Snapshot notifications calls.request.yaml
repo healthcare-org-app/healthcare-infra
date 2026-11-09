@@ -1,0 +1,14 @@
+$kind: http-request
+name: 'Snapshot notifications calls'
+description: 'Send attempts before the unauthorized requests.'
+method: GET
+url: '{{simUrl}}/notifications/__calls'
+order: 750
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.collectionVariables.set('attemptsBefore', String(pm.response.json().attempts));
+      pm.test('snapshot taken', () => pm.response.to.have.status(200));

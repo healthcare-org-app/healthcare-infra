@@ -1,0 +1,19 @@
+# patient-contact-dev with notifications-service failing every request with 503.
+# patients stays healthy so persistence can be checked while the confirmation fails.
+#   postman simulation run postman/simulations/patient-contact-dev-outage.sim.yaml --port 4301
+#   PATIENTS_API_URL=http://localhost:4301/patients NOTIFICATIONS_API_URL=http://localhost:4301/notifications-down \
+#     SERVE_PORT=4401 scripts/dev-insurance.sh start
+simulation: patient-contact-dev-outage
+routing: path
+mocks:
+  - name: hc-patients-stateful
+    routeKey: patients
+    path: ../mocks/hc-patients-stateful/config.yaml
+  - name: hc-notifications-stateful-down
+    routeKey: notifications-down
+    path: ../mocks/hc-notifications-stateful/config.yaml
+    scenarios:
+      - overrides:
+          conditions:
+            error:
+              status_code: 503

@@ -1,0 +1,11 @@
+# Upstreams for the insurance service (frontend/api/insurance/). Serve: scripts/dev-sim.sh start
+# Failing-dependency variants live in insurance-dev-outage.sim.yaml (a simulation cannot list one mock twice).
+simulation: insurance-dev
+routing: path
+mocks:
+  - name: hc-patients
+    routeKey: patients
+    path: ../mocks/hc-patients/config.yaml
+  - name: hc-claims-submission
+    routeKey: claims
+    path: ../mocks/hc-claims-submission/config.yaml

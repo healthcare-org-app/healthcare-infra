@@ -1,0 +1,17 @@
+$kind: http-request
+name: 'Exactly one delivery per confirmation'
+description: 'Email once, sms once; 2 + 3 failed + 1 = 6 attempts reached the stand-in.'
+method: GET
+url: '{{simUrl}}/notifications/__calls'
+order: 8000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const c = pm.response.json();
+      pm.test('two deliveries (email, sms), six attempts', () => {
+        pm.expect(c.attempts).to.eql(6);
+        pm.expect(c.delivered.map((d) => d.channel + ':' + d.to)).to.eql(['email:retry@example.com', 'sms:+14155550123']);
+      });

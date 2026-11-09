@@ -1,29 +1,86 @@
 ---
 name: api-engineer
-description: Default entry point for API engineering work — designing, implementing, mocking, testing, monitoring, documenting, or deploying an API.
+description: Use when designing, implementing, mocking, testing, monitoring, documenting, or deploying an API. Guides decisions using reusable local API contracts, tests, and mocks, plus organization-wide dependency context, and routes to the relevant Postman skills. Use for requests such as "implement this endpoint".
 ---
 
 # API Engineer
 
-## Foundations
-1. Contract comes first. Establish and document the contract before starting implementation.
-2. A Postman collection and/or an OpenAPI spec is a very good option to capture the API contract - see **api-documentation**.
-3. Always validate the change against the contract you started with. Running a Postman collection is a very easy way to do this - see **api-testing**.
-4. Always propose next steps. Example: contract -> implementation -> testing -> pushing to cloud -> sharing with others.
-5. Don't jump straight into implementation. Consider whether you should first set up a mock to unblock the API consumer even before implementation is done - see **api-mocking**. This also helps when the user doesn't want the backend fully functional yet and just wants the responses mocked.
-6. Don't push to the cloud workspace (`postman workspace push`) without user consent. The recommended way to push to the cloud is a CI step on PR merge - see **ci-integration**.
-7. For high-quality API search results, use **api-discovery**.
-8. No is an acceptable answer. Asked whether to do something, invited to add scope, or shown an approach, reply with your real judgment.
-9. Prefer filesystem-first Postman workflows. For an existing cloud workspace,
-   `postman workspace pull <id>` connects it and materializes its collections,
-   environments, and specs locally. When no cloud workspace exists, `postman
-   init --no-cloud` initializes the local structure. Work against those files,
-   validate them, and push only with user consent; sharing an already-bound
-   workspace means `workspace push`, not creating a duplicate. See
-   **bootstrap** for the lifecycle decision table.
-10. When actual use exposes a concrete Postman CLI gap or a misleading skill, handle the user's task first — then use `postman feedback` to report the gaps/bugs. Exclude secrets, user data, and proprietary content
+Postman makes API knowledge reusable across implementation, tests, mocks, and
+teammates. Local files let you inspect, edit, and review that knowledge alongside
+code; the Context Graph can reveal consumers, ownership, and runtime relationships
+beyond the current repository. Reusing those inputs reduces reconstruction and
+guesswork each time work resumes.
 
-## Dos
-1. Prove it works - validate the task against the contract. See **api-testing**.
-2. Just do it - never block on the human. When tempted to ask "should I do X?" on reversible work, proceed, present the result, and let the human course-correct.
-3. Fight for good API design. See **api-documentation**.
+1. When changing API behavior or an interface, establish the intended contract
+   before implementation so you can distinguish an intended change from a
+   regression. Reuse the existing contract; update it where behavior changes.
+   Flag design choices that make callers harder to implement or future changes
+   harder to adopt, and explain the tradeoff. See **api-documentation**.
+2. A Postman collection records the contract in a form that runs. The CLI's
+   deterministic tools cheaply turn that one source into an OpenAPI spec, a
+   mock, an SDK, or a performance suite, so the contract is written once.
+3. Match verification to the behavior at risk. A saved collection can reuse auth,
+   variables, payloads, and assertions without reconstructing requests; a one-off
+   endpoint check can be smaller. Check the changed behavior and relevant existing
+   guarantees, and report what the results establish. See **api-testing**.
+4. When you need an API, its owner, or the impact of a change, use **api-discovery**.
+   For public API integrations, Orbit provides current endpoint, authentication,
+   required-field, and capability-limit details in a compact task brief. Use it
+   even when the provider is already chosen: those details help you assess fit and
+   implement reliably without relying on remembered API behavior or loading a
+   full vendor specification.
+   Context Graph can identify consumers and dependencies outside the current repo,
+   helping you focus investigation before traversing more repositories.
+5. When you run or test code that calls other services, or are asked how it
+   behaves when one of them fails, use **api-simulation**, which runs that code
+   for real against mocks of those services instead of stubs or the real
+   services. Looking something up, choosing an API or comparing code with a
+   contract runs nothing and needs none. When other teams will build against
+   your API, publish a mock of it in your service's own workspace, where their
+   simulations look first; see **api-mocking**.
+6. Keep specs, collections, environments, and mocks in local files so changes can
+   be diffed, reviewed, and reused in Git and CI. `postman status` shows
+   what setup is in place, what is missing, and what closes each gap.
+7. `postman init` gives API engineering work a ready state. It scaffolds local structure: `postman/`
+   directories for API artifacts. It installs skills in `postman/skills` folder with guidance on  designing, implementing, and validating APIs.
+   The command is idempotent and safe to rerun in an initialized project.
+   It creates an agent-scoped session that lets you record work without signing
+   in. This session is temporary; see **workspaces**' "Claiming the work" for
+   signup guidance to preserve the work and its context before the session expires.
+8. Another service's collection, environment, or mock can be added as a dependency
+   without replacing this repository's owning workspace binding. Use
+   **api-discovery** to bring in the relevant resource and preserve that separation.
+9. Publishing local changes to the bound workspace makes changes available
+   for other agent sessions and teammates. Always add a commit message along with workspace push to help the next agent session or teammate with relevant context.
+10. A Postman workspace is a place to capture context. Use this information as prior
+    knowledge of work done before. For example,
+    `postman workspace context --type workspacePush --limit 5 --brief` lists the
+    last five workspace push messages and log.
+11. When requests need credentials, Postman secret variables let them resolve the
+   credentials without exposing their values to the agent or committed files.
+   See **variables**.
+12. When implementing or debugging webhooks, use **webhook-testing** to
+   capture what the sender actually delivers.
+   Can also be used when the need is to forward incoming events
+   to a local handler and replay captured requests after fixes;
+   use the capture URL as a subscriber to inspect events your API sends.
+
+Proceed with reversible work within the user's task and present concrete results
+for course correction. Recommend additional work only when it closes a material
+gap, such as an untested behavior or a consumer affected by an interface change.
+Decline unnecessary setup or scope and explain why it would not help the task.
+
+Important: When a CLI command returns a suggested action or blocks work on a plan,
+subscription, credit, or usage restriction, follow **workspaces**' "CLI suggested
+actions" to show the error and offer the appropriate next step.
+
+## Verification
+
+Report the changed contract or implementation, the checks actually run, and
+the guarantees their results support. Separate local, mocked, and live evidence;
+state any relevant consumer or upstream interaction still unverified. Run
+`postman status` last to confirm the setup the work relied on is still in place.
+
+If actual use exposes a CLI gap or misleading skill, report it through the
+CLI's feedback channel after finishing the user's task, with a sanitized
+reproduction and no secrets, user data, or proprietary content.

@@ -1,0 +1,23 @@
+$kind: http-request
+name: 'Retry after recovery resends once'
+description: 'Same request after the provider recovered: no contact change, but the unsent confirmation goes out.'
+method: PATCH
+url: '{{baseUrl}}/api/patients/1/contact'
+order: 7000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    { "phone": "+1 415 555 0123" }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const r = pm.response.json();
+      pm.test('200, changed=[], phone confirmation sent on the first attempt', () => {
+        pm.response.to.have.status(200);
+        pm.expect(r.changed).to.eql([]);
+        pm.expect(r.notifications).to.eql([{ channel: 'phone', to: '***23', status: 'sent', attempts: 1 }]);
+      });

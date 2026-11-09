@@ -1,0 +1,24 @@
+$kind: http-request
+name: 'Update email while notifications are down'
+description: '503 on every attempt: three attempts, then reported as failed; the update itself is kept.'
+method: PATCH
+url: '{{baseUrl}}/api/patients/1/contact'
+order: 2000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    { "email": "outage@example.com" }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const r = pm.response.json();
+      pm.test('200, confirmation failed after 3 attempts, warning present', () => {
+        pm.response.to.have.status(200);
+        pm.expect(r.changed).to.eql(['email']);
+        pm.expect(r.notifications).to.eql([{ channel: 'email', to: 'o***@example.com', status: 'failed', attempts: 3 }]);
+        pm.expect(r.warnings).to.have.length(1);
+      });

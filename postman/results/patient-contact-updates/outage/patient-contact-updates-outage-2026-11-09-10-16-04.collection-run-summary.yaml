@@ -1,0 +1,87 @@
+kind: postman-cli-collection-run-summary
+schemaVersion: 1
+runId: c88d4c33-4e74-4394-ac92-6340cc924684
+state: completed
+generatedAt: '2026-11-09T18:16:05.579Z'
+files:
+  summary: patient-contact-updates-outage-2026-11-09-10-16-04.collection-run-summary.yaml
+  executions: patient-contact-updates-outage-2026-11-09-10-16-04.collection-run-executions.yaml
+meta:
+  collection:
+    id: ba909eff-92e5-4e48-91df-139d55ff284b
+    name: Patient contact updates outage
+    description:
+      content: |-
+        notifications-service answering 503 to every request (the notifications-down member of
+        patient-contact-dev-outage.sim.yaml, an injected fault), with patients-service healthy. Proves the contact
+        change is still saved and the failed confirmation is reported. Kept apart from "Patient contact updates"
+        because it needs a second service instance pointed at the failing dependency. The faulted member never
+        reaches the mock, so what was NOT delivered is shown by the service's own report, not by a stand-in log.
+
+            SERVE_PORT=4401 PATIENTS_API_URL=http://localhost:4301/patients \
+              NOTIFICATIONS_API_URL=http://localhost:4301/notifications-down scripts/dev-insurance.sh start
+            postman collection run "postman/collections/Patient contact updates outage" \
+              --simulation postman/simulations/patient-contact-dev-outage.sim.yaml --port 4301
+            SERVE_PORT=4401 scripts/dev-insurance.sh stop
+      type: text/plain
+  environment:
+    id: d8546a18-5a13-4650-8e81-f18c23c672d8
+    name: null
+  started: '2026-11-09T18:16:04.680Z'
+  completed: '2026-11-09T18:16:05.578Z'
+  durationMs: 898
+environment:
+  cli:
+    version: 1.86.0
+    userAgent: Postman CLI/1.86.0
+    agent: claude-code_2-1-231_agent
+  system:
+    os:
+      type: Darwin
+      platform: darwin
+      arch: arm64
+      release: 25.6.0
+    hardware:
+      cpus: 12
+      totalMemory: 25769803776
+  isCI: false
+  ci: null
+  git:
+    branch: add-new-relic-and-graph-signals
+    commit: 8b5f0849c338ea25f5a50f170bb2ba7613e2bd91
+    commitShort: 8b5f084
+    remoteUrl: https://github.com/healthcare-org-app/healthcare-infra.git
+    dirty: true
+stats:
+  iterations:
+    executed: 1
+    errors: 0
+  executedRequests:
+    executed: 4
+    errors: 0
+  prerequestScripts:
+    executed: 0
+    errors: 0
+  postresponseScripts:
+    executed: 4
+    errors: 0
+  tests:
+    executed: 5
+    failed: 0
+  timeStats:
+    responseAverage: 210
+    responseMin: 12
+    responseMax: 420
+    responseStandardDeviation: 180.83694312833316
+transfers:
+  responseTotal: 1734
+failures: []
+executionsRecorded: 4
+simulation:
+  request_log:
+    - request: POST /patients/__reset
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /patients/api/patients/1
+      iteration: 1
+      scenarios_applied: []

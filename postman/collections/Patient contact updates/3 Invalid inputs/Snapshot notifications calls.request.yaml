@@ -1,0 +1,16 @@
+$kind: http-request
+name: 'Snapshot notifications calls'
+description: 'Record send attempts and deliveries so far.'
+method: GET
+url: '{{simUrl}}/notifications/__calls'
+order: 1500
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const c = pm.response.json();
+      pm.collectionVariables.set('attemptsBefore', String(c.attempts));
+      pm.collectionVariables.set('deliveredBefore', String(c.delivered.length));
+      pm.test('snapshot taken', () => pm.expect(c.attempts).to.be.a('number'));

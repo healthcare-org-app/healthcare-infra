@@ -1,0 +1,15 @@
+$kind: http-request
+name: 'Unauthorized requests reached no dependency'
+description: 'Not even the read: patients-service call count equals the snapshot.'
+method: GET
+url: '{{simUrl}}/patients/__calls'
+order: 3000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('no patients-service call since the snapshot', () => {
+        pm.expect(pm.response.json().calls).to.have.length(Number(pm.collectionVariables.get('callsBefore')));
+      });

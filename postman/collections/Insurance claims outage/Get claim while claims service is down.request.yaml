@@ -1,0 +1,15 @@
+$kind: http-request
+description: claims-submission-service answers 503, so the service answers 502 and names the upstream.
+method: GET
+url: '{{claimsDownUrl}}/api/insurance/claims/{{claim_id}}'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('502 naming claims-submission-service', () => {
+        pm.response.to.have.status(502);
+        const err = pm.response.json().error;
+        pm.expect(err.code).to.eql('upstream_error');
+        pm.expect(err.detail.upstream).to.eql('claims-submission-service');
+      });

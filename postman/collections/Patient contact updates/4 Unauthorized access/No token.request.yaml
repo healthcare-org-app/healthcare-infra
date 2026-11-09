@@ -1,0 +1,23 @@
+$kind: http-request
+name: 'No token'
+description: 'A valid change for patient 1 with no bearer token.'
+method: PATCH
+url: '{{baseUrl}}/api/patients/1/contact'
+order: 1000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    { "email": "attacker@example.com" }
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('401 unauthorized', () => {
+        pm.response.to.have.status(401);
+        pm.expect(pm.response.json().error.code).to.eql('unauthorized');
+      });

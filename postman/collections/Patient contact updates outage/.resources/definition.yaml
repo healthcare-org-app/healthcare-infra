@@ -1,0 +1,28 @@
+$kind: collection
+name: Patient contact updates outage
+description: |-
+  notifications-service answering 503 to every request (the notifications-down member of
+  patient-contact-dev-outage.sim.yaml, an injected fault), with patients-service healthy. Proves the contact
+  change is still saved and the failed confirmation is reported. Kept apart from "Patient contact updates"
+  because it needs a second service instance pointed at the failing dependency. The faulted member never
+  reaches the mock, so what was NOT delivered is shown by the service's own report, not by a stand-in log.
+
+      SERVE_PORT=4401 PATIENTS_API_URL=http://localhost:4301/patients \
+        NOTIFICATIONS_API_URL=http://localhost:4301/notifications-down scripts/dev-insurance.sh start
+      postman collection run "postman/collections/Patient contact updates outage" \
+        --simulation postman/simulations/patient-contact-dev-outage.sim.yaml --port 4301
+      SERVE_PORT=4401 scripts/dev-insurance.sh stop
+variables:
+  - key: baseUrl
+    value: 'http://localhost:4401'
+    description: Service instance whose notifications upstream is notifications-down.
+  - key: simUrl
+    value: 'http://localhost:4301'
+  - key: apiKey
+    value: demo-key
+    description: Local dev key only (scripts/dev-insurance.sh default GATEWAY_API_KEY). Not a real credential.
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{apiKey}}'

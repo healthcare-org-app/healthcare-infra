@@ -1,0 +1,41 @@
+$kind: http-request
+description: >-
+  Graph: POST /api/invoicing/:id/send, "Create and send an invoice via
+  PayPal" (healthcare-infra; the PayPal ExternalService is attached to this
+  API; Supabase is its database). The graph records no endpoint-level edges
+  for it, so this step is the PayPal hop in the chain. `include_description`
+  stays false so the clinical description never leaves the BAA boundary.
+url: "{{baseUrl}}/api/invoicing/{{perf_invoice_id}}/send"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "item_name": "Medical services",
+      "include_description": false,
+      "due_days": 30,
+      "subject": "Invoice from your care team"
+    }
+order: 3000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("invoice sent (200)", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("send returns a PayPal invoice with a payer-view link", function () {
+        const body = pm.response.json();
+        pm.expect(body.paypal_invoice).to.have.property("id");
+        pm.expect(body.paypal_invoice.id).to.be.a("string").and.not.empty;
+        pm.expect(body.paypal_invoice.payer_view_url).to.be.a("string").and.not.empty;
+        pm.collectionVariables.set("perf_paypal_invoice_id", body.paypal_invoice.id);
+      });
+      pm.test("first send reports invoice_sent=true and status sent", function () {
+        const body = pm.response.json();
+        pm.expect(body.invoice_sent).to.eql(true);
+        pm.expect(body.status).to.eql("sent");
+      });

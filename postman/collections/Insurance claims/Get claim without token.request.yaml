@@ -1,0 +1,15 @@
+$kind: http-request
+description: Bearer auth is required; no upstream is called without it.
+method: GET
+url: '{{baseUrl}}/api/insurance/claims/{{claim_id}}'
+order: 3000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('401 unauthorized in the standard error shape', () => {
+        pm.response.to.have.status(401);
+        pm.expect(pm.response.json().error.code).to.eql('unauthorized');
+      });

@@ -1,0 +1,26 @@
+$kind: http-request
+name: 'Record unchanged after rejected requests'
+description: 'Still the values from the last successful update, first_name still Jane.'
+method: GET
+url: '{{simUrl}}/patients/api/patients/1'
+order: 6000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{apiKey}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const seed = { id: 1, status: 'active', created_at: '2026-01-15T09:30:00.000Z', first_name: 'Jane', last_name: 'Doe',
+        dob: '1985-04-12', mrn: 'MRN-100234', blood_type: 'O+', identity_sub: 'auth0|jane-doe' };
+      const p = pm.response.json();
+      pm.test('fields outside email/phone/contact_confirmations are unchanged', () => {
+        Object.keys(seed).forEach((k) => pm.expect(p[k], k).to.eql(seed[k]));
+      });
+
+      pm.test('email and phone are the last successful values', () => {
+        pm.expect(p.email).to.eql('jane.final@example.com');
+        pm.expect(p.phone).to.eql('+442079460958');
+      });

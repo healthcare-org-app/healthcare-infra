@@ -1,0 +1,22 @@
+$kind: http-request
+name: 'Confirmation delivered once'
+description: 'Exactly one email to the new address, without echoing the address in the body.'
+method: GET
+url: '{{simUrl}}/notifications/__calls'
+order: 3000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const c = pm.response.json();
+      pm.test('one send, one delivery, to the new address on the email channel', () => {
+        pm.expect(c.attempts).to.eql(1);
+        pm.expect(c.delivered).to.have.length(1);
+        pm.expect(c.delivered[0].to).to.eql('jane.new@example.com');
+        pm.expect(c.delivered[0].channel).to.eql('email');
+      });
+      pm.test('subject and body do not contain the address', () => {
+        pm.expect(c.delivered[0].subject + ' ' + c.delivered[0].body).to.not.include('jane.new');
+      });

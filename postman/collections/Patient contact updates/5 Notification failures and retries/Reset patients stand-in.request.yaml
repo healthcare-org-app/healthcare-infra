@@ -1,0 +1,13 @@
+$kind: http-request
+name: 'Reset patients stand-in'
+description: 'Clean slate.'
+method: POST
+url: '{{simUrl}}/patients/__reset'
+order: 500
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('reset', () => pm.response.to.have.status(200));

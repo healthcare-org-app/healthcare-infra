@@ -1,0 +1,15 @@
+$kind: http-request
+description: "Cleanup, removes this iteration's payment row."
+url: "{{baseUrl}}/api/payments/{{perf_payment_id}}"
+method: DELETE
+headers:
+  Authorization: Bearer {{apiKey}}
+order: 11000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("payment deleted (200)", function () {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().deleted).to.eql(true);
+      });

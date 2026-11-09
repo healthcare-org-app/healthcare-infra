@@ -1,0 +1,25 @@
+$kind: http-request
+description: >-
+  Graph: GET /api/invoicing/:id is the status-check endpoint for an invoice,
+  and the call POST /api/payments depends on. After /send the row must read
+  back as sent with the PayPal invoice pointer persisted.
+url: "{{baseUrl}}/api/invoicing/{{perf_invoice_id}}"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+order: 4000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("invoicing row readable (200)", function () {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json()).to.have.property("id");
+      });
+      if (pm.variables.get("perf_target") !== "mock") {
+        pm.test("row is sent and linked to the PayPal invoice", function () {
+          const body = pm.response.json();
+          pm.expect(body.status).to.eql("sent");
+          pm.expect(body.paypal_invoice_id).to.eql(pm.collectionVariables.get("perf_paypal_invoice_id"));
+        });
+      }

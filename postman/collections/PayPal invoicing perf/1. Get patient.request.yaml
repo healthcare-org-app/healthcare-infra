@@ -1,0 +1,21 @@
+$kind: http-request
+description: >-
+  Graph edge: POST /api/invoicing → GET /api/patients/:patient_id. The patient
+  must exist and carry an email, or /send later 422s `no_email`.
+url: "{{baseUrl}}/api/patients/{{patient_id}}"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("patient exists", function () {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json()).to.have.property("id");
+      });
+      pm.test("patient has an email on file (required by /send)", function () {
+        const email = String(pm.response.json().email || "").trim();
+        pm.expect(email, "patient.email").to.not.be.empty;
+      });

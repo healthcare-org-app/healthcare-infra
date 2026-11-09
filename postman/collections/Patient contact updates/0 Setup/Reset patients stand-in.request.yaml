@@ -1,0 +1,13 @@
+$kind: http-request
+name: 'Reset patients stand-in'
+description: 'Patients 1 and 2 back to seed; call log emptied.'
+method: POST
+url: '{{simUrl}}/patients/__reset'
+order: 1000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('reset', () => pm.response.to.have.status(200));

@@ -1,6 +1,5 @@
 ---
 description: Run Postman collection tests, analyze results, diagnose failures, and suggest fixes.
-allowed-tools: Bash, Read, Write, Glob, Grep, mcp__postman__getWorkspaces, mcp__postman__getCollections, mcp__postman__getCollection, mcp__postman__runCollection, mcp__postman__getEnvironments, mcp__postman__getCollectionRequest, mcp__postman__getCollectionResponse, mcp__postman__updateCollectionRequest, mcp__postman__updateCollectionResponse
 ---
 
 # Run Collection Tests
@@ -9,7 +8,7 @@ Execute Postman collection tests directly from Claude Code. Analyze results, dia
 
 ## Prerequisites
 
-The Postman MCP Server must be connected. If MCP tools aren't available, tell the user: "Run `/postman:setup` to configure the Postman MCP Server."
+The Postman MCP Server must be connected. If MCP tools aren't available, follow `references/setup.md` to connect it.
 
 ## Workflow
 
@@ -77,8 +76,8 @@ If the tests themselves need updating (not the API):
 
 ## Error Handling
 
-- **MCP not configured:** "Run `/postman:setup` to configure the Postman MCP Server."
-- **Collection not found:** "No collection matching that name. Run `/postman:search` to find available collections, or `/postman:sync` to create one."
-- **401 Unauthorized:** "Your Postman API key was rejected. Generate a new one at https://go.postman.co/settings/me/api-keys and run `/postman:setup`."
+- **MCP not configured:** Follow `references/setup.md` to connect the Postman MCP Server.
+- **Collection not found:** "No collection matching that name. I can search your workspaces for it, or create one from a spec." Search with `references/search.md`; create with `references/sync.md`.
+- **401 Unauthorized:** "Your Postman API key was rejected. Generate a new one at https://go.postman.co/settings/me/api-keys." Then re-authenticate with `references/setup.md`.
 - **MCP timeout:** Retry once. For large collections, suggest running a single folder to narrow the test run.
 - **Plan limitations:** "Collection runs may require a Postman Basic plan or higher for increased limits."

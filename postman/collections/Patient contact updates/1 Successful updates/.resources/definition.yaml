@@ -1,0 +1,4 @@
+$kind: collection
+name: '1 Successful updates'
+description: 'Each update is checked on the response, on the persisted record, and on the delivered notifications.'
+order: 2000

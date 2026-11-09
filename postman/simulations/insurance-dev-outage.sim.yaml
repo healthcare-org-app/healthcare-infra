@@ -1,0 +1,23 @@
+# The insurance-dev mocks, each failing every request with 503, to prove the service's 502 path.
+# Serve it beside insurance-dev (different port) and point one dependency at it, e.g.
+#   postman simulation run postman/simulations/insurance-dev-outage.sim.yaml --port 4301
+#   CLAIMS_API_URL=http://localhost:4301/claims-down scripts/dev-insurance.sh restart
+simulation: insurance-dev-outage
+routing: path
+mocks:
+  - name: hc-patients-down
+    routeKey: patients-down
+    path: ../mocks/hc-patients/config.yaml
+    scenarios:
+      - overrides:
+          conditions:
+            error:
+              status_code: 503
+  - name: hc-claims-submission-down
+    routeKey: claims-down
+    path: ../mocks/hc-claims-submission/config.yaml
+    scenarios:
+      - overrides:
+          conditions:
+            error:
+              status_code: 503

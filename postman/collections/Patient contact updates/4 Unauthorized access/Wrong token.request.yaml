@@ -1,0 +1,26 @@
+$kind: http-request
+name: 'Wrong token'
+description: 'The same change with a bearer token that is not the gateway key.'
+method: PATCH
+url: '{{baseUrl}}/api/patients/1/contact'
+order: 2000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    { "email": "attacker@example.com" }
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: 'not-the-key'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('401 unauthorized', () => {
+        pm.response.to.have.status(401);
+        pm.expect(pm.response.json().error.code).to.eql('unauthorized');
+      });

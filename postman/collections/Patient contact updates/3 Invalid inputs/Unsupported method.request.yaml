@@ -1,0 +1,14 @@
+$kind: http-request
+name: 'Unsupported method'
+description: 'Only PATCH is supported.'
+method: GET
+url: '{{baseUrl}}/api/patients/1/contact'
+order: 3000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('405 method_not_allowed', () => {
+        pm.response.to.have.status(405);
+        pm.expect(pm.response.json().error.code).to.eql('method_not_allowed');
+      });

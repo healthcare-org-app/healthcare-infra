@@ -1,0 +1,14 @@
+$kind: http-request
+name: 'Snapshot patients calls'
+description: 'Call count before the unauthorized requests.'
+method: GET
+url: '{{simUrl}}/patients/__calls'
+order: 500
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.collectionVariables.set('callsBefore', String(pm.response.json().calls.length));
+      pm.test('snapshot taken', () => pm.response.to.have.status(200));

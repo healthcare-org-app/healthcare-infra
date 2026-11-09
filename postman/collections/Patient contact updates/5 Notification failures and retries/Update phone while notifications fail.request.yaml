@@ -1,0 +1,25 @@
+$kind: http-request
+name: 'Update phone while notifications fail'
+description: 'Contact change is kept; the failed confirmation is reported, not hidden and not rolled back.'
+method: PATCH
+url: '{{baseUrl}}/api/patients/1/contact'
+order: 5000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    { "phone": "+1 415 555 0123" }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const r = pm.response.json();
+      pm.test('200, changed=[phone], confirmation failed after 3 attempts, one warning', () => {
+        pm.response.to.have.status(200);
+        pm.expect(r.changed).to.eql(['phone']);
+        pm.expect(r.notifications).to.eql([{ channel: 'phone', to: '***23', status: 'failed', attempts: 3 }]);
+        pm.expect(r.warnings).to.have.length(1);
+      });
+      pm.test('phone saved despite the failure', () => pm.expect(r.patient.phone).to.eql('+14155550123'));

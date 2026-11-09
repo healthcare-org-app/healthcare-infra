@@ -1,0 +1,13 @@
+# Upstreams for PATCH /api/patients/{id}/contact (frontend/api/patients/[id]/contact.ts).
+# Serve: scripts/dev-sim.sh start postman/simulations/patient-contact-dev.sim.yaml
+# Both members are stateful forks of hc-patients / hc-notifications (see their headers).
+# The notifications-down variant lives in patient-contact-dev-outage.sim.yaml.
+simulation: patient-contact-dev
+routing: path
+mocks:
+  - name: hc-patients-stateful
+    routeKey: patients
+    path: ../mocks/hc-patients-stateful/config.yaml
+  - name: hc-notifications-stateful
+    routeKey: notifications
+    path: ../mocks/hc-notifications-stateful/config.yaml

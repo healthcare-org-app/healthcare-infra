@@ -1,0 +1,21 @@
+$kind: http-request
+name: 'Unrelated field smuggled in'
+description: 'A valid email next to first_name: the whole request is rejected, not partly applied.'
+method: PATCH
+url: '{{baseUrl}}/api/patients/1/contact'
+order: 2600
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    { "email": "mallory@example.com", "first_name": "Mallory" }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('400 unknown_field in the standard error shape', () => {
+        pm.response.to.have.status(400);
+        pm.expect(pm.response.json().error.code).to.eql('unknown_field');
+      });
