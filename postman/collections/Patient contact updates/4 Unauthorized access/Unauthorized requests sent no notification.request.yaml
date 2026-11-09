@@ -1,0 +1,13 @@
+$kind: http-request
+name: 'Unauthorized requests sent no notification'
+description: 'No send attempt since the snapshot.'
+method: GET
+url: '{{simUrl}}/notifications/__calls'
+order: 4000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('attempts equal the snapshot', () => pm.expect(pm.response.json().attempts).to.eql(Number(pm.collectionVariables.get('attemptsBefore'))));

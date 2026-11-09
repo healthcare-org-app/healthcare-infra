@@ -1,0 +1,27 @@
+$kind: http-request
+name: 'Update phone'
+description: 'A formatted North American number is saved as E.164 and confirmed by SMS.'
+method: PATCH
+url: '{{baseUrl}}/api/patients/1/contact'
+order: 4000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    { "phone": "(555) 010-0199" }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const r = pm.response.json();
+      pm.test('200 changed=[phone], sms confirmation sent', () => {
+        pm.response.to.have.status(200);
+        pm.expect(r.changed).to.eql(['phone']);
+        pm.expect(r.notifications).to.eql([{ channel: 'phone', to: '***99', status: 'sent', attempts: 1 }]);
+      });
+      pm.test('phone saved as E.164, email from the previous update kept', () => {
+        pm.expect(r.patient.phone).to.eql('+15550100199');
+        pm.expect(r.patient.email).to.eql('jane.new@example.com');
+      });

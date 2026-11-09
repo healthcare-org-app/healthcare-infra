@@ -1,0 +1,27 @@
+# patient-contact-dev-outage.sim.yaml reuses the stand-ins described in patient-contact-dev.context.yaml; claims live there.
+purpose:
+  stands_in_for: >
+    notifications-service answering 503 to every request (injected fault, notifications-down member), with
+    patients-service healthy.
+  unblocks: >
+    Proving that PATCH /api/patients/{id}/contact keeps the contact change and reports a failed confirmation
+    when notifications is down (collection "Patient contact updates outage").
+assumptions:
+  - id: outage-keeps-contact-change-and-reports-failure
+    status: supported
+    claim: >
+      With notifications answering 503 to every request, the handler saves the contact change, answers 200 with
+      the confirmation marked failed after three attempts and a warning, and records the failure on the patient.
+    reason: >
+      Scope is one injected-fault run against stand-ins. An injected failure never reaches the mock and is not logged,
+      so "nothing was delivered" rests on the service's own report, not on a stand-in log.
+    verification: >
+      2026-11-09: "Patient contact updates outage" 5/5 assertions; simulation summary showed 6 altered responses
+      (2 requests x 3 attempts). A patients-service outage was not run (a simulation cannot list one mock twice).
+    source: postman/collections/Patient contact updates outage; postman/results/patient-contact-updates
+    updated_at: "2026-11-09"
+fingerprints:
+  - id: f1
+    date: "2026-11-09"
+    commit: 8b5f0849c338ea25f5a50f170bb2ba7613e2bd91 (working tree dirty)
+    cli: postman 1.86.0

@@ -1,0 +1,16 @@
+$kind: http-request
+description: An id the claims service has no record of returns 404 in the standard error shape.
+method: GET
+url: '{{baseUrl}}/api/insurance/claims/{{unknown_claim_id}}'
+order: 2000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('404 not_found in the standard error shape', () => {
+        pm.response.to.have.status(404);
+        const body = pm.response.json();
+        pm.expect(body.error.code).to.eql('not_found');
+        pm.expect(body.error.message).to.be.a('string');
+      });
+examples: './.resources/Get unknown claim.resources/examples'

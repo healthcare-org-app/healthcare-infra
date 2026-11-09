@@ -1,0 +1,19 @@
+$kind: http-request
+name: 'Deliveries after three updates'
+description: '1 + 1 + 2 confirmations, each to the new value, none duplicated.'
+method: GET
+url: '{{simUrl}}/notifications/__calls'
+order: 7000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const c = pm.response.json();
+      pm.test('four sends, four deliveries, no duplicates', () => {
+        pm.expect(c.attempts).to.eql(4);
+        const keys = c.delivered.map((d) => d.channel + ':' + d.to);
+        pm.expect(keys).to.eql(['email:jane.new@example.com', 'sms:+15550100199', 'email:jane.final@example.com', 'sms:+442079460958']);
+        pm.expect(new Set(keys).size).to.eql(keys.length);
+      });

@@ -1,0 +1,173 @@
+kind: postman-cli-collection-run-summary
+schemaVersion: 1
+runId: bb1ef582-6224-4b62-a2fe-49cf9462a440
+state: completed
+generatedAt: '2026-11-09T18:16:01.159Z'
+files:
+  summary: patient-contact-updates-2026-11-09-10-15-58.collection-run-summary.yaml
+  executions: patient-contact-updates-2026-11-09-10-15-58.collection-run-executions.yaml
+meta:
+  collection:
+    id: 78dd6fc9-0a09-4756-9487-803d5b788fab
+    name: Patient contact updates
+    description:
+      content: |-
+        PATCH /api/patients/{id}/contact updates a patient's email and/or phone and sends a confirmation per
+        changed channel. The record is read and written on patients-service and the confirmation goes through
+        notifications-service; both are the stateful stand-ins in patient-contact-dev.sim.yaml, which expose
+        /__reset and /__calls (and /__fail on notifications) so the run can assert on persisted data, on
+        delivered notifications and on the calls rejected requests did NOT make.
+
+        Run against the local service and simulation (no other setup):
+
+            scripts/dev-sim.sh start postman/simulations/patient-contact-dev.sim.yaml
+            scripts/dev-insurance.sh start
+            postman collection run "postman/collections/Patient contact updates" \
+              --simulation postman/simulations/patient-contact-dev.sim.yaml --port 4300
+            scripts/dev-insurance.sh stop; scripts/dev-sim.sh stop
+
+        Requests run in order and share stand-in state; each folder starts from a reset or a snapshot.
+        A hard notifications outage (503) is in the separate "Patient contact updates outage" collection.
+      type: text/plain
+  environment:
+    id: df862b5f-c389-4c3f-a268-5bdbd44ae72f
+    name: null
+  started: '2026-11-09T18:15:58.723Z'
+  completed: '2026-11-09T18:16:01.158Z'
+  durationMs: 2435
+environment:
+  cli:
+    version: 1.86.0
+    userAgent: Postman CLI/1.86.0
+    agent: claude-code_2-1-231_agent
+  system:
+    os:
+      type: Darwin
+      platform: darwin
+      arch: arm64
+      release: 25.6.0
+    hardware:
+      cpus: 12
+      totalMemory: 25769803776
+  isCI: false
+  ci: null
+  git:
+    branch: add-new-relic-and-graph-signals
+    commit: 8b5f0849c338ea25f5a50f170bb2ba7613e2bd91
+    commitShort: 8b5f084
+    remoteUrl: https://github.com/healthcare-org-app/healthcare-infra.git
+    dirty: true
+stats:
+  iterations:
+    executed: 1
+    errors: 0
+  executedRequests:
+    executed: 51
+    errors: 0
+  prerequestScripts:
+    executed: 0
+    errors: 0
+  postresponseScripts:
+    executed: 51
+    errors: 0
+  tests:
+    executed: 61
+    failed: 0
+  timeStats:
+    responseAverage: 35.686274509803916
+    responseMin: 2
+    responseMax: 363
+    responseStandardDeviation: 68.37683651935963
+transfers:
+  responseTotal: 23146
+failures: []
+executionsRecorded: 51
+simulation:
+  request_log:
+    - request: POST /patients/__reset
+      iteration: 1
+      scenarios_applied: []
+    - request: POST /notifications/__reset
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /patients/api/patients/1
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /notifications/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /patients/api/patients/1
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /notifications/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /patients/api/patients/2
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /notifications/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /patients/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /patients/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /notifications/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /patients/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /notifications/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /patients/api/patients/1
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /patients/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /notifications/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /patients/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /notifications/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /patients/api/patients/1
+      iteration: 1
+      scenarios_applied: []
+    - request: POST /patients/__reset
+      iteration: 1
+      scenarios_applied: []
+    - request: POST /notifications/__reset
+      iteration: 1
+      scenarios_applied: []
+    - request: POST /notifications/__fail
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /notifications/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: POST /notifications/__fail
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /patients/api/patients/1
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /notifications/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /notifications/__calls
+      iteration: 1
+      scenarios_applied: []
+    - request: POST /notifications/__fail
+      iteration: 1
+      scenarios_applied: []
+    - request: GET /notifications/__calls
+      iteration: 1
+      scenarios_applied: []

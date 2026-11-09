@@ -1,0 +1,19 @@
+$kind: http-request
+description: >-
+  Graph: GET /api/payments is the fourth invoice/payment status-check
+  endpoint on healthcare-infra. Limited to 5 rows.
+url: "{{baseUrl}}/api/payments?limit=5"
+method: GET
+headers:
+  Authorization: Bearer {{apiKey}}
+queryParams:
+  limit: "5"
+order: 9000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("payments list ok (200)", function () {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().items).to.be.an("array");
+      });

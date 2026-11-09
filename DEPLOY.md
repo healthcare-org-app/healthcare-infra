@@ -65,6 +65,15 @@ Already done. Recorded here so this repo can be recreated from scratch.
    | `DOCUSIGN_OAUTH_BASE` | Optional — account host that issues tokens (default `https://account-d.docusign.com`, demo) | Set to `https://account.docusign.com` for production. This is a *different axis* from the API host below. |
    | `DOCUSIGN_ACCOUNT_ID`, `DOCUSIGN_API_BASE` | Optional — pin the account and its API host, skipping the `/oauth/userinfo` round trip | Leave both unset and the gateway discovers them. If you set them, set them together and take `DOCUSIGN_API_BASE` from userinfo's `base_uri` plus `/restapi` (e.g. `https://na4.docusign.net/restapi`) — a production account reached at `demo.docusign.net` returns 401 on a perfectly valid token. |
    | `DOCUSIGN_CONSENT_TEMPLATE_ID` | Optional — default template `POST /api/patient_consent/:id/send-for-signature` uses when the request and row name none | DocuSign → Templates → your consent form → Template ID. Without it, every send must carry `template_id` or `document_base64`. |
+   | `NEW_RELIC_LICENSE_KEY` | Gateway runtime — ships traces to New Relic. Unset = telemetry is a no-op. | New Relic → API Keys → create/copy a key of type **INGEST - LICENSE**. **Never expose client-side.** |
+   | `NEW_RELIC_USER_API_KEY` | Gateway runtime — lets the Vercel webhook create deployment markers via NerdGraph | New Relic → API Keys → **USER** key (`NRAK-…`). **Never expose client-side.** |
+   | `NEW_RELIC_ACCOUNT_ID` | Gateway runtime — scopes the entity lookup to your account | New Relic → the number in the account switcher / API Keys page. |
+   | `NEW_RELIC_REGION` | Optional — `us` (default) or `eu`; selects the OTLP and NerdGraph hosts | Match the region your New Relic account was created in. |
+   | `NEW_RELIC_APP_NAME` | Optional — service name the gateway reports as (default `myhealthcare-gateway`) | Also the name the webhook searches for when attaching deployment markers. |
+   | `NEW_RELIC_ENTITY_GUID` | Optional — pins the entity deployment markers attach to, skipping the name lookup | New Relic → the service's page → **See metadata and tags** → GUID. |
+   | `VERCEL_WEBHOOK_SECRET` | Gateway runtime — verifies the `x-vercel-signature` on `POST /api/webhooks/vercel` | Shown once when you create the webhook (see "New Relic telemetry" below). |
+   | `VITE_NEW_RELIC_ACCOUNT_ID`, `VITE_NEW_RELIC_BROWSER_LICENSE_KEY`, `VITE_NEW_RELIC_BROWSER_APP_ID` | SPA build-time — enable the Browser agent. All three must be set or it stays off. | New Relic → Add data → Browser monitoring → **Copy/paste (NPM)** → read `accountID`, the `NRJS-…` `licenseKey`, and `applicationID` from the generated snippet. These ship to the browser by design. |
+   | `VITE_NEW_RELIC_REGION` | Optional — `eu` for an EU account (default US) | Same region as above. |
 
    DocuSign JWT Grant additionally needs **one-time impersonation consent**: until the `DOCUSIGN_USER_ID` account has granted it, every token exchange fails with `consent_required`. The gateway returns that error with the exact consent URL to visit — open it while signed in as that user. Consent is per integration key *and* per environment, so demo and production each need their own.
 
@@ -77,6 +86,24 @@ Already done. Recorded here so this repo can be recreated from scratch.
    **PHI:** DocuSign is the one third party here that *will* sign a BAA — but not by default. HIPAA support is a paid account configuration, and a standard or demo account is not covered no matter what you send it. Confirm the BAA is executed and the account is provisioned for HIPAA before pointing `DOCUSIGN_OAUTH_BASE` at production, because `POST /api/patient_consent/:id/send-for-signature` sends the patient's name and email by necessity and the consent document itself is clinical by definition. `GET /api/patient_consent/:id/signed-document` returns that executed document as a PDF and is marked `Cache-Control: no-store` for the same reason.
 
 3. Attach the domain `myhealthcare.dev` under Project Settings → Domains.
+
+## 2a. New Relic telemetry and deployment markers
+
+Three independent pieces; each is inert until its env vars (table above) are set, and each needs a redeploy after the vars change.
+
+- **Gateway traces** — `_lib/cors.ts` wraps every route in `_lib/telemetry.ts`, which exports OpenTelemetry spans to New Relic's OTLP endpoint. One server span per request (`POST /api/invoicing/:id/send`) plus one client span per outbound `fetch` (PayPal, Nylas, Notion, DocuSign, OpenFDA, Supabase). Spans carry only the route template, method, status, outbound **host**, and the app error code — never URLs, query strings, bodies or error messages. Look for the service `myhealthcare-gateway` under **APM & services → OpenTelemetry**.
+- **Browser agent** — `src/telemetry.ts` runs page-load, SPA-route and JS-error monitoring. Session replay, session traces, cookies and distributed-tracing headers are off, Supabase request URLs are excluded, and numeric path segments are rewritten to `:id`.
+- **Deployment markers** — Vercel calls `POST https://myhealthcare.dev/api/webhooks/vercel` on `deployment.succeeded` (production only) and `deployment.promoted`; the gateway verifies the signature and calls NerdGraph `changeTrackingCreateDeployment` with the commit SHA, author, message and Vercel link. Rollbacks appear as promotions.
+
+One-time setup:
+
+1. In New Relic, create the keys listed in the env table. Add them in Vercel (Production; add Preview too only if you want preview traffic in New Relic) with `npx vercel env add NEW_RELIC_LICENSE_KEY production` from `frontend/` — it prompts for the value without echoing it. Redeploy.
+2. Create the webhook: Vercel dashboard → team **Settings → Webhooks → Create Webhook** → events `deployment.succeeded` and `deployment.promoted` → project `myhealthcare` → URL `https://myhealthcare.dev/api/webhooks/vercel`. Copy the **secret** shown on creation into `VERCEL_WEBHOOK_SECRET` and redeploy. (Webhooks availability depends on your Vercel plan.)
+3. The service entity only exists after the gateway has served one traced request, so hit `/api/health` once before the first marker. A marker that arrives earlier returns `502 newrelic_entity_not_found`.
+
+Verify: `curl -s https://myhealthcare.dev/api/health`, then in New Relic run `FROM Span SELECT count(*) WHERE service.name = 'myhealthcare-gateway' SINCE 5 minutes ago`; after a push to `main`, the deployment appears on the service's **Change tracking** tab.
+
+**PHI:** only point production at New Relic under a signed BAA on a HIPAA-enabled account — confirm that first. Gateway spans are built to exclude patient data (and do not record exception messages or stacks), but the Browser agent still reports page paths (e.g. `/patients/:id`) and the text of uncaught JavaScript errors, which could contain whatever the app threw.
 
 ## 3. Verify a deploy
 

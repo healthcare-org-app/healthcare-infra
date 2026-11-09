@@ -1,0 +1,4 @@
+$kind: collection
+name: '0 Setup'
+description: 'Reset both stand-ins to their seed data.'
+order: 1000

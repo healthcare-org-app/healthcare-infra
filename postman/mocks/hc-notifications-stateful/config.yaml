@@ -1,0 +1,11 @@
+version: 1
+name: hc-notifications-stateful
+slug: hc-notifications-stateful
+protocol: http
+port: 4133
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true
+    id: 01a1c17d-fdb3-7647-88e8-55402cce5ed7
+id: 65f310b1-af83-4d78-9ffa-a5ea79d3c408

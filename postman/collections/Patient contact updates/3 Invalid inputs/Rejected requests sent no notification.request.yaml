@@ -1,0 +1,17 @@
+$kind: http-request
+name: 'Rejected requests sent no notification'
+description: 'notifications-service saw no send attempt at all.'
+method: GET
+url: '{{simUrl}}/notifications/__calls'
+order: 5000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const c = pm.response.json();
+      pm.test('attempts and deliveries equal the snapshot', () => {
+        pm.expect(c.attempts).to.eql(Number(pm.collectionVariables.get('attemptsBefore')));
+        pm.expect(c.delivered).to.have.length(Number(pm.collectionVariables.get('deliveredBefore')));
+      });

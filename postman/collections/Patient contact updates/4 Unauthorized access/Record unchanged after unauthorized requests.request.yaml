@@ -1,0 +1,16 @@
+$kind: http-request
+name: 'Record unchanged after unauthorized requests'
+description: 'The attacker''s address was not saved.'
+method: GET
+url: '{{simUrl}}/patients/api/patients/1'
+order: 5000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{apiKey}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('email still jane.final@example.com', () => pm.expect(pm.response.json().email).to.eql('jane.final@example.com'));

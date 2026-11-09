@@ -1,0 +1,31 @@
+$kind: http-request
+description: >-
+  Graph: POST /api/statements (statements-service CALLS GET
+  /api/invoicing/:record_id, and per the graph also GET patients) — the other
+  downstream consumer of an invoice.
+url: "{{baseUrl}}/api/statements"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "active",
+      "patient_id": "{{patient_id}}",
+      "invoice_id": "{{perf_invoice_id}}"
+    }
+order: 7000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("statement created (201)", function () {
+        pm.response.to.have.status(201);
+      });
+      pm.test("statement has an id", function () {
+        const id = pm.response.json().id;
+        pm.expect(id).to.exist;
+        pm.collectionVariables.set("perf_statement_id", String(id));
+      });

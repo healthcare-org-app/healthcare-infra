@@ -1,0 +1,19 @@
+$kind: http-request
+name: 'Other patient untouched'
+description: 'Patient 2 still has exactly its seed record.'
+method: GET
+url: '{{simUrl}}/patients/api/patients/2'
+order: 8000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{apiKey}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('patient 2 unchanged', () => pm.expect(pm.response.json()).to.eql({
+        id: 2, status: 'active', created_at: '2026-01-15T09:30:00.000Z', updated_at: '2026-01-15T09:30:00.000Z',
+        first_name: 'Marcus', last_name: 'Rivera', dob: '1990-09-03', mrn: 'MRN-100235',
+        email: 'marcus.rivera@example.com', phone: '555-0187', blood_type: 'A-', identity_sub: 'auth0|marcus-rivera' }));

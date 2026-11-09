@@ -1,0 +1,131 @@
+# Context for patient-contact-dev.sim.yaml (and patient-contact-dev-outage.sim.yaml, which reuses both mocks).
+purpose:
+  stands_in_for: >
+    patients-service (GET and PATCH /api/patients/{id}) and notifications-service (POST /api/notifications/send)
+    for the handler frontend/api/patients/[id]/contact.ts. Both members are stateful forks of the generated
+    hc-patients and hc-notifications mocks, with test-only /__reset, /__calls and /__fail routes.
+  unblocks: >
+    Running PATCH /api/patients/{id}/contact locally, with persisted-data, delivered-notification and
+    rejected-request side-effect checks, without the shared production Supabase project or the real fleet.
+assumptions:
+  - id: gateway-patients-patch-merges-contact-keys
+    status: supported
+    claim: >
+      The gateway's PATCH /api/patients/{id} (frontend/api/[resource]/[id].ts) stores keys that are not typed
+      columns, including email, phone and an object-valued contact_confirmations, in the row's jsonb `data`
+      with a shallow top-level merge, leaving other keys untouched.
+    reason: >
+      Read from the handler; the stand-in was written to behave the same way, so a passing run does not add
+      evidence beyond the code read. Shallow merge is why the handler sends the whole contact_confirmations object.
+    verification: >
+      2026-11-09: read frontend/api/[resource]/[id].ts and frontend/api/_lib/rows.ts (splitBody keeps only
+      id, status, created_at, updated_at and first_name, last_name, dob, mrn, identity_sub as columns). Not run
+      against the real gateway or its Supabase project.
+    source: frontend/api/[resource]/[id].ts:36-60; frontend/api/_lib/rows.ts:1-30
+    updated_at: "2026-11-09"
+  - id: flask-patients-service-accepts-contact-confirmations
+    status: unknown
+    claim: >
+      The repository patients-service that the Context Graph shows (healthcare-org-app/healthcare-patients,
+      app/routes.py:update_patient) accepts the extra contact_confirmations key on PATCH and merges rather
+      than replaces it.
+    reason: >
+      The graph lists the PATCH schema as email, phone, address, mrn, status with additionalProperties: true, which
+      suggests the key is accepted, but nothing shows whether it is persisted or how it merges. The answer was
+      truncated and that repo was not read.
+    verification: >
+      2026-11-09: Context Graph ask 01a1c175-46b8-7ffa-bb1d-c3a2347eb993 (provenance.truncated: true). To settle:
+      read app/routes.py:update_patient, or PATCH a real non-production patient.
+    source: Context Graph ask 01a1c175-46b8-7ffa-bb1d-c3a2347eb993; healthcare-org-app/healthcare-patients app/routes.py
+    updated_at: "2026-11-09"
+  - id: patients-patch-publishes-patient-updated-per-write
+    status: unknown
+    claim: >
+      Each PATCH to patients-service publishes patient.updated, so one contact change (a write with status pending,
+      then a write with the delivery result) produces two events for demographics, timeline, search and ehr.
+    reason: >
+      The graph links PATCH and PUT /api/patients/:id to the topic patient.updated (subscribers
+      demographics-service, patient-timeline-service, patient-search-service, ehr-service), but the gateway
+      handler that was read publishes nothing, and no stand-in models a topic. The two-writes-per-change part is
+      demonstrated; the fan-out is not.
+    verification: >
+      2026-11-09: collection run asserted 6 PATCHes to the patients stand-in for three successful updates. Event
+      publication not exercised.
+    source: Context Graph ask 01a1c175-46b8-7ffa-bb1d-c3a2347eb993; postman/collections/Patient contact updates (folder 2)
+    updated_at: "2026-11-09"
+  - id: notifications-send-does-not-deduplicate
+    status: supported
+    claim: >
+      The gateway's POST /api/notifications/send inserts a queued row on every call and ignores any Idempotency-Key,
+      so de-duplication has to be done by the caller.
+    reason: >
+      The handler has no key handling. The handler still sends an Idempotency-Key header, which is harmless but
+      unproven to be honoured by any real service.
+    verification: >
+      2026-11-09: read frontend/api/notifications/send.ts. The stand-in does not deduplicate, so a regression that
+      resent a confirmation was caught in mutation testing (6 assertions failed).
+    source: frontend/api/notifications/send.ts:9-36
+    updated_at: "2026-11-09"
+  - id: notifications-send-delivers-sms
+    status: unknown
+    claim: A confirmation sent with channel "sms" reaches the patient's phone.
+    reason: >
+      The gateway route only validates channel in email, sms, push and queues a row. The graph says the repo
+      notifications-service publishes notification.requested to email-gateway and push-gateway only, and
+      sms-gateway-service has /health and /ready and no subscription. Two descriptions of "send" disagree and
+      neither shows an SMS delivery.
+    verification: >
+      2026-11-09: stand-in accepts sms by construction, so the run shows only that the caller asks for one.
+      To settle: send an sms to a test number through the real notifications-service and observe delivery.
+    source: frontend/api/notifications/send.ts; Context Graph ask 01a1c175-46b8-7ffa-bb1d-c3a2347eb993
+    updated_at: "2026-11-09"
+  - id: caller-sends-each-confirmation-once-and-retries-failures
+    status: supported
+    claim: >
+      Against these stand-ins, the handler sends one confirmation per changed channel, retries 5xx, 429 and network
+      errors up to three attempts, does not retry a 4xx, re-sends a failed confirmation on a repeat of the same
+      request, and sends nothing on a repeat after success.
+    reason: >
+      Scope is the 51-request run and the outage run; not the real services, concurrent requests, or a send that
+      times out after the provider queued it.
+    verification: >
+      2026-11-09: 61/61 assertions on "Patient contact updates" (patient-contact-dev) and 5/5 on "Patient contact
+      updates outage" (injected 503 on notifications). Three mutated handlers (always resend, ignore unknown
+      fields, read patient before auth) each failed 6, 6 and 1 assertions.
+    source: frontend/api/patients/[id]/contact.ts; postman/results/patient-contact-updates
+    updated_at: "2026-11-09"
+  - id: timeout-after-queued-send-may-duplicate
+    status: unknown
+    claim: >
+      If notifications-service queues a message but the response is lost, the handler's retry produces a second
+      notification.
+    reason: >
+      The handler retries on timeout and the real route does not deduplicate, so this is expected. A latency
+      condition longer than the 3 s timeout was not run, and a delay alone would not show whether the write completed.
+    verification: >
+      Not exercised. To settle: a stand-in that records the send and then delays its response past 3 s, then count
+      deliveries.
+    source: frontend/api/patients/[id]/contact.ts (sendConfirmation)
+    updated_at: "2026-11-09"
+  - id: concurrent-requests-can-double-send
+    status: unknown
+    claim: Two simultaneous identical requests for a not-yet-confirmed change send one confirmation each.
+    reason: >
+      The handler reads, writes, sends and records status without a lock or compare-and-set on patients-service.
+    verification: Not exercised; every run was sequential.
+    source: frontend/api/patients/[id]/contact.ts
+    updated_at: "2026-11-09"
+  - id: phone-without-country-code-is-north-american
+    status: unknown
+    claim: A 10-digit phone without a "+" country code belongs to a North American number.
+    reason: >
+      A product assumption chosen to match the clinic's default timezone (America/New_York). Existing records hold
+      values such as 555-0142 that are not E.164, so they are compared in normalised form where possible.
+    verification: Not checked with the product owner or against real patient data.
+    source: frontend/api/patients/[id]/contact.ts (normalizePhone)
+    updated_at: "2026-11-09"
+fingerprints:
+  - id: f1
+    date: "2026-11-09"
+    commit: 8b5f0849c338ea25f5a50f170bb2ba7613e2bd91 (working tree dirty: new handler, mocks, simulations, collections)
+    cli: postman 1.86.0

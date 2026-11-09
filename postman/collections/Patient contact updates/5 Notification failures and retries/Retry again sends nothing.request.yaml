@@ -1,0 +1,23 @@
+$kind: http-request
+name: 'Retry again sends nothing'
+description: 'Confirmation now recorded as sent: a further retry is a no-op.'
+method: PATCH
+url: '{{baseUrl}}/api/patients/1/contact'
+order: 9000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    { "phone": "+1 415 555 0123" }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const r = pm.response.json();
+      pm.test('200, changed=[] and nothing sent', () => {
+        pm.response.to.have.status(200);
+        pm.expect(r.changed).to.eql([]);
+        pm.expect(r.notifications).to.eql([]);
+      });

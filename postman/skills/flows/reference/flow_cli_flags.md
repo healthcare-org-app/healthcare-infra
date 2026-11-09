@@ -57,8 +57,9 @@ takes `on|off`.
 with `Invalid command parameters: trigger: At least one option is required:
 --trigger or --auth`.
 
-Both are mutating and confirmation-gated. `--auth off` strips authentication
-from a live trigger — never run it as a convenience.
+Both change the live trigger for other callers. Apply an already authorized
+change within its scope; obtain consent before an unrequested access change.
+`--auth off` removes authentication, so it is not a remedy for a failed login.
 
 ## `flows run <path>`
 
@@ -80,7 +81,7 @@ execution and reporting. Takes the path positionally; a bad path fails with
 | `-x, --suppress-exit-code` | Overrides the run's exit code. Defeats CI gating. |
 | `--verbose` | Per-request detail: method, URL, assertions. |
 | `--no-truncate` | Full output, no truncated long values. |
-| `--no-report-events` | Don't send analytics. `--report-events` exists for compatibility; analytics are on by default. |
+| `--no-report-events` | Keep the run local instead of publishing results to the connected workspace. |
 
 ### BETA: dataset iteration
 

@@ -1,0 +1,4 @@
+$kind: collection
+name: '2 Repeated request'
+description: 'A client retry of an update that already succeeded must be a no-op.'
+order: 3000

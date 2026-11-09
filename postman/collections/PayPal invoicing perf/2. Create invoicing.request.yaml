@@ -1,0 +1,39 @@
+$kind: http-request
+description: >-
+  Graph: POST /api/invoicing (CALLS GET /api/patients/:patient_id). Creates
+  the row this iteration bills. `status` is "pending" because /send refuses
+  paid, void, cancelled and written-off rows. The amount is randomised per
+  iteration (10–509) so concurrent VUs produce distinct PayPal invoices.
+url: "{{baseUrl}}/api/invoicing"
+method: POST
+headers:
+  Authorization: Bearer {{apiKey}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "pending",
+      "patient_id": "{{patient_id}}",
+      "encounter_id": "{{encounter_id}}",
+      "claim_id": "{{claim_id}}",
+      "amount": {{perf_amount}},
+      "description": "perf-test invoice"
+    }
+order: 2000
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      pm.collectionVariables.set("perf_amount", String(10 + Math.floor(Math.random() * 500)));
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("invoicing row created (201)", function () {
+        pm.response.to.have.status(201);
+      });
+      pm.test("row has an id", function () {
+        const id = pm.response.json().id;
+        pm.expect(id).to.exist;
+        pm.collectionVariables.set("perf_invoice_id", String(id));
+      });

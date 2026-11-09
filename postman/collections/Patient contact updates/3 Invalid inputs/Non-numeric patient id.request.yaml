@@ -1,0 +1,21 @@
+$kind: http-request
+name: 'Non-numeric patient id'
+description: 'id must be a positive integer.'
+method: PATCH
+url: '{{baseUrl}}/api/patients/abc/contact'
+order: 2800
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    { "email": "jane@example.com" }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('400 bad_id in the standard error shape', () => {
+        pm.response.to.have.status(400);
+        pm.expect(pm.response.json().error.code).to.eql('bad_id');
+      });

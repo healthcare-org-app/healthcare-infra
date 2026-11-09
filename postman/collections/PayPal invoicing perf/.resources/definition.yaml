@@ -1,0 +1,47 @@
+$kind: collection
+name: PayPal invoicing perf
+description: >-
+  Load/functional workflow for PayPal invoicing, built from the Postman
+  Context Graph (asks 01a136b8-4882-799c-9b2e-bb077fd87da9 and
+  01a136c9-eabd-7007-a8f6-d0e64ac9349d). Graph-resolved call order, one
+  iteration per virtual user: GET patient → POST invoicing (calls GET patient)
+  → POST invoicing/:id/send (PayPal, healthcare-infra) → GET invoicing/:id
+  (status check) → POST payments (calls GET invoicing) → GET payments/:id →
+  POST statements (calls GET invoicing) → GET invoicing and GET payments
+  lists (the other graph status-check endpoints) → delete statement, payment,
+  invoicing row. Each VU owns and deletes its own rows. Against the live
+  gateway every iteration creates a real PayPal invoice and emails the
+  patient on file — run `postman performance run` against a mock (supply
+  `perf_target=mock` through --data-file) or at very low VU counts.
+variables:
+  - key: baseUrl
+    value: 'https://myhealthcare.dev'
+    description: Gateway base URL. Redirected to a mock with --use-mock.
+  - key: apiKey
+    value: ''
+    description: Gateway bearer token. Supply it from the environment (-e); never commit it. Any value works against a mock.
+  - key: patient_id
+    value: '1'
+    description: Patient to bill. Must have an email on file.
+  - key: encounter_id
+    value: '1'
+  - key: claim_id
+    value: '1'
+  - key: perf_target
+    value: live
+    description: '"live" asserts real semantics; "mock" checks contract shape only, since a canned mock cannot satisfy them.'
+  - key: perf_amount
+    value: '25'
+    description: Set per iteration by step 2's pre-request script.
+  - key: perf_invoice_id
+    value: ''
+    description: Set by step 2; the invoicing row this iteration owns.
+  - key: perf_paypal_invoice_id
+    value: ''
+    description: Set by step 3; the PayPal invoice the row points at.
+  - key: perf_payment_id
+    value: ''
+    description: Set by step 5; the payment row this iteration owns.
+  - key: perf_statement_id
+    value: ''
+    description: Set by step 7; the statement row this iteration owns.

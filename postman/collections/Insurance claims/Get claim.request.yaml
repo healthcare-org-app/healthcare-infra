@@ -1,0 +1,19 @@
+$kind: http-request
+description: Claim 1 resolves to Jane Doe (patient 1), amount 150, status active.
+method: GET
+url: '{{baseUrl}}/api/insurance/claims/{{claim_id}}'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('200 with exactly the ticket shape', () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json()).to.eql({
+          insurance_id: 1,
+          patient_name: 'Jane Doe',
+          amount: 150,
+          status: 'active',
+        });
+      });
+examples: './.resources/Get claim.resources/examples'

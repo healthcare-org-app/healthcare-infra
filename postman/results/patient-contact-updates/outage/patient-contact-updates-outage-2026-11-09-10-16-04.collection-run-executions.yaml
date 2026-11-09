@@ -1,0 +1,349 @@
+---
+kind: postman-cli-collection-run-executions
+schemaVersion: 1
+runId: c88d4c33-4e74-4394-ac92-6340cc924684
+summaryFile: patient-contact-updates-outage-2026-11-09-10-16-04.collection-run-summary.yaml
+collection:
+  id: ba909eff-92e5-4e48-91df-139d55ff284b
+  name: Patient contact updates outage
+generatedAt: '2026-11-09T18:16:04.574Z'
+---
+iteration: 0
+cursorRef: be5436b7-faad-45d1-9946-e5f039984d2c
+item:
+  id: 277f52ee-8a01-4955-bcda-3632a0375d06
+  name: Reset patients stand-in
+  folders:
+    - Reset patients stand-in
+  fullName: Reset patients stand-in
+  parent:
+    id: ba909eff-92e5-4e48-91df-139d55ff284b
+    name: Patient contact updates outage
+    folders: []
+request:
+  method: POST
+  url:
+    protocol: http
+    port: '4301'
+    path:
+      - patients
+      - __reset
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: cd5558e8-b7ce-49e2-9367-ea8db3aa4cbb
+      system: true
+    - key: Host
+      value: localhost:4301
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '0'
+      system: true
+  body: {}
+response:
+  id: 61cf25c1-efaf-45c9-b30f-6b7cd0ed6a6c
+  code: 200
+  status: OK
+  responseTime: 50
+  responseSize: 14
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:04 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"reset":true}'
+tests:
+  - name: reset
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 0f5500b0-0033-425b-8c6f-8e44c80a6a44
+item:
+  id: 509e1c61-339b-434d-8504-1defba5f8275
+  name: Update email while notifications are down
+  folders:
+    - Update email while notifications are down
+  fullName: Update email while notifications are down
+  parent:
+    id: ba909eff-92e5-4e48-91df-139d55ff284b
+    name: Patient contact updates outage
+    folders: []
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4401'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: db733b2e-db76-4312-88aa-2cafa39437de
+      system: true
+    - key: Host
+      value: localhost:4401
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '33'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "outage@example.com" }'
+    options:
+      raw:
+        language: json
+response:
+  id: db8fdad2-9104-4c1d-9f4a-33991acfc284
+  code: 200
+  status: OK
+  responseTime: 420
+  responseSize: 662
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:16:05 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '662'
+  body: '{"patient":{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:16:05.170Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"outage@example.com","phone":"555-0142","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"outage@example.com","status":"failed","updated_at":"2026-11-09T18:16:05.164Z"}}},"changed":["email"],"notifications":[{"channel":"email","to":"o***@example.com","status":"failed","attempts":3}],"warnings":["contact details were saved but a confirmation notification could not be delivered; retry the same request to resend it"]}'
+tests:
+  - name: 200, confirmation failed after 3 attempts, warning present
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 1ed438ef-f45f-40b9-8ff7-c70da1245412
+item:
+  id: d57f2039-fe96-4e07-b189-09df12d102af
+  name: Contact change persisted despite the failure
+  folders:
+    - Contact change persisted despite the failure
+  fullName: Contact change persisted despite the failure
+  parent:
+    id: ba909eff-92e5-4e48-91df-139d55ff284b
+    name: Patient contact updates outage
+    folders: []
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4301'
+    path:
+      - patients
+      - api
+      - patients
+      - '1'
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 2acddfaa-bca3-4c25-979c-ad135d55c976
+      system: true
+    - key: Host
+      value: localhost:4301
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: b6fd47e3-080c-48ef-9b24-b335bb25e90c
+  code: 200
+  status: OK
+  responseTime: 12
+  responseSize: 403
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:05 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:16:05.170Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"outage@example.com","phone":"555-0142","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"outage@example.com","status":"failed","updated_at":"2026-11-09T18:16:05.164Z"}}}'
+tests:
+  - name: fields outside email/phone/contact_confirmations are unchanged
+    status: passed
+  - name: email persisted, phone untouched, confirmation failed
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 2d23a3d5-539b-4243-8310-943a85bddb51
+item:
+  id: 3b6c7e3c-6717-439a-b852-5edad1c3ff91
+  name: Retry while still down
+  folders:
+    - Retry while still down
+  fullName: Retry while still down
+  parent:
+    id: ba909eff-92e5-4e48-91df-139d55ff284b
+    name: Patient contact updates outage
+    folders: []
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4401'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 72518c74-ce86-4585-b3a3-df81ea349f9e
+      system: true
+    - key: Host
+      value: localhost:4401
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '33'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "outage@example.com" }'
+    options:
+      raw:
+        language: json
+response:
+  id: 15dd8adc-b0f9-4d90-97b7-08a667cfc4c5
+  code: 200
+  status: OK
+  responseTime: 358
+  responseSize: 655
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:16:05 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '655'
+  body: '{"patient":{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:16:05.567Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"outage@example.com","phone":"555-0142","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"outage@example.com","status":"failed","updated_at":"2026-11-09T18:16:05.562Z"}}},"changed":[],"notifications":[{"channel":"email","to":"o***@example.com","status":"failed","attempts":3}],"warnings":["contact details were saved but a confirmation notification could not be delivered; retry the same request to resend it"]}'
+tests:
+  - name: 200, changed=[], confirmation failed again, warning present
+    status: passed
+errors: []

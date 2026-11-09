@@ -1,0 +1,16 @@
+$kind: http-request
+name: 'Snapshot patients calls'
+description: 'Record how many calls patients-service has served so far.'
+method: GET
+url: '{{simUrl}}/patients/__calls'
+order: 1000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const calls = pm.response.json().calls;
+      pm.collectionVariables.set('callsBefore', String(calls.length));
+      pm.collectionVariables.set('patchesBefore', String(calls.filter((c) => c.method === 'PATCH').length));
+      pm.test('snapshot taken', () => pm.expect(calls.length).to.be.above(0));

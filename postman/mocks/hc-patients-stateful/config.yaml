@@ -1,0 +1,11 @@
+version: 1
+name: hc-patients-stateful
+slug: hc-patients-stateful
+protocol: http
+port: 4171
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true
+    id: 01a1c17d-fdb1-708c-9210-8a21dad1952a
+id: 10d6e87a-e948-4b57-9e69-f7a6c8c8bf8f

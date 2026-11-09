@@ -1,0 +1,34 @@
+$kind: collection
+name: Insurance claims outage
+description: |-
+  Proves GET /api/insurance/claims/{id} returns 502 in the standard error shape when an upstream fails.
+  Kept apart from "Insurance claims" because it needs two service instances pointed at failing
+  dependencies: the claims-down / patients-down members of insurance-dev-outage.sim.yaml (each a 503
+  fault, served by the run on :4301) while the healthy insurance-dev simulation stays up on :4300.
+
+  Setup, then run, then tear down:
+
+      scripts/dev-sim.sh start
+      SERVE_PORT=4401 CLAIMS_API_URL=http://localhost:4301/claims-down scripts/dev-insurance.sh start
+      SERVE_PORT=4402 PATIENTS_API_URL=http://localhost:4301/patients-down scripts/dev-insurance.sh start
+      postman collection run "postman/collections/Insurance claims outage" \
+        --simulation postman/simulations/insurance-dev-outage.sim.yaml --port 4301
+      SERVE_PORT=4401 scripts/dev-insurance.sh stop; SERVE_PORT=4402 scripts/dev-insurance.sh stop
+      scripts/dev-sim.sh stop
+variables:
+  - key: claimsDownUrl
+    value: 'http://localhost:4401'
+    description: Service instance whose claims upstream is claims-down.
+  - key: patientsDownUrl
+    value: 'http://localhost:4402'
+    description: Service instance whose patients upstream is patients-down.
+  - key: apiKey
+    value: demo-key
+    description: Local dev key only (scripts/dev-insurance.sh default GATEWAY_API_KEY). Not a real credential.
+  - key: claim_id
+    value: '1'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{apiKey}}'

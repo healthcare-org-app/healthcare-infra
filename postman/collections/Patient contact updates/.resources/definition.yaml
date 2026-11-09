@@ -1,0 +1,42 @@
+$kind: collection
+name: Patient contact updates
+description: |-
+  PATCH /api/patients/{id}/contact updates a patient's email and/or phone and sends a confirmation per
+  changed channel. The record is read and written on patients-service and the confirmation goes through
+  notifications-service; both are the stateful stand-ins in patient-contact-dev.sim.yaml, which expose
+  /__reset and /__calls (and /__fail on notifications) so the run can assert on persisted data, on
+  delivered notifications and on the calls rejected requests did NOT make.
+
+  Run against the local service and simulation (no other setup):
+
+      scripts/dev-sim.sh start postman/simulations/patient-contact-dev.sim.yaml
+      scripts/dev-insurance.sh start
+      postman collection run "postman/collections/Patient contact updates" \
+        --simulation postman/simulations/patient-contact-dev.sim.yaml --port 4300
+      scripts/dev-insurance.sh stop; scripts/dev-sim.sh stop
+
+  Requests run in order and share stand-in state; each folder starts from a reset or a snapshot.
+  A hard notifications outage (503) is in the separate "Patient contact updates outage" collection.
+variables:
+  - key: baseUrl
+    value: 'http://localhost:4400'
+    description: Local service (scripts/dev-insurance.sh).
+  - key: simUrl
+    value: 'http://localhost:4300'
+    description: Simulation (routeKeys patients and notifications).
+  - key: apiKey
+    value: demo-key
+    description: Local dev key only (scripts/dev-insurance.sh default GATEWAY_API_KEY). Not a real credential.
+  - key: callsBefore
+    value: '0'
+  - key: patchesBefore
+    value: '0'
+  - key: attemptsBefore
+    value: '0'
+  - key: deliveredBefore
+    value: '0'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{apiKey}}'

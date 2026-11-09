@@ -1,0 +1,4314 @@
+---
+kind: postman-cli-collection-run-executions
+schemaVersion: 1
+runId: bb1ef582-6224-4b62-a2fe-49cf9462a440
+summaryFile: patient-contact-updates-2026-11-09-10-15-58.collection-run-summary.yaml
+collection:
+  id: 78dd6fc9-0a09-4756-9487-803d5b788fab
+  name: Patient contact updates
+generatedAt: '2026-11-09T18:15:58.599Z'
+---
+iteration: 0
+cursorRef: a99eddaf-2e76-43f1-a7b8-0d05b223fec9
+item:
+  id: d444c166-ae8a-4784-b281-5dfc4acda81d
+  name: Reset patients stand-in
+  folders:
+    - 0 Setup
+    - Reset patients stand-in
+  fullName: 0 Setup / Reset patients stand-in
+  parent:
+    id: 6abe72cb-d79c-460c-bb86-5d745646d1c6
+    name: 0 Setup
+    folders:
+      - 0 Setup
+request:
+  method: POST
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - __reset
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 024736ea-af5b-47f3-8ee5-216b5cfb6ac8
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '0'
+      system: true
+  body: {}
+response:
+  id: d470f9ae-8858-4993-be94-1e4fce3a6cb1
+  code: 200
+  status: OK
+  responseTime: 52
+  responseSize: 14
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:15:58 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"reset":true}'
+tests:
+  - name: reset
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 55487209-3357-42c7-82ea-747168ae1bc8
+item:
+  id: 7cb7d9bd-d036-42b0-9ad4-4b9fc531442b
+  name: Reset notifications stand-in
+  folders:
+    - 0 Setup
+    - Reset notifications stand-in
+  fullName: 0 Setup / Reset notifications stand-in
+  parent:
+    id: 6abe72cb-d79c-460c-bb86-5d745646d1c6
+    name: 0 Setup
+    folders:
+      - 0 Setup
+request:
+  method: POST
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __reset
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 42b23920-6e81-49e3-923d-eaf6f6f4b5a1
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '0'
+      system: true
+  body: {}
+response:
+  id: b5f5bf75-21dd-4c92-bc24-c4a68353c0fa
+  code: 200
+  status: OK
+  responseTime: 44
+  responseSize: 14
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:15:58 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"reset":true}'
+tests:
+  - name: reset
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: a1427621-697c-4fb3-8a84-531a3c1b3b9f
+item:
+  id: ef9f6a9e-1cd3-4527-adb0-7e3794c99917
+  name: Update email
+  folders:
+    - 1 Successful updates
+    - Update email
+  fullName: 1 Successful updates / Update email
+  parent:
+    id: a8f8ce7c-9709-4626-a81b-d08f858ce55d
+    name: 1 Successful updates
+    folders:
+      - 1 Successful updates
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 77033e39-38d7-42fd-9119-8fc658c51be5
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '38'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "  Jane.New@Example.com " }'
+    options:
+      raw:
+        language: json
+response:
+  id: 09492074-9b8c-493d-935a-fd0cfc9d3442
+  code: 200
+  status: OK
+  responseTime: 327
+  responseSize: 528
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '528'
+  body: '{"patient":{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:15:59.175Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"jane.new@example.com","phone":"555-0142","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"jane.new@example.com","status":"sent","updated_at":"2026-11-09T18:15:59.170Z"}}},"changed":["email"],"notifications":[{"channel":"email","to":"j***@example.com","status":"sent","attempts":1}]}'
+tests:
+  - name: 200 changed=[email], confirmation sent on the first attempt
+    status: passed
+  - name: response carries the normalised email and the untouched phone
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: e5821317-28d5-44ee-bcac-992d49d34d23
+item:
+  id: a6aaf411-c6cc-43b9-8a09-4606c3ac265a
+  name: Persisted after email update
+  folders:
+    - 1 Successful updates
+    - Persisted after email update
+  fullName: 1 Successful updates / Persisted after email update
+  parent:
+    id: a8f8ce7c-9709-4626-a81b-d08f858ce55d
+    name: 1 Successful updates
+    folders:
+      - 1 Successful updates
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - api
+      - patients
+      - '1'
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: ab34a31b-3791-4205-8159-154893592b5e
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: b5a25939-79a1-49b7-aa2b-ef0d02df1022
+  code: 200
+  status: OK
+  responseTime: 5
+  responseSize: 405
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:15:59.175Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"jane.new@example.com","phone":"555-0142","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"jane.new@example.com","status":"sent","updated_at":"2026-11-09T18:15:59.170Z"}}}'
+tests:
+  - name: fields outside email/phone/contact_confirmations are unchanged
+    status: passed
+  - name: email persisted, phone untouched, confirmation recorded as sent
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 921bf199-bcdc-4fc3-a86c-23ac4d2503f1
+item:
+  id: 1bb50a00-b889-43ca-8d1b-cbd973e3a1d4
+  name: Confirmation delivered once
+  folders:
+    - 1 Successful updates
+    - Confirmation delivered once
+  fullName: 1 Successful updates / Confirmation delivered once
+  parent:
+    id: a8f8ce7c-9709-4626-a81b-d08f858ce55d
+    name: 1 Successful updates
+    folders:
+      - 1 Successful updates
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 3e98ac3e-55b9-47f9-82cf-6a7e0d9d4da1
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 60c3bf12-7202-4f49-9b2d-fccf3e00fa3f
+  code: 200
+  status: OK
+  responseTime: 4
+  responseSize: 358
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"attempts":1,"delivered":[{"id":1,"status":"queued","created_at":"2026-11-09T18:15:59.167Z","to":"jane.new@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:c85ee862c93d0ee6"}]}'
+tests:
+  - name: one send, one delivery, to the new address on the email channel
+    status: passed
+  - name: subject and body do not contain the address
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: a9937f69-23f9-4437-897d-46ff243e4b8c
+item:
+  id: 7cf813c6-66e6-4e2e-9cbe-f05815d97191
+  name: Update phone
+  folders:
+    - 1 Successful updates
+    - Update phone
+  fullName: 1 Successful updates / Update phone
+  parent:
+    id: a8f8ce7c-9709-4626-a81b-d08f858ce55d
+    name: 1 Successful updates
+    folders:
+      - 1 Successful updates
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 256c11fa-8d56-4fe3-8823-254b07e94415
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '29'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "phone": "(555) 010-0199" }'
+    options:
+      raw:
+        language: json
+response:
+  id: 6dfae5d5-976a-457c-bf75-a165a4bf0eb8
+  code: 200
+  status: OK
+  responseTime: 73
+  responseSize: 610
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '610'
+  body: '{"patient":{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:15:59.293Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"jane.new@example.com","phone":"+15550100199","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"jane.new@example.com","status":"sent","updated_at":"2026-11-09T18:15:59.170Z"},"phone":{"value":"+15550100199","status":"sent","updated_at":"2026-11-09T18:15:59.289Z"}}},"changed":["phone"],"notifications":[{"channel":"phone","to":"***99","status":"sent","attempts":1}]}'
+tests:
+  - name: 200 changed=[phone], sms confirmation sent
+    status: passed
+  - name: phone saved as E.164, email from the previous update kept
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 1409b6b7-5244-4c83-b938-a894628de332
+item:
+  id: 52ea7bde-aebc-4dc6-9750-4ecf72c9ae9a
+  name: Persisted after phone update
+  folders:
+    - 1 Successful updates
+    - Persisted after phone update
+  fullName: 1 Successful updates / Persisted after phone update
+  parent:
+    id: a8f8ce7c-9709-4626-a81b-d08f858ce55d
+    name: 1 Successful updates
+    folders:
+      - 1 Successful updates
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - api
+      - patients
+      - '1'
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 95432116-44e4-4c5a-8afc-2e9dd6d83a8b
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 428913b4-8925-49b2-bc3c-c4c2079a1ea9
+  code: 200
+  status: OK
+  responseTime: 6
+  responseSize: 498
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:15:59.293Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"jane.new@example.com","phone":"+15550100199","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"jane.new@example.com","status":"sent","updated_at":"2026-11-09T18:15:59.170Z"},"phone":{"value":"+15550100199","status":"sent","updated_at":"2026-11-09T18:15:59.289Z"}}}'
+tests:
+  - name: fields outside email/phone/contact_confirmations are unchanged
+    status: passed
+  - name: phone persisted and both confirmations sent
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 3f44970a-1c2a-417a-9d2e-595f47854cdd
+item:
+  id: edb96454-c729-4cad-81a1-acf193d54108
+  name: Update email and phone together
+  folders:
+    - 1 Successful updates
+    - Update email and phone together
+  fullName: 1 Successful updates / Update email and phone together
+  parent:
+    id: a8f8ce7c-9709-4626-a81b-d08f858ce55d
+    name: 1 Successful updates
+    folders:
+      - 1 Successful updates
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 8896ae96-7dea-410d-a40f-fee1fdf1ab2f
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '66'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "jane.final@example.com", "phone": "+44 20 7946 0958" }'
+    options:
+      raw:
+        language: json
+response:
+  id: 80cef61d-7ebb-4354-8886-f9852543e95a
+  code: 200
+  status: OK
+  responseTime: 61
+  responseSize: 697
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '697'
+  body: '{"patient":{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:15:59.386Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"jane.final@example.com","phone":"+442079460958","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"jane.final@example.com","status":"sent","updated_at":"2026-11-09T18:15:59.382Z"},"phone":{"value":"+442079460958","status":"sent","updated_at":"2026-11-09T18:15:59.382Z"}}},"changed":["email","phone"],"notifications":[{"channel":"email","to":"j***@example.com","status":"sent","attempts":1},{"channel":"phone","to":"***58","status":"sent","attempts":1}]}'
+tests:
+  - name: 200 changed=[email, phone], two confirmations sent
+    status: passed
+  - name: international number kept as E.164
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: e8adcb06-0894-4c3f-8229-745cfbef88bf
+item:
+  id: d5c8bd53-37ad-4b20-ab37-cdbecfb4fb7a
+  name: Deliveries after three updates
+  folders:
+    - 1 Successful updates
+    - Deliveries after three updates
+  fullName: 1 Successful updates / Deliveries after three updates
+  parent:
+    id: a8f8ce7c-9709-4626-a81b-d08f858ce55d
+    name: 1 Successful updates
+    folders:
+      - 1 Successful updates
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 8fc202d3-a119-40e4-a264-05d05ab81c04
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 265aab43-68d1-479b-b6ee-33a3da9d084e
+  code: 200
+  status: OK
+  responseTime: 4
+  responseSize: 1327
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"attempts":4,"delivered":[{"id":1,"status":"queued","created_at":"2026-11-09T18:15:59.167Z","to":"jane.new@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:c85ee862c93d0ee6"},{"id":2,"status":"queued","created_at":"2026-11-09T18:15:59.286Z","to":"+15550100199","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:82fea6c5f54083ef"},{"id":3,"status":"queued","created_at":"2026-11-09T18:15:59.373Z","to":"jane.final@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:a549e6d92b87aba3"},{"id":4,"status":"queued","created_at":"2026-11-09T18:15:59.380Z","to":"+442079460958","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:f0bf0228144d9fe2"}]}'
+tests:
+  - name: four sends, four deliveries, no duplicates
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 2ca75463-2c71-42e2-9aa1-3e153333fb86
+item:
+  id: d1f17e57-a359-48f3-a5f3-90971c374e72
+  name: Other patient untouched
+  folders:
+    - 1 Successful updates
+    - Other patient untouched
+  fullName: 1 Successful updates / Other patient untouched
+  parent:
+    id: a8f8ce7c-9709-4626-a81b-d08f858ce55d
+    name: 1 Successful updates
+    folders:
+      - 1 Successful updates
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - api
+      - patients
+      - '2'
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 718e84b6-7f98-434d-9477-885393518f49
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: bdf9f328-7226-4d8c-a549-4042e3861a05
+  code: 200
+  status: OK
+  responseTime: 19
+  responseSize: 297
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"id":2,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-01-15T09:30:00.000Z","first_name":"Marcus","last_name":"Rivera","dob":"1990-09-03","mrn":"MRN-100235","email":"marcus.rivera@example.com","phone":"555-0187","blood_type":"A-","identity_sub":"auth0|marcus-rivera"}'
+tests:
+  - name: patient 2 unchanged
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: a24e6cb9-9032-4f71-9e40-438076d380e7
+item:
+  id: ee55b12f-c474-4171-8a1c-865c544b8e53
+  name: Repeat the identical update
+  folders:
+    - 2 Repeated request
+    - Repeat the identical update
+  fullName: 2 Repeated request / Repeat the identical update
+  parent:
+    id: 43be3c57-13d3-43df-a62f-8709c52ef5af
+    name: 2 Repeated request
+    folders:
+      - 2 Repeated request
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 5adc6c76-ea87-4b1b-89eb-45ad053e3e02
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '66'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "jane.final@example.com", "phone": "+44 20 7946 0958" }'
+    options:
+      raw:
+        language: json
+response:
+  id: fc8d4eef-753f-474a-a02e-cb7f13f350c5
+  code: 200
+  status: OK
+  responseTime: 38
+  responseSize: 548
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '548'
+  body: '{"patient":{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:15:59.386Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"jane.final@example.com","phone":"+442079460958","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"jane.final@example.com","status":"sent","updated_at":"2026-11-09T18:15:59.382Z"},"phone":{"value":"+442079460958","status":"sent","updated_at":"2026-11-09T18:15:59.382Z"}}},"changed":[],"notifications":[]}'
+tests:
+  - name: 200, changed=[] and no notifications
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 93ce1b41-2128-4915-806e-ee9ba8f1ab64
+item:
+  id: 419a9425-9eb7-4d63-8c6c-cc0d48a724ac
+  name: No duplicate notification after repeat
+  folders:
+    - 2 Repeated request
+    - No duplicate notification after repeat
+  fullName: 2 Repeated request / No duplicate notification after repeat
+  parent:
+    id: 43be3c57-13d3-43df-a62f-8709c52ef5af
+    name: 2 Repeated request
+    folders:
+      - 2 Repeated request
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 61c8538d-d655-4498-90d9-5ebb8a876d1c
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 9d2024fc-964b-4ed9-add4-edb4befb44ba
+  code: 200
+  status: OK
+  responseTime: 4
+  responseSize: 1327
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"attempts":4,"delivered":[{"id":1,"status":"queued","created_at":"2026-11-09T18:15:59.167Z","to":"jane.new@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:c85ee862c93d0ee6"},{"id":2,"status":"queued","created_at":"2026-11-09T18:15:59.286Z","to":"+15550100199","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:82fea6c5f54083ef"},{"id":3,"status":"queued","created_at":"2026-11-09T18:15:59.373Z","to":"jane.final@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:a549e6d92b87aba3"},{"id":4,"status":"queued","created_at":"2026-11-09T18:15:59.380Z","to":"+442079460958","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:f0bf0228144d9fe2"}]}'
+tests:
+  - name: attempts and deliveries unchanged at 4
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 8e1b60c0-043e-4eb7-9c14-2827bc40635a
+item:
+  id: dbf0553f-f386-4106-b56e-376491b1c748
+  name: Repeat wrote nothing to patients-service
+  folders:
+    - 2 Repeated request
+    - Repeat wrote nothing to patients-service
+  fullName: 2 Repeated request / Repeat wrote nothing to patients-service
+  parent:
+    id: 43be3c57-13d3-43df-a62f-8709c52ef5af
+    name: 2 Repeated request
+    folders:
+      - 2 Repeated request
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 0f11f85b-10ac-4d35-aab6-f5d8e4ea1b48
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: ab43215a-3bcd-4154-87f0-0288e85a157a
+  code: 200
+  status: OK
+  responseTime: 3
+  responseSize: 569
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"calls":[{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/2"},{"method":"GET","path":"/api/patients/1"}]}'
+tests:
+  - name: 6 PATCHes in total, the last call is the repeat's read
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 0b7ecd36-ed47-4a19-b10c-caa660893521
+item:
+  id: 732f36e5-ca1a-4447-bb84-8dd47cd0319d
+  name: Snapshot patients calls
+  folders:
+    - 3 Invalid inputs
+    - Snapshot patients calls
+  fullName: 3 Invalid inputs / Snapshot patients calls
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 972e504a-c2f6-4ee2-8ee8-61bad18514c6
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: cce49b1c-7c8e-47d4-9776-ce5eeb7b1ce5
+  code: 200
+  status: OK
+  responseTime: 3
+  responseSize: 569
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"calls":[{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/2"},{"method":"GET","path":"/api/patients/1"}]}'
+tests:
+  - name: snapshot taken
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 744c8791-2ca9-4e80-8487-6b4ce06240d2
+item:
+  id: f0202fb7-5788-4fe6-9c9a-e7aa5b529931
+  name: Snapshot notifications calls
+  folders:
+    - 3 Invalid inputs
+    - Snapshot notifications calls
+  fullName: 3 Invalid inputs / Snapshot notifications calls
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: e69c5aad-a7b1-4b28-9096-a631eda43c48
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 05d329c8-f9c0-4ea4-8df2-6afb5394dd67
+  code: 200
+  status: OK
+  responseTime: 3
+  responseSize: 1327
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"attempts":4,"delivered":[{"id":1,"status":"queued","created_at":"2026-11-09T18:15:59.167Z","to":"jane.new@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:c85ee862c93d0ee6"},{"id":2,"status":"queued","created_at":"2026-11-09T18:15:59.286Z","to":"+15550100199","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:82fea6c5f54083ef"},{"id":3,"status":"queued","created_at":"2026-11-09T18:15:59.373Z","to":"jane.final@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:a549e6d92b87aba3"},{"id":4,"status":"queued","created_at":"2026-11-09T18:15:59.380Z","to":"+442079460958","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:f0bf0228144d9fe2"}]}'
+tests:
+  - name: snapshot taken
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 271af92b-740f-4c45-952b-d6f84cdc675e
+item:
+  id: 948e7ddc-9e49-4f05-bfb7-5cf807ffffe5
+  name: Malformed email
+  folders:
+    - 3 Invalid inputs
+    - Malformed email
+  fullName: 3 Invalid inputs / Malformed email
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 8c9a03bd-cd12-4ff2-aee0-6d05f178f003
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '27'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "not-an-email" }'
+    options:
+      raw:
+        language: json
+response:
+  id: bc057b88-ac02-46a6-8ca0-22c6b4583f28
+  code: 422
+  status: Unprocessable Entity
+  responseTime: 33
+  responseSize: 83
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '83'
+  body: '{"error":{"code":"invalid_email","message":"''email'' is not a valid email address"}}'
+tests:
+  - name: 422 invalid_email in the standard error shape
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: af65fc4a-5cba-4d26-87e5-fc2e9f50a54f
+item:
+  id: 84b5f8f3-9cb1-49f3-b486-8adf10dfed16
+  name: Email wrong type
+  folders:
+    - 3 Invalid inputs
+    - Email wrong type
+  fullName: 3 Invalid inputs / Email wrong type
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 2e9e583b-c535-4a35-8cc0-1ed8a1847256
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '18'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": 12345 }'
+    options:
+      raw:
+        language: json
+response:
+  id: 5c5be553-9d12-452b-b9c5-3c9054fbc978
+  code: 422
+  status: Unprocessable Entity
+  responseTime: 39
+  responseSize: 71
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '71'
+  body: '{"error":{"code":"invalid_email","message":"''email'' must be a string"}}'
+tests:
+  - name: 422 invalid_email in the standard error shape
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: c5a043b7-07ac-4025-bdd2-6db567dfc54d
+item:
+  id: bf596967-566a-4265-9f32-ee6884f61166
+  name: Phone too short
+  folders:
+    - 3 Invalid inputs
+    - Phone too short
+  fullName: 3 Invalid inputs / Phone too short
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 1c06f769-ca46-46ec-964a-9f41ca236ab3
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '20'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "phone": "12345" }'
+    options:
+      raw:
+        language: json
+response:
+  id: 834ce859-66e0-4928-88c8-50572f96a48f
+  code: 422
+  status: Unprocessable Entity
+  responseTime: 40
+  responseSize: 82
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '82'
+  body: '{"error":{"code":"invalid_phone","message":"''phone'' is not a valid phone number"}}'
+tests:
+  - name: 422 invalid_phone in the standard error shape
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: f88af76c-e6d5-4c2d-849b-6afe121a816e
+item:
+  id: 9c4259fa-6929-4cf2-bcc6-a24fabbbbd49
+  name: Phone with letters
+  folders:
+    - 3 Invalid inputs
+    - Phone with letters
+  fullName: 3 Invalid inputs / Phone with letters
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 8475d88f-22b1-4702-9bb4-90534135b29b
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '27'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "phone": "555-CALL-NOW" }'
+    options:
+      raw:
+        language: json
+response:
+  id: 5a8f024d-7677-43f9-b88c-cc612c3b826f
+  code: 422
+  status: Unprocessable Entity
+  responseTime: 48
+  responseSize: 82
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '82'
+  body: '{"error":{"code":"invalid_phone","message":"''phone'' is not a valid phone number"}}'
+tests:
+  - name: 422 invalid_phone in the standard error shape
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: d7d1dced-bca7-43b4-9885-948ffcb0bf38
+item:
+  id: f5abe2a6-0dd2-4a7e-88f5-4e3151596b6e
+  name: Null phone
+  folders:
+    - 3 Invalid inputs
+    - Null phone
+  fullName: 3 Invalid inputs / Null phone
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 1a821a3e-5a2e-4d09-8939-956ecf3dc2f0
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '17'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "phone": null }'
+    options:
+      raw:
+        language: json
+response:
+  id: 5e0a3be7-9482-46db-ba11-0b60bcf895fd
+  code: 422
+  status: Unprocessable Entity
+  responseTime: 37
+  responseSize: 71
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '71'
+  body: '{"error":{"code":"invalid_phone","message":"''phone'' must be a string"}}'
+tests:
+  - name: 422 invalid_phone in the standard error shape
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 46316f82-f197-432a-bdb0-bd6b9ac22ade
+item:
+  id: c7ee5e4a-f6d4-4fc1-bcbf-b874c5e5d524
+  name: Empty body
+  folders:
+    - 3 Invalid inputs
+    - Empty body
+  fullName: 3 Invalid inputs / Empty body
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: c39fdc8b-7693-4231-8088-04fcf3bbf754
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '2'
+      system: true
+  body:
+    mode: raw
+    raw: '{}'
+    options:
+      raw:
+        language: json
+response:
+  id: 64343bad-595a-452a-a963-31de6f4b8555
+  code: 400
+  status: Bad Request
+  responseTime: 57
+  responseSize: 76
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '76'
+  body: '{"error":{"code":"empty_update","message":"provide ''email'' and/or ''phone''"}}'
+tests:
+  - name: 400 empty_update in the standard error shape
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 1cbbfd4f-a2c4-4a1b-b7a8-cb5fe963d54f
+item:
+  id: 7dc65f49-9833-4789-bdbd-18771abd974d
+  name: Unrelated field smuggled in
+  folders:
+    - 3 Invalid inputs
+    - Unrelated field smuggled in
+  fullName: 3 Invalid inputs / Unrelated field smuggled in
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: d362af60-089d-4c88-8d93-d9418c4c8a7c
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '59'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "mallory@example.com", "first_name": "Mallory" }'
+    options:
+      raw:
+        language: json
+response:
+  id: 03920561-23af-47f7-b075-e214f225860c
+  code: 400
+  status: Bad Request
+  responseTime: 24
+  responseSize: 108
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '108'
+  body: '{"error":{"code":"unknown_field","message":"only ''email'' and ''phone'' can be updated here, got: first_name"}}'
+tests:
+  - name: 400 unknown_field in the standard error shape
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 99d4be37-5348-48e2-bd25-a75416d93343
+item:
+  id: a8144f50-852f-4d50-aabb-997c29e66c47
+  name: Body is not an object
+  folders:
+    - 3 Invalid inputs
+    - Body is not an object
+  fullName: 3 Invalid inputs / Body is not an object
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: c6c09ca8-3e34-4f9d-a6a0-1129d78f7157
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '20'
+      system: true
+  body:
+    mode: raw
+    raw: '["jane@example.com"]'
+    options:
+      raw:
+        language: json
+response:
+  id: e57e6be6-cd9e-4784-b8fb-c1990c68862e
+  code: 400
+  status: Bad Request
+  responseTime: 29
+  responseSize: 96
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:15:59 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '96'
+  body: '{"error":{"code":"bad_body","message":"body must be a JSON object with ''email'' and/or ''phone''"}}'
+tests:
+  - name: 400 bad_body in the standard error shape
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 5e32d3c9-4870-4807-8fa3-01046d756017
+item:
+  id: 1e1b5033-f10e-4537-8882-d86c2b6061e5
+  name: Non-numeric patient id
+  folders:
+    - 3 Invalid inputs
+    - Non-numeric patient id
+  fullName: 3 Invalid inputs / Non-numeric patient id
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - abc
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 442999db-00a8-478f-a748-8e165c3f6c6e
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '31'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "jane@example.com" }'
+    options:
+      raw:
+        language: json
+response:
+  id: 42698140-031a-4bf0-91b7-b7397e4a1d64
+  code: 400
+  status: Bad Request
+  responseTime: 28
+  responseSize: 69
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '69'
+  body: '{"error":{"code":"bad_id","message":"id must be a positive integer"}}'
+tests:
+  - name: 400 bad_id in the standard error shape
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: b80c73ce-bde7-4b69-bf29-4898f7c1fa95
+item:
+  id: 148c409d-8aa0-4397-af2b-477c89a1e92e
+  name: Unknown patient
+  folders:
+    - 3 Invalid inputs
+    - Unknown patient
+  fullName: 3 Invalid inputs / Unknown patient
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '999'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: bf721af3-1891-498a-b915-4e92f1fd5631
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '32'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "ghost@example.com" }'
+    options:
+      raw:
+        language: json
+response:
+  id: 8e31bae2-cfb0-45b7-b8db-70fbbcf28810
+  code: 404
+  status: Not Found
+  responseTime: 28
+  responseSize: 65
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '65'
+  body: '{"error":{"code":"not_found","message":"no patient with id 999"}}'
+tests:
+  - name: 404 not_found in the standard error shape
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 14feb81e-fdca-4cf6-bfda-0d417b5badc7
+item:
+  id: 3e0f3403-db0e-4b6c-9036-40c53d1029ec
+  name: Unsupported method
+  folders:
+    - 3 Invalid inputs
+    - Unsupported method
+  fullName: 3 Invalid inputs / Unsupported method
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 48243669-8fa9-4deb-a2a4-ea0d71c7f6de
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 035daf94-05c3-4699-9709-4f698e572ecc
+  code: 405
+  status: Method Not Allowed
+  responseTime: 29
+  responseSize: 75
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '75'
+  body: '{"error":{"code":"method_not_allowed","message":"only PATCH is supported"}}'
+tests:
+  - name: 405 method_not_allowed
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 31a4e6ca-190d-4801-9531-a08673eef64f
+item:
+  id: ad6a4284-67f9-4262-a2d8-8e59613b47ea
+  name: Rejected requests wrote nothing
+  folders:
+    - 3 Invalid inputs
+    - Rejected requests wrote nothing
+  fullName: 3 Invalid inputs / Rejected requests wrote nothing
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 6b21e5c9-0d2f-4a01-a537-4aff24ce55b8
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 8f53b0ec-962e-44ce-b386-6474cfb5c744
+  code: 200
+  status: OK
+  responseTime: 3
+  responseSize: 613
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"calls":[{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/2"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/999"}]}'
+tests:
+  - name: no PATCH since the snapshot
+    status: passed
+  - name: 'exactly one call since the snapshot: the read for patient 999'
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: cc226607-a218-4aca-9ba2-789e567cd9f5
+item:
+  id: 9068de9a-74ca-43a1-91e9-bb6ac524b3cd
+  name: Rejected requests sent no notification
+  folders:
+    - 3 Invalid inputs
+    - Rejected requests sent no notification
+  fullName: 3 Invalid inputs / Rejected requests sent no notification
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 043127ad-3554-4fee-84bf-41f15cddb9f4
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: e63d58ef-68df-4a8b-aa41-078e4b0fbbb6
+  code: 200
+  status: OK
+  responseTime: 3
+  responseSize: 1327
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"attempts":4,"delivered":[{"id":1,"status":"queued","created_at":"2026-11-09T18:15:59.167Z","to":"jane.new@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:c85ee862c93d0ee6"},{"id":2,"status":"queued","created_at":"2026-11-09T18:15:59.286Z","to":"+15550100199","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:82fea6c5f54083ef"},{"id":3,"status":"queued","created_at":"2026-11-09T18:15:59.373Z","to":"jane.final@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:a549e6d92b87aba3"},{"id":4,"status":"queued","created_at":"2026-11-09T18:15:59.380Z","to":"+442079460958","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:f0bf0228144d9fe2"}]}'
+tests:
+  - name: attempts and deliveries equal the snapshot
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 1fde4f59-6c8b-4715-95b5-8af0bbb49221
+item:
+  id: 76db7224-ce1a-4ab6-b2e5-4489fa0c88d7
+  name: Record unchanged after rejected requests
+  folders:
+    - 3 Invalid inputs
+    - Record unchanged after rejected requests
+  fullName: 3 Invalid inputs / Record unchanged after rejected requests
+  parent:
+    id: 7771fb7c-1741-4410-9135-2bdb8011379e
+    name: 3 Invalid inputs
+    folders:
+      - 3 Invalid inputs
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - api
+      - patients
+      - '1'
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 2c365378-db32-4a27-aaa2-ac0457a4a68d
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 21a9435e-1785-4f18-a354-81592b5488ad
+  code: 200
+  status: OK
+  responseTime: 4
+  responseSize: 504
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:15:59.386Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"jane.final@example.com","phone":"+442079460958","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"jane.final@example.com","status":"sent","updated_at":"2026-11-09T18:15:59.382Z"},"phone":{"value":"+442079460958","status":"sent","updated_at":"2026-11-09T18:15:59.382Z"}}}'
+tests:
+  - name: fields outside email/phone/contact_confirmations are unchanged
+    status: passed
+  - name: email and phone are the last successful values
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 42868f4b-df89-45d7-ae9f-f04a542e716b
+item:
+  id: 85be852d-f0e5-454c-b4c4-7d9264ff27a4
+  name: Snapshot patients calls
+  folders:
+    - 4 Unauthorized access
+    - Snapshot patients calls
+  fullName: 4 Unauthorized access / Snapshot patients calls
+  parent:
+    id: cfc0f9f1-ad00-4d56-b836-dda4343474b1
+    name: 4 Unauthorized access
+    folders:
+      - 4 Unauthorized access
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: ee50795f-c023-4631-9a28-c06d20a4e942
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: e27913c6-4707-4e6a-9f9e-f546dd09c091
+  code: 200
+  status: OK
+  responseTime: 2
+  responseSize: 655
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"calls":[{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/2"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/999"},{"method":"GET","path":"/api/patients/1"}]}'
+tests:
+  - name: snapshot taken
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 78a7a6d6-1cd0-47bc-adb3-b1874a350167
+item:
+  id: 33d1f215-eefc-48b8-9024-177a41c0ee42
+  name: Snapshot notifications calls
+  folders:
+    - 4 Unauthorized access
+    - Snapshot notifications calls
+  fullName: 4 Unauthorized access / Snapshot notifications calls
+  parent:
+    id: cfc0f9f1-ad00-4d56-b836-dda4343474b1
+    name: 4 Unauthorized access
+    folders:
+      - 4 Unauthorized access
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 7ce87259-0187-4bc4-85ae-debfa0b3c1a6
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 2a285c5c-9bbf-418d-b9ef-1b5d64aff5c9
+  code: 200
+  status: OK
+  responseTime: 3
+  responseSize: 1327
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"attempts":4,"delivered":[{"id":1,"status":"queued","created_at":"2026-11-09T18:15:59.167Z","to":"jane.new@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:c85ee862c93d0ee6"},{"id":2,"status":"queued","created_at":"2026-11-09T18:15:59.286Z","to":"+15550100199","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:82fea6c5f54083ef"},{"id":3,"status":"queued","created_at":"2026-11-09T18:15:59.373Z","to":"jane.final@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:a549e6d92b87aba3"},{"id":4,"status":"queued","created_at":"2026-11-09T18:15:59.380Z","to":"+442079460958","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:f0bf0228144d9fe2"}]}'
+tests:
+  - name: snapshot taken
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 3f188cab-3841-458b-a6b3-0590a2dd11d1
+item:
+  id: ed4a0da8-ef42-4843-83cc-655c83c38fa1
+  name: No token
+  folders:
+    - 4 Unauthorized access
+    - No token
+  fullName: 4 Unauthorized access / No token
+  parent:
+    id: cfc0f9f1-ad00-4d56-b836-dda4343474b1
+    name: 4 Unauthorized access
+    folders:
+      - 4 Unauthorized access
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: a3f86ec0-bb73-44c1-8acf-8fb600472bdc
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '35'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "attacker@example.com" }'
+    options:
+      raw:
+        language: json
+response:
+  id: ffcf7fba-1fe7-4a22-b2c2-8a2f6cc0a0d6
+  code: 401
+  status: Unauthorized
+  responseTime: 33
+  responseSize: 66
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '66'
+  body: '{"error":{"code":"unauthorized","message":"missing bearer token"}}'
+tests:
+  - name: 401 unauthorized
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: c290b07c-b82a-44cd-a5d2-c8828cf1efca
+item:
+  id: 16b86997-2a73-4bc6-88aa-5bcbc0a4ed69
+  name: Wrong token
+  folders:
+    - 4 Unauthorized access
+    - Wrong token
+  fullName: 4 Unauthorized access / Wrong token
+  parent:
+    id: cfc0f9f1-ad00-4d56-b836-dda4343474b1
+    name: 4 Unauthorized access
+    folders:
+      - 4 Unauthorized access
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer not-the-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: fd5ac6b3-6088-4e0a-928f-819d1abe63f2
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '35'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "attacker@example.com" }'
+    options:
+      raw:
+        language: json
+response:
+  id: 65723948-df4d-4152-b980-e66bdf2de181
+  code: 401
+  status: Unauthorized
+  responseTime: 26
+  responseSize: 66
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '66'
+  body: '{"error":{"code":"unauthorized","message":"invalid bearer token"}}'
+tests:
+  - name: 401 unauthorized
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 8b597713-bba7-4ff2-90f3-ef1feb9bc78a
+item:
+  id: d1457852-b032-41ef-adb5-dce9c45b0d94
+  name: Unauthorized requests reached no dependency
+  folders:
+    - 4 Unauthorized access
+    - Unauthorized requests reached no dependency
+  fullName: 4 Unauthorized access / Unauthorized requests reached no dependency
+  parent:
+    id: cfc0f9f1-ad00-4d56-b836-dda4343474b1
+    name: 4 Unauthorized access
+    folders:
+      - 4 Unauthorized access
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: b91797a7-52d2-4837-8719-3e639b1a885f
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: eeb7673a-21ba-492b-b602-04fd63733746
+  code: 200
+  status: OK
+  responseTime: 3
+  responseSize: 655
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"calls":[{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"PATCH","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/2"},{"method":"GET","path":"/api/patients/1"},{"method":"GET","path":"/api/patients/999"},{"method":"GET","path":"/api/patients/1"}]}'
+tests:
+  - name: no patients-service call since the snapshot
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 83ca3372-6c36-4fe4-8b36-811be07fd23d
+item:
+  id: 3a99d5c6-e21c-4f94-85c9-eef5bd0bdd18
+  name: Unauthorized requests sent no notification
+  folders:
+    - 4 Unauthorized access
+    - Unauthorized requests sent no notification
+  fullName: 4 Unauthorized access / Unauthorized requests sent no notification
+  parent:
+    id: cfc0f9f1-ad00-4d56-b836-dda4343474b1
+    name: 4 Unauthorized access
+    folders:
+      - 4 Unauthorized access
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: fd055937-93a1-4522-b1e3-fe8f831173df
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: e51757e6-ad99-473d-ba17-2404b03265aa
+  code: 200
+  status: OK
+  responseTime: 3
+  responseSize: 1327
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"attempts":4,"delivered":[{"id":1,"status":"queued","created_at":"2026-11-09T18:15:59.167Z","to":"jane.new@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:c85ee862c93d0ee6"},{"id":2,"status":"queued","created_at":"2026-11-09T18:15:59.286Z","to":"+15550100199","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:82fea6c5f54083ef"},{"id":3,"status":"queued","created_at":"2026-11-09T18:15:59.373Z","to":"jane.final@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:a549e6d92b87aba3"},{"id":4,"status":"queued","created_at":"2026-11-09T18:15:59.380Z","to":"+442079460958","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:f0bf0228144d9fe2"}]}'
+tests:
+  - name: attempts equal the snapshot
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 14cf85f6-6962-4ba6-9cbb-b8ebb540b2df
+item:
+  id: 10b67f66-b39d-4109-9c79-22369eca9508
+  name: Record unchanged after unauthorized requests
+  folders:
+    - 4 Unauthorized access
+    - Record unchanged after unauthorized requests
+  fullName: 4 Unauthorized access / Record unchanged after unauthorized requests
+  parent:
+    id: cfc0f9f1-ad00-4d56-b836-dda4343474b1
+    name: 4 Unauthorized access
+    folders:
+      - 4 Unauthorized access
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - api
+      - patients
+      - '1'
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 84f22cbb-989c-467e-a020-297406878548
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: e00b2e17-10c7-46cf-96dd-20590e69bf45
+  code: 200
+  status: OK
+  responseTime: 4
+  responseSize: 504
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:15:59.386Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"jane.final@example.com","phone":"+442079460958","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"jane.final@example.com","status":"sent","updated_at":"2026-11-09T18:15:59.382Z"},"phone":{"value":"+442079460958","status":"sent","updated_at":"2026-11-09T18:15:59.382Z"}}}'
+tests:
+  - name: email still jane.final@example.com
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 59e75157-1da6-40af-9e63-6dcbcc0d2afa
+item:
+  id: f46d914b-a5af-4f3b-99c2-c623ac22bbdf
+  name: Reset patients stand-in
+  folders:
+    - 5 Notification failures and retries
+    - Reset patients stand-in
+  fullName: 5 Notification failures and retries / Reset patients stand-in
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: POST
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - __reset
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 6ba7a97f-9e7e-438d-a8f7-6853a048e000
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '0'
+      system: true
+  body: {}
+response:
+  id: 627eb376-45ac-4463-9459-61c59996fe10
+  code: 200
+  status: OK
+  responseTime: 4
+  responseSize: 14
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"reset":true}'
+tests:
+  - name: reset
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: e5f621ff-1efb-4ec4-83ef-2634ae5f57e7
+item:
+  id: 4d9811b3-6e12-4e18-9f71-11202e606551
+  name: Reset notifications stand-in
+  folders:
+    - 5 Notification failures and retries
+    - Reset notifications stand-in
+  fullName: 5 Notification failures and retries / Reset notifications stand-in
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: POST
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __reset
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 094336d6-b6c8-43ef-a362-3b64e1d352db
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '0'
+      system: true
+  body: {}
+response:
+  id: bfbc36d8-b1cc-46f9-b342-f8ded8b05143
+  code: 200
+  status: OK
+  responseTime: 6
+  responseSize: 14
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"reset":true}'
+tests:
+  - name: reset
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: ff7cc578-eaef-4f93-81d5-1f8d2c52dcc3
+item:
+  id: 4688664e-6791-49df-a405-94c13a818415
+  name: Arm one transient failure
+  folders:
+    - 5 Notification failures and retries
+    - Arm one transient failure
+  fullName: 5 Notification failures and retries / Arm one transient failure
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: POST
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __fail
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 24dc0818-cb6e-454e-91fc-2a35e0d6bb77
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '31'
+      system: true
+  body:
+    mode: raw
+    raw: '{"remaining": 1, "status": 503}'
+    options:
+      raw:
+        language: json
+response:
+  id: 2d080eb9-253e-4a8b-a581-a84091693792
+  code: 200
+  status: OK
+  responseTime: 4
+  responseSize: 28
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"remaining":1,"status":503}'
+tests:
+  - name: armed
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: ac8993c0-3ab1-456e-8113-a29d660b82ee
+item:
+  id: 9d1345fe-c0a9-4386-94b6-6f441cc72ada
+  name: Update email, first send fails then succeeds
+  folders:
+    - 5 Notification failures and retries
+    - Update email, first send fails then succeeds
+  fullName: 5 Notification failures and retries / Update email, first send fails then succeeds
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 8c0447b0-61bd-4a17-87f3-953d34b3ef2e
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '32'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "retry@example.com" }'
+    options:
+      raw:
+        language: json
+response:
+  id: 2ffe5d74-1fb3-4cc8-96fe-279da038f2c5
+  code: 200
+  status: OK
+  responseTime: 160
+  responseSize: 522
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '522'
+  body: '{"patient":{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:16:00.512Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"retry@example.com","phone":"555-0142","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"retry@example.com","status":"sent","updated_at":"2026-11-09T18:16:00.508Z"}}},"changed":["email"],"notifications":[{"channel":"email","to":"r***@example.com","status":"sent","attempts":2}]}'
+tests:
+  - name: 200, sent on the second attempt, no warning
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 2f77a769-803a-415b-b45f-97168048dea0
+item:
+  id: bdb60e00-7c83-4734-9ee2-ff276118985b
+  name: One delivery despite the retry
+  folders:
+    - 5 Notification failures and retries
+    - One delivery despite the retry
+  fullName: 5 Notification failures and retries / One delivery despite the retry
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: f5cbc5f3-34f4-4a5f-8134-c1f0293bea0f
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 23dcf136-e796-43ef-97fe-d2f09d4e65c1
+  code: 200
+  status: OK
+  responseTime: 3
+  responseSize: 355
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"attempts":2,"delivered":[{"id":1,"status":"queued","created_at":"2026-11-09T18:16:00.506Z","to":"retry@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:9dad8797917a78ff"}]}'
+tests:
+  - name: attempts=2, delivered=1
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: ac3bf48e-b039-43b9-aa5b-40460b0fea32
+item:
+  id: 6885eff5-65d3-4028-9e99-955ac53e0088
+  name: Arm failures for every attempt
+  folders:
+    - 5 Notification failures and retries
+    - Arm failures for every attempt
+  fullName: 5 Notification failures and retries / Arm failures for every attempt
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: POST
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __fail
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 7bb510fc-6cd4-4cad-98e6-5d5ba57deff5
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '31'
+      system: true
+  body:
+    mode: raw
+    raw: '{"remaining": 3, "status": 503}'
+    options:
+      raw:
+        language: json
+response:
+  id: bfbf584d-857d-4136-baec-637f3ed1537d
+  code: 200
+  status: OK
+  responseTime: 4
+  responseSize: 28
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"remaining":3,"status":503}'
+tests:
+  - name: armed
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 11acea10-53af-4832-b687-151df0acfcae
+item:
+  id: a28ea094-6141-4867-8adf-0443df711e0d
+  name: Update phone while notifications fail
+  folders:
+    - 5 Notification failures and retries
+    - Update phone while notifications fail
+  fullName: 5 Notification failures and retries / Update phone while notifications fail
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: ceb22ee3-aaef-42ca-83c4-2c389f144ac5
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '30'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "phone": "+1 415 555 0123" }'
+    options:
+      raw:
+        language: json
+response:
+  id: 07c344c4-69ac-4a21-8229-583a3bd77c92
+  code: 200
+  status: OK
+  responseTime: 363
+  responseSize: 742
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '742'
+  body: '{"patient":{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:16:00.912Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"retry@example.com","phone":"+14155550123","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"retry@example.com","status":"sent","updated_at":"2026-11-09T18:16:00.508Z"},"phone":{"value":"+14155550123","status":"failed","updated_at":"2026-11-09T18:16:00.908Z"}}},"changed":["phone"],"notifications":[{"channel":"phone","to":"***23","status":"failed","attempts":3}],"warnings":["contact details were saved but a confirmation notification could not be delivered; retry the same request to resend it"]}'
+tests:
+  - name: 200, changed=[phone], confirmation failed after 3 attempts, one warning
+    status: passed
+  - name: phone saved despite the failure
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 32071cca-cc49-43c2-a237-3a9b79104f07
+item:
+  id: fa6f652b-607d-416e-8d6b-6ac167b2a077
+  name: Failed confirmation is recorded, nothing delivered
+  folders:
+    - 5 Notification failures and retries
+    - Failed confirmation is recorded, nothing delivered
+  fullName: 5 Notification failures and retries / Failed confirmation is recorded, nothing delivered
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - patients
+      - api
+      - patients
+      - '1'
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: e18f9d4a-af8d-4791-9bf0-d584789b1dbc
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 22626092-e8f2-47bf-ac05-d8617a3a910e
+  code: 200
+  status: OK
+  responseTime: 4
+  responseSize: 494
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:16:00.912Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"retry@example.com","phone":"+14155550123","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"retry@example.com","status":"sent","updated_at":"2026-11-09T18:16:00.508Z"},"phone":{"value":"+14155550123","status":"failed","updated_at":"2026-11-09T18:16:00.908Z"}}}'
+tests:
+  - name: fields outside email/phone/contact_confirmations are unchanged
+    status: passed
+  - name: phone persisted, phone confirmation failed, email confirmation sent
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: ea4698f5-432c-4c08-8c20-e117f66a3755
+item:
+  id: f82cfdbf-bb57-42a8-84c7-d74f44077406
+  name: Retry after recovery resends once
+  folders:
+    - 5 Notification failures and retries
+    - Retry after recovery resends once
+  fullName: 5 Notification failures and retries / Retry after recovery resends once
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 0172cfba-c66f-4711-8741-8413645a6bb8
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '30'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "phone": "+1 415 555 0123" }'
+    options:
+      raw:
+        language: json
+response:
+  id: 08ba43d4-e174-410e-99c9-ecd95ea055ab
+  code: 200
+  status: OK
+  responseTime: 50
+  responseSize: 597
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:16:00 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '597'
+  body: '{"patient":{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:16:00.988Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"retry@example.com","phone":"+14155550123","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"retry@example.com","status":"sent","updated_at":"2026-11-09T18:16:00.508Z"},"phone":{"value":"+14155550123","status":"sent","updated_at":"2026-11-09T18:16:00.984Z"}}},"changed":[],"notifications":[{"channel":"phone","to":"***23","status":"sent","attempts":1}]}'
+tests:
+  - name: 200, changed=[], phone confirmation sent on the first attempt
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: a4488dcd-fef9-4a38-af35-9173e0a53a7e
+item:
+  id: c9ee3c4a-88fe-4c54-b100-c3cabee412a9
+  name: Exactly one delivery per confirmation
+  folders:
+    - 5 Notification failures and retries
+    - Exactly one delivery per confirmation
+  fullName: 5 Notification failures and retries / Exactly one delivery per confirmation
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 76732ed5-3dc4-483a-a501-b518034dc470
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 1c56d8c8-0185-4902-bd4e-3e8b5ac7faf7
+  code: 200
+  status: OK
+  responseTime: 3
+  responseSize: 673
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:01 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"attempts":6,"delivered":[{"id":1,"status":"queued","created_at":"2026-11-09T18:16:00.506Z","to":"retry@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:9dad8797917a78ff"},{"id":2,"status":"queued","created_at":"2026-11-09T18:16:00.982Z","to":"+14155550123","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:36a2cef4ff9bf7a1"}]}'
+tests:
+  - name: two deliveries (email, sms), six attempts
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 1d144ffa-d2f0-42fa-8c69-43f58ac75013
+item:
+  id: 39c0fbdc-4e9a-49fa-b0a0-7d129bd37f6f
+  name: Retry again sends nothing
+  folders:
+    - 5 Notification failures and retries
+    - Retry again sends nothing
+  fullName: 5 Notification failures and retries / Retry again sends nothing
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: f492e495-4d5a-441f-9dee-32c01d5deeaa
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '30'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "phone": "+1 415 555 0123" }'
+    options:
+      raw:
+        language: json
+response:
+  id: fddf245b-497a-458a-9643-b2868c77dff2
+  code: 200
+  status: OK
+  responseTime: 39
+  responseSize: 536
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:16:01 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '536'
+  body: '{"patient":{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:16:00.988Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"retry@example.com","phone":"+14155550123","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"retry@example.com","status":"sent","updated_at":"2026-11-09T18:16:00.508Z"},"phone":{"value":"+14155550123","status":"sent","updated_at":"2026-11-09T18:16:00.984Z"}}},"changed":[],"notifications":[]}'
+tests:
+  - name: 200, changed=[] and nothing sent
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 0af4c6b6-c22d-4f2b-b4d0-b92bc743ed7d
+item:
+  id: a899a5e1-fa6e-4030-96cb-02fb541e40a3
+  name: Still exactly one delivery per confirmation
+  folders:
+    - 5 Notification failures and retries
+    - Still exactly one delivery per confirmation
+  fullName: 5 Notification failures and retries / Still exactly one delivery per confirmation
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 16c42da0-3c81-4157-b0ca-1cba4abe1870
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: ad133f8c-4911-409f-ac4e-96ec9b7ef073
+  code: 200
+  status: OK
+  responseTime: 2
+  responseSize: 673
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:01 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"attempts":6,"delivered":[{"id":1,"status":"queued","created_at":"2026-11-09T18:16:00.506Z","to":"retry@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:9dad8797917a78ff"},{"id":2,"status":"queued","created_at":"2026-11-09T18:16:00.982Z","to":"+14155550123","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:36a2cef4ff9bf7a1"}]}'
+tests:
+  - name: still six attempts, two deliveries
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 99c90d71-96cd-471e-8c84-d1ab2ea0ff65
+item:
+  id: 4c8816e9-11c3-4ad5-9b24-230729643ee8
+  name: Arm a non-retryable rejection
+  folders:
+    - 5 Notification failures and retries
+    - Arm a non-retryable rejection
+  fullName: 5 Notification failures and retries / Arm a non-retryable rejection
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: POST
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __fail
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: d761bd72-4653-43ea-a8a8-8fe12f5c8fae
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '31'
+      system: true
+  body:
+    mode: raw
+    raw: '{"remaining": 1, "status": 400}'
+    options:
+      raw:
+        language: json
+response:
+  id: 9889de3e-d706-4bd0-8e58-04c36f50039b
+  code: 200
+  status: OK
+  responseTime: 3
+  responseSize: 28
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:01 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"remaining":1,"status":400}'
+tests:
+  - name: armed
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 1ed80aae-0124-4d30-81d4-cec4f3493753
+item:
+  id: 323fe85e-98d7-4c75-b1ee-b0fa369ed64b
+  name: Update email when the send is rejected with 400
+  folders:
+    - 5 Notification failures and retries
+    - Update email when the send is rejected with 400
+  fullName: 5 Notification failures and retries / Update email when the send is rejected with 400
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: PATCH
+  url:
+    protocol: http
+    port: '4400'
+    path:
+      - api
+      - patients
+      - '1'
+      - contact
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - description:
+        type: text/plain
+      key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer demo-key
+      system: true
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 1de20bf3-cdaf-4146-a056-d7f8fa5d3f18
+      system: true
+    - key: Host
+      value: localhost:4400
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+    - key: Content-Length
+      value: '35'
+      system: true
+  body:
+    mode: raw
+    raw: '{ "email": "rejected@example.com" }'
+    options:
+      raw:
+        language: json
+response:
+  id: ea0935e2-c5fe-4cbe-8d82-151d0de0380d
+  code: 200
+  status: OK
+  responseTime: 50
+  responseSize: 759
+  headers:
+    - key: Access-Control-Allow-Origin
+      value: '*'
+    - key: Access-Control-Allow-Methods
+      value: GET, POST, PATCH, DELETE, OPTIONS
+    - key: Access-Control-Allow-Headers
+      value: Authorization, Content-Type
+    - key: Access-Control-Max-Age
+      value: '86400'
+    - key: content-type
+      value: application/json
+    - key: Date
+      value: Mon, 09 Nov 2026 18:16:01 GMT
+    - key: Connection
+      value: keep-alive
+    - key: Keep-Alive
+      value: timeout=5
+    - key: Content-Length
+      value: '759'
+  body: '{"patient":{"id":1,"status":"active","created_at":"2026-01-15T09:30:00.000Z","updated_at":"2026-11-09T18:16:01.138Z","first_name":"Jane","last_name":"Doe","dob":"1985-04-12","mrn":"MRN-100234","email":"rejected@example.com","phone":"+14155550123","blood_type":"O+","identity_sub":"auth0|jane-doe","contact_confirmations":{"email":{"value":"rejected@example.com","status":"failed","updated_at":"2026-11-09T18:16:01.134Z"},"phone":{"value":"+14155550123","status":"sent","updated_at":"2026-11-09T18:16:00.984Z"}}},"changed":["email"],"notifications":[{"channel":"email","to":"r***@example.com","status":"failed","attempts":1}],"warnings":["contact details were saved but a confirmation notification could not be delivered; retry the same request to resend it"]}'
+tests:
+  - name: 200, confirmation failed after a single attempt
+    status: passed
+errors: []
+---
+iteration: 0
+cursorRef: 0809a3b2-0996-466b-98f6-8f7d3e0526a1
+item:
+  id: 690ab8ab-f2ed-4f46-b762-cf05c2d79d94
+  name: No retry on 4xx reached the stand-in
+  folders:
+    - 5 Notification failures and retries
+    - No retry on 4xx reached the stand-in
+  fullName: 5 Notification failures and retries / No retry on 4xx reached the stand-in
+  parent:
+    id: a8b4c07a-fbdc-4723-8388-7e5c1e33f922
+    name: 5 Notification failures and retries
+    folders:
+      - 5 Notification failures and retries
+request:
+  method: GET
+  url:
+    protocol: http
+    port: '4300'
+    path:
+      - notifications
+      - __calls
+    host:
+      - localhost
+    query: []
+    variable: []
+  headers:
+    - key: User-Agent
+      value: PostmanRuntime/7.56.2
+      system: true
+    - key: Accept
+      value: '*/*'
+      system: true
+    - key: Cache-Control
+      value: no-cache
+      system: true
+    - key: Postman-Token
+      value: 140d5f55-afa9-47b1-9477-954cc8abba3f
+      system: true
+    - key: Host
+      value: localhost:4300
+      system: true
+    - key: Accept-Encoding
+      value: gzip, deflate, br
+      system: true
+    - key: Connection
+      value: keep-alive
+      system: true
+  body: {}
+response:
+  id: 4afb4f27-022a-49cf-8882-13c89820718f
+  code: 200
+  status: OK
+  responseTime: 3
+  responseSize: 673
+  headers:
+    - key: content-type
+      value: application/json
+    - key: date
+      value: Mon, 09 Nov 2026 18:16:01 GMT
+    - key: connection
+      value: keep-alive
+    - key: keep-alive
+      value: timeout=5
+    - key: transfer-encoding
+      value: chunked
+  body: '{"attempts":7,"delivered":[{"id":1,"status":"queued","created_at":"2026-11-09T18:16:00.506Z","to":"retry@example.com","channel":"email","subject":"Your email address was updated","body":"The email address on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:email:9dad8797917a78ff"},{"id":2,"status":"queued","created_at":"2026-11-09T18:16:00.982Z","to":"+14155550123","channel":"sms","subject":"Your phone number was updated","body":"The phone number on your patient record was changed. If you did not request this, contact your clinic.","idempotency_key":"contact-confirm:1:phone:36a2cef4ff9bf7a1"}]}'
+tests:
+  - name: attempts=7, delivered=2
+    status: passed
+errors: []

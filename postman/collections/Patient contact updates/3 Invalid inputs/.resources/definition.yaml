@@ -1,0 +1,4 @@
+$kind: collection
+name: '3 Invalid inputs'
+description: 'Every rejected request is checked for the dependency calls it did not make.'
+order: 4000

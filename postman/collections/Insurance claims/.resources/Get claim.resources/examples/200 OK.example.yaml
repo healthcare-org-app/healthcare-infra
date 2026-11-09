@@ -1,0 +1,21 @@
+$kind: http-example
+name: 200 OK
+request:
+  url: '{{baseUrl}}/api/insurance/claims/1'
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "insurance_id": 1,
+        "patient_name": "Jane Doe",
+        "amount": 150,
+        "status": "active"
+      }
+order: 1000

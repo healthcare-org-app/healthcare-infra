@@ -1,0 +1,14 @@
+$kind: http-request
+name: 'No retry on 4xx reached the stand-in'
+description: 'Seven attempts in total (six before + one), still two deliveries.'
+method: GET
+url: '{{simUrl}}/notifications/__calls'
+order: 13000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const c = pm.response.json();
+      pm.test('attempts=7, delivered=2', () => { pm.expect(c.attempts).to.eql(7); pm.expect(c.delivered).to.have.length(2); });

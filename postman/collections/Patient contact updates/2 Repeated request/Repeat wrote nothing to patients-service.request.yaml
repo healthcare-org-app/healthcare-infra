@@ -1,0 +1,17 @@
+$kind: http-request
+name: 'Repeat wrote nothing to patients-service'
+description: 'Three updates wrote twice each (change + confirmation status); the repeat added only a read.'
+method: GET
+url: '{{simUrl}}/patients/__calls'
+order: 3000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const calls = pm.response.json().calls;
+      pm.test('6 PATCHes in total, the last call is the repeat\'s read', () => {
+        pm.expect(calls.filter((c) => c.method === 'PATCH')).to.have.length(6);
+        pm.expect(calls[calls.length - 1]).to.eql({ method: 'GET', path: '/api/patients/1' });
+      });
